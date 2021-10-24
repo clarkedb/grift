@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-# code coverage configuration
+# configure code coverage
 unless ENV['CODE_COVERAGE'] == 'false'
   require 'simplecov'
   SimpleCov.start do
@@ -13,9 +13,14 @@ unless ENV['CODE_COVERAGE'] == 'false'
   end
 end
 
+# load gem files
 $LOAD_PATH.unshift File.expand_path('../lib', __dir__)
 require 'grift'
 
+# configure minitest
 require 'minitest/autorun'
 require 'minitest/reporters'
 Minitest::Reporters.use!
+
+# classes for mock tests
+require 'target'
