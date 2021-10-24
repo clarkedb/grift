@@ -54,7 +54,7 @@ module Grift
     private
 
     def unmock_method
-      raise Error('Method was never cached') unless @true_method_cached
+      raise(Grift::Error, 'Method is not cached') unless @true_method_cached
 
       class_instance.remove_method(@method_name)
       class_instance.alias_method(@method_name, @cache_method_name)
@@ -64,7 +64,7 @@ module Grift
     end
 
     def cache_method
-      raise Error('Method already cached') if @true_method_cached
+      raise(Grift::Error, 'Method already cached') if @true_method_cached
 
       class_instance.alias_method(@cache_method_name, @method_name)
       @true_method_cached = true

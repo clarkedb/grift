@@ -111,4 +111,20 @@ class MockMethodTest < Minitest::Test
 
     convince_mock.mock_restore
   end
+
+  def test_raises_error_when_unmock_called_and_not_mocked
+    target_mock = Grift::MockMethod.new(Target, :convince)
+    assert_raises Grift::Error do
+      target_mock.send(:unmock_method)
+    end
+  end
+
+  def test_raises_error_when_cache_called_and_already_cached
+    target_mock = Grift::MockMethod.new(Target, :convince)
+    target_mock.mock_return_value
+    assert_raises Grift::Error do
+      target_mock.send(:cache_method)
+    end
+    target_mock.mock_restore
+  end
 end
