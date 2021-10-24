@@ -36,31 +36,31 @@ module Grift
     end
 
     def mock_method?(klass, method)
-      raise NotImplentedError
+      raise NotImplementedError
     end
 
     def clear_mocks(klass)
-      raise NotImplentedError
+      raise NotImplementedError
     end
 
     def reset_mocks(klass)
-      raise NotImplentedError
+      raise NotImplementedError
     end
 
     def restore_mocks(klass)
-      raise NotImplentedError
+      raise NotImplementedError
     end
 
     def clear_all_mocks
-      raise NotImplentedError
+      raise NotImplementedError
     end
 
     def reset_all_mocks
-      raise NotImplentedError
+      raise NotImplementedError
     end
 
     def restore_all_mocks
-      raise NotImplentedError
+      raise NotImplementedError
     end
   end
 end
