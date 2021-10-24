@@ -30,7 +30,7 @@ module Grift
 
     def mock_restore
       mock_clear
-      unmock_method
+      unmock_method if @true_method_cached
     end
 
     def mock_implementation(&block)

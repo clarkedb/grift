@@ -60,27 +60,55 @@ class MockMethodTest < Minitest::Test
     assert_instance_of Grift::MockMethod::MockExecutions, target_mock.mock
   end
 
-  def test_it_keeps_method_mocked_on_mock_clear
-    skip 'not implemented'
+  def test_it_clears_executions_and_keeps_method_mocked_on_mock_clear
+    target = Target.new(gullible: true)
+    assert target.respond_to?(:convince)
+    assert_instance_of Array, target.convince('The earth is flat')
+
+    convince_mock = Grift::MockMethod.new(Target, :convince)
+    convince_mock.mock_return_value('mocked')
+    assert_equal 'mocked', target.convince('The earth is round')
+    refute_empty convince_mock.mock
+
+    convince_mock.mock_clear
+    assert_empty convince_mock.mock
+    assert_equal 'mocked', target.convince('The earth is round')
+
+    convince_mock.mock_restore
   end
 
-  def test_it_mocks_return_value_nil_on_mock_reset
-    skip 'not implemented'
+  def test_it_clears_executions_and_mocks_return_value_nil_on_mock_reset
+    target = Target.new(gullible: true)
+    assert target.respond_to?(:convince)
+    assert_instance_of Array, target.convince('The earth is flat')
+
+    convince_mock = Grift::MockMethod.new(Target, :convince)
+    convince_mock.mock_return_value('mocked')
+    assert_equal 'mocked', target.convince('The earth is round')
+    refute_empty convince_mock.mock
+
+    convince_mock.mock_reset
+    assert_empty convince_mock.mock
+    assert_nil target.convince('The earth is round')
+
+    convince_mock.mock_restore
   end
 
-  def test_it_unmocks_method_on_mock_restore
-    skip 'not implemented'
-  end
+  def test_it_clears_executions_and_unmocks_method_on_mock_restore
+    target = Target.new(gullible: true)
+    assert target.respond_to?(:convince)
+    assert_instance_of Array, target.convince('The earth is flat')
 
-  def test_it_clears_executions_on_mock_clear
-    skip 'not implemented'
-  end
+    convince_mock = Grift::MockMethod.new(Target, :convince)
+    convince_mock.mock_return_value('mocked')
+    assert_equal 'mocked', target.convince('The earth is round')
+    refute_empty convince_mock.mock
 
-  def test_it_clears_executions_on_mock_reset
-    skip 'not implemented'
-  end
+    convince_mock.mock_restore
+    assert_empty convince_mock.mock
+    refute_equal 'mocked', target.convince('The earth is round')
+    assert_instance_of Array, target.convince('The earth is round')
 
-  def test_it_clears_executions_on_mock_restore
-    skip 'not implemented'
+    convince_mock.mock_restore
   end
 end

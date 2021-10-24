@@ -17,6 +17,10 @@ module Grift
         @executions.empty?
       end
 
+      def count
+        @executions.count
+      end
+
       def results
         @executions.map do |exec|
           exec[:result]

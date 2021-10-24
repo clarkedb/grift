@@ -11,14 +11,16 @@ class MockExecutionsTest < Minitest::Test
   end
 
   def test_it_stores_results_and_args
-    skip 'not implemented'
-  end
+    executions = Grift::MockMethod::MockExecutions.new
+    assert_empty executions
 
-  def test_it_returns_only_args_on_calls
-    skip 'not implemented'
-  end
+    args = %w[what is the answer?]
+    result = 42
+    executions.store(args, result)
+    refute_empty executions
+    assert_equal 1, executions.count
 
-  def test_it_returns_only_results_on_results
-    skip 'not implemented'
+    assert_equal result, executions.results.first
+    assert_equal args, executions.calls.first
   end
 end
