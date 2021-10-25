@@ -41,6 +41,7 @@ module Grift
       cache_method unless @true_method_cached
       mock_executions = @mock_executions # required to access inside class instance block
 
+      class_instance.remove_method(@method_name)
       class_instance.define_method @method_name do |*args|
         # record the args passed in the call to the method and the result
         mock_executions.store(args, return_value)
