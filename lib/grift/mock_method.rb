@@ -4,7 +4,7 @@ module Grift
   class MockMethod
     CACHE_METHOD_PREFIX = 'grift_cache'
 
-    def initialize(klass, method_name)
+    def initialize(klass, method_name, watch: true)
       @klass = klass
       @method_name = method_name
       @true_method_cached = false
@@ -13,6 +13,8 @@ module Grift
 
       # class methods are really instance methods of the singleton class
       @class_method = klass.singleton_class.instance_methods(true).include?(method_name)
+
+      watch_method if watch
     end
 
     def mock
@@ -25,12 +27,13 @@ module Grift
 
     def mock_reset
       mock_clear
-      mock_return_value
+      mock_return_value(nil)
     end
 
-    def mock_restore
+    def mock_restore(watch: false)
       mock_clear
       unmock_method if @true_method_cached
+      watch_method if watch
     end
 
     def mock_implementation(&block)
@@ -45,7 +48,6 @@ module Grift
       class_instance.define_method @method_name do |*args|
         # record the args passed in the call to the method and the result
         mock_executions.store(args, return_value)
-
         return return_value
       end
 
@@ -53,6 +55,21 @@ module Grift
     end
 
     private
+
+    def watch_method
+      cache_method unless @true_method_cached
+      mock_executions = @mock_executions # required to access inside class instance block
+      cache_method_name = @cache_method_name
+
+      class_instance.remove_method(@method_name)
+      class_instance.define_method @method_name do |*args|
+        return_value = send(cache_method_name, *args)
+
+        # record the args passed in the call to the method and the result
+        mock_executions.store(args, return_value)
+        return return_value
+      end
+    end
 
     def unmock_method
       raise(Grift::Error, 'Method is not cached') unless @true_method_cached

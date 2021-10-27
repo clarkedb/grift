@@ -41,6 +41,66 @@ class MockMethodTest < Minitest::Test
     assert_equal target.first_name, Target.mimic(target).first_name
   end
 
+  def test_it_watches_the_method_by_default
+    target_full_name = 'Tobias Funke'
+    target = Target.new(first_name: 'Tobias', last_name: 'Funke')
+    assert_equal target_full_name, target.full_name
+
+    full_name_mock = Grift::MockMethod.new(Target, :full_name)
+    assert_equal target_full_name, target.full_name
+
+    refute_empty full_name_mock.mock
+    assert_empty full_name_mock.mock.calls.first
+    assert_equal target_full_name, full_name_mock.mock.results.first
+
+    full_name_mock.mock_restore
+  end
+
+  def test_it_does_not_watch_if_watch_is_false
+    target_full_name = 'Tobias Funke'
+    target = Target.new(first_name: 'Tobias', last_name: 'Funke')
+    assert_equal target_full_name, target.full_name
+
+    full_name_mock = Grift::MockMethod.new(Target, :full_name, watch: false)
+    assert_equal target_full_name, target.full_name
+
+    assert_empty full_name_mock.mock
+
+    full_name_mock.mock_restore
+  end
+
+  def test_mock_restore_unwatches_by_default
+    target_full_name = 'Tobias Funke'
+    target = Target.new(first_name: 'Tobias', last_name: 'Funke')
+    assert_equal target_full_name, target.full_name
+
+    full_name_mock = Grift::MockMethod.new(Target, :full_name)
+    assert_equal target_full_name, target.full_name
+    refute_empty full_name_mock.mock
+
+    full_name_mock.mock_restore
+
+    assert_equal target_full_name, target.full_name
+    assert_empty full_name_mock.mock
+  end
+
+  def test_mock_restore_rewatches_when_watch_true
+    target_full_name = 'Tobias Funke'
+    target = Target.new(first_name: 'Tobias', last_name: 'Funke')
+    assert_equal target_full_name, target.full_name
+
+    full_name_mock = Grift::MockMethod.new(Target, :full_name)
+    assert_equal target_full_name, target.full_name
+    refute_empty full_name_mock.mock
+
+    full_name_mock.mock_restore(watch: true)
+
+    assert_equal target_full_name, target.full_name
+    refute_empty full_name_mock.mock
+
+    full_name_mock.mock_restore(watch: false)
+  end
+
   def test_it_raises_an_error_for_mock_implementation
     target_full_name = 'Buster Bluth'
     target = Target.new(first_name: 'Buster', last_name: 'Bluth')
@@ -53,10 +113,12 @@ class MockMethodTest < Minitest::Test
         return nil
       end
     end
+
+    full_name_mock.mock_restore
   end
 
   def test_returns_mock_executions_type_with_mock_accessor
-    target_mock = Grift::MockMethod.new(Target, :full_name)
+    target_mock = Grift::MockMethod.new(Target, :full_name, watch: false)
     assert_instance_of Grift::MockMethod::MockExecutions, target_mock.mock
   end
 
@@ -113,7 +175,7 @@ class MockMethodTest < Minitest::Test
   end
 
   def test_raises_error_when_unmock_called_and_not_mocked
-    target_mock = Grift::MockMethod.new(Target, :convince)
+    target_mock = Grift::MockMethod.new(Target, :convince, watch: false)
     assert_raises Grift::Error do
       target_mock.send(:unmock_method)
     end
