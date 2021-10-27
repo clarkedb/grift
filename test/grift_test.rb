@@ -3,11 +3,57 @@
 require 'test_helper'
 
 class GriftTest < Minitest::Test
-  def test_that_it_has_a_version_number
-    refute_nil ::Grift::VERSION
+  def test_mock_returns_a_mock_method
+    target_mock = Grift.mock(Target, :full_name, 'Glenn Sturgis')
+    assert_instance_of Grift::MockMethod, target_mock
+    target_mock.mock_restore
   end
 
-  def test_it_does_something_useful
-    assert false
+  def test_spy_on_returns_a_mock_method
+    target_spy = Grift.spy_on(Target, :full_name)
+    assert_instance_of Grift::MockMethod, target_spy
+    target_spy.mock_restore
+  end
+
+  def test_mock_method_raises_error
+    assert_raises NotImplementedError do
+      Grift.mock_method?(Target, :convince)
+    end
+  end
+
+  def test_clear_mocks_raises_error
+    assert_raises NotImplementedError do
+      Grift.clear_mocks(Target)
+    end
+  end
+
+  def test_reset_mocks_raises_error
+    assert_raises NotImplementedError do
+      Grift.reset_mocks(Target)
+    end
+  end
+
+  def test_restore_mocks_raises_error
+    assert_raises NotImplementedError do
+      Grift.restore_mocks(Target)
+    end
+  end
+
+  def test_clear_all_mocks_raises_error
+    assert_raises NotImplementedError do
+      Grift.clear_all_mocks
+    end
+  end
+
+  def test_reset_all_mocks_raises_error
+    assert_raises NotImplementedError do
+      Grift.reset_all_mocks
+    end
+  end
+
+  def test_restore_all_mocks_raises_error
+    assert_raises NotImplementedError do
+      Grift.restore_all_mocks
+    end
   end
 end
