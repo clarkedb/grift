@@ -1,0 +1,46 @@
+name: CI
+
+on: push
+
+env:
+  GIT_COMMIT_SHA: ${{ github.sha }}
+  GIT_BRANCH: ${{ github.ref }}
+
+jobs:
+  linting:
+    runs-on: ubuntu-latest
+    env:
+      BUNDLE_WITH: lint
+      BUNDLE_WITHOUT: development:test
+
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Set up Ruby 2.7
+        uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: 2.7
+          bundler-cache: true
+
+      - name: Rubocop
+        run: bundle exec rubocop --format progress
+
+  build:
+    needs: [ linting ]
+    runs-on: ubuntu-latest
+    name: build (ruby v${{ matrix.ruby }})
+    strategy:
+      fail-fast: false
+      matrix:
+        ruby: [ '2.5', '2.6', '2.7', '3.0' ]
+
+    steps:
+      - uses: actions/checkout@v2
+      - uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: ${{ matrix.ruby }}
+          bundler-cache: true
+
+      - name: Test
+        continue-on-error: ${{ matrix.experimental }}
+        run: bundle exec rake test
