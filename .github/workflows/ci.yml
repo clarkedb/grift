@@ -7,9 +7,9 @@ env:
   GIT_BRANCH: ${{ github.ref }}
 
 jobs:
-  build:
+  test-unit:
     runs-on: ubuntu-latest
-    name: build ${{ matrix.ruby }}
+    name: unit tests (ruby v${{ matrix.ruby }})
     strategy:
       fail-fast: false
       matrix:
