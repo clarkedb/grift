@@ -1,5 +1,9 @@
 # Grift
 
+[![gem version](https://badge.fury.io/rb/grift.svg)](https://rubygems.org/gems/grift)
+[![downloads](https://ruby-gem-downloads-badge.herokuapp.com/grift)](https://rubygems.org/gems/grift)
+[![build](https://github.com/clarkedb/grift/actions/workflows/ci.yml/badge.svg)](https://github.com/clarkedb/grift/actions?query=workflow%3ACI)
+
 Mocking and spying in Ruby's MiniTest framework
 
 ## Installation
