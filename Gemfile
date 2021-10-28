@@ -12,3 +12,10 @@ group :development, :test do
   gem 'minitest-reporters', '>= 1.4.3'
   gem 'simplecov', '>= 0.21.2'
 end
+
+group :development, :lint do
+  gem 'rubocop'
+  gem 'rubocop-minitest'
+  gem 'rubocop-packaging', '>= 0.5'
+  gem 'rubocop-performance', '>= 1.0'
+end
