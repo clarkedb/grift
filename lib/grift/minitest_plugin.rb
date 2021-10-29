@@ -2,7 +2,7 @@
 
 module Grift
   module MinitestPlugin
-    def before_teardown
+    def after_teardown
       super
       Grift.restore_all_mocks(watch: false)
     end
