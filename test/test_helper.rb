@@ -24,3 +24,9 @@ Minitest::Reporters.use!
 
 # classes for mock tests
 require 'target'
+
+# rubocop:disable Style/ClassAndModuleChildren
+class Minitest::Test
+  include Grift::MinitestPlugin
+end
+# rubocop:enable Style/ClassAndModuleChildren

@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 require 'grift/error'
+require 'grift/minitest_plugin'
 require 'grift/mock_cache'
 require 'grift/mock_method'
 require 'grift/mock_method/mock_executions'
@@ -47,7 +48,7 @@ module Grift
       raise NotImplementedError
     end
 
-    def restore_mocks(klass)
+    def restore_mocks(klass, watch: false)
       raise NotImplementedError
     end
 
@@ -59,7 +60,7 @@ module Grift
       raise NotImplementedError
     end
 
-    def restore_all_mocks
+    def restore_all_mocks(watch: false)
       raise NotImplementedError
     end
   end
