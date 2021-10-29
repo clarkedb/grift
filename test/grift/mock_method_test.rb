@@ -101,20 +101,44 @@ class MockMethodTest < Minitest::Test
     full_name_mock.mock_restore(watch: false)
   end
 
-  def test_it_raises_an_error_for_mock_implementation
+  def test_it_mocks_an_instance_method_implementation
     target_full_name = 'Buster Bluth'
     target = Target.new(first_name: 'Buster', last_name: 'Bluth')
     assert target.respond_to?(:full_name)
     assert_equal target_full_name, target.full_name
 
     full_name_mock = Grift::MockMethod.new(Target, :full_name)
-    assert_raises NotImplementedError do
-      full_name_mock.mock_implementation do
-        return nil
-      end
+    full_name_mock.mock_implementation do
+      [target.last_name, target.first_name].join(' ')
     end
 
+    expected_full_name_result = target_full_name.split.reverse.join(' ')
+    assert_equal expected_full_name_result, target.full_name
+
+    assert_empty full_name_mock.mock.calls.first
+    assert_equal expected_full_name_result, full_name_mock.mock.results.first
+
     full_name_mock.mock_restore
+  end
+
+  def test_it_mocks_an_class_method_implementation
+    target = Target.new(first_name: 'Jerry')
+    assert Target.respond_to?(:mimic)
+    assert_equal target.first_name, Target.mimic(target).first_name
+
+    mimic_mock = Grift::MockMethod.new(Target, :mimic)
+    mimic_mock.mock_implementation do |t|
+      t.full_name * 2
+    end
+
+    mocked_result = Target.mimic(target)
+    expected_mimic_result = target.full_name * 2
+    assert_equal expected_mimic_result, mocked_result
+
+    assert_equal [target], mimic_mock.mock.calls.first
+    assert_equal expected_mimic_result, mimic_mock.mock.results.first
+
+    mimic_mock.mock_restore
   end
 
   def test_returns_mock_executions_type_with_mock_accessor
