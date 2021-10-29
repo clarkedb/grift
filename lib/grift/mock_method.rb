@@ -37,7 +37,19 @@ module Grift
     end
 
     def mock_implementation(&block)
-      raise NotImplementedError
+      cache_method unless @true_method_cached
+      mock_executions = @mock_executions # required to access inside class instance block
+
+      class_instance.remove_method(@method_name)
+      class_instance.define_method @method_name do |*args|
+        return_value = block.call(*args)
+
+        # record the args passed in the call to the method and the result
+        mock_executions.store(args, return_value)
+        return return_value
+      end
+
+      self
     end
 
     def mock_return_value(return_value = nil)
