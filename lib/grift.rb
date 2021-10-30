@@ -2,13 +2,17 @@
 
 require 'grift/error'
 require 'grift/minitest_plugin'
-require 'grift/mock_cache'
 require 'grift/mock_method'
 require 'grift/mock_method/mock_executions'
+require 'grift/mock_store'
 require 'grift/version'
 
 module Grift
+  @mock_store = Grift::MockStore.new
+
   class << self
+    attr_reader :mock_store
+
     ##
     # Mocks the given method to return the provided value.
     # This is syntactical sugar equivalent to calling
@@ -61,7 +65,11 @@ module Grift
     end
 
     def restore_all_mocks(watch: false)
-      raise NotImplementedError
+      if watch
+        @mock_store.mocks.mock_restore(watch: true)
+      else
+        @mock_store.remove
+      end
     end
   end
 end

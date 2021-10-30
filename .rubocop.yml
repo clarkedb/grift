@@ -28,6 +28,6 @@ Style/Documentation:
     - "test/**/*"
     - "lib/grift.rb"
     - "lib/grift/minitest_plugin.rb"
-    - "lib/grift/mock_cache.rb"
     - "lib/grift/mock_method.rb"
     - "lib/grift/mock_method/mock_executions.rb"
+    - "lib/grift/mock_store.rb"
