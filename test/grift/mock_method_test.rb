@@ -203,4 +203,24 @@ class MockMethodTest < Minitest::Test
       Grift::MockMethod.new(String, :banana)
     end
   end
+
+  def test_it_has_hash_key_string_representation
+    target_mock = Grift::MockMethod.new(Target, :convince)
+    expected_string = Grift::MockMethod.hash_key(
+      target_mock.klass,
+      target_mock.method_name
+    )
+    assert_equal expected_string, target_mock.to_s
+  end
+
+  def test_it_produces_hash_key_by_klass_and_method
+    klass = String
+    method = :downcase
+    hash_key = Grift::MockMethod.hash_key(klass, method)
+    assert_includes hash_key, klass.to_s
+    assert_includes hash_key, method.to_s
+
+    # hash_key should be same for equivalent mocks
+    assert_equal hash_key, Grift::MockMethod.hash_key(klass, method)
+  end
 end

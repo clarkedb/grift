@@ -2,7 +2,7 @@
 
 module Grift
   class MockMethod
-    attr_reader :true_method_cached
+    attr_reader :true_method_cached, :klass, :method_name
 
     CACHE_METHOD_PREFIX = 'grift_cache'
 
