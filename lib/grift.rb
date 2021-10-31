@@ -66,7 +66,7 @@ module Grift
 
     def restore_all_mocks(watch: false)
       if watch
-        @mock_store.mocks.mock_restore(watch: true)
+        @mock_store.mocks.each { |m| m.mock_restore(watch: true) }
       else
         @mock_store.remove
       end

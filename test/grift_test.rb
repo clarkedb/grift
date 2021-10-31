@@ -63,4 +63,12 @@ class GriftTest < Minitest::Test
     Grift.restore_all_mocks
     assert_empty Grift.mock_store
   end
+
+  def test_restore_all_mocks__with_watch_refreshes_mock_store
+    assert_empty Grift.mock_store
+    Grift.mock(Target, :full_name, 'Glenn Sturgis')
+    refute_empty Grift.mock_store
+    Grift.restore_all_mocks(watch: true)
+    refute_empty Grift.mock_store
+  end
 end
