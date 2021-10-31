@@ -16,6 +16,10 @@ module Grift
       # class methods are really instance methods of the singleton class
       @class_method = klass.singleton_class.instance_methods(true).include?(method_name)
 
+      unless class_instance.instance_methods(true).include?(method_name)
+        raise(Grift::Error, "Cannont mock unknown method #{method_name} for class #{klass}")
+      end
+
       watch_method if watch
     end
 

@@ -196,4 +196,11 @@ class MockMethodTest < Minitest::Test
       target_mock.send(:cache_method)
     end
   end
+
+  def test_raises_error_when_unknwon_method_mocked
+    refute_respond_to String, :banana
+    assert_raises Grift::Error do
+      Grift::MockMethod.new(String, :banana)
+    end
+  end
 end
