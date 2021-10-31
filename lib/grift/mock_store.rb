@@ -48,7 +48,9 @@ module Grift
       return @mocks unless klass || method
 
       pattern = Regexp.new(Grift::MockMethod.hash_key(klass, method))
-      @mocks.filter { |k| pattern.match?(k) }
+      # rubocop:disable Style/SelectByRegexp
+      @mocks.select { |k| pattern.match?(k) }
+      # rubocop:enable Style/SelectByRegexp
     end
   end
 end
