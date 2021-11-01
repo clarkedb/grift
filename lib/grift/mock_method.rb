@@ -2,6 +2,8 @@
 
 module Grift
   class MockMethod
+    attr_reader :true_method_cached, :klass, :method_name
+
     CACHE_METHOD_PREFIX = 'grift_cache'
 
     def initialize(klass, method_name, watch: true)
@@ -13,6 +15,10 @@ module Grift
 
       # class methods are really instance methods of the singleton class
       @class_method = klass.singleton_class.instance_methods(true).include?(method_name)
+
+      unless class_instance.instance_methods(true).include?(method_name)
+        raise(Grift::Error, "Cannont mock unknown method #{method_name} for class #{klass}")
+      end
 
       watch_method if watch
     end
@@ -37,7 +43,7 @@ module Grift
     end
 
     def mock_implementation(&block)
-      cache_method unless @true_method_cached
+      premock_setup
       mock_executions = @mock_executions # required to access inside class instance block
 
       class_instance.remove_method(@method_name)
@@ -53,7 +59,7 @@ module Grift
     end
 
     def mock_return_value(return_value = nil)
-      cache_method unless @true_method_cached
+      premock_setup
       mock_executions = @mock_executions # required to access inside class instance block
 
       class_instance.remove_method(@method_name)
@@ -66,10 +72,18 @@ module Grift
       self
     end
 
+    def to_s
+      Grift::MockMethod.hash_key(@klass, @method_name)
+    end
+
+    def self.hash_key(klass, method_name)
+      "#{klass}\##{method_name}"
+    end
+
     private
 
     def watch_method
-      cache_method unless @true_method_cached
+      premock_setup
       mock_executions = @mock_executions # required to access inside class instance block
       cache_method_name = @cache_method_name
 
@@ -81,6 +95,8 @@ module Grift
         mock_executions.store(args, return_value)
         return return_value
       end
+
+      self
     end
 
     def unmock_method
@@ -98,6 +114,15 @@ module Grift
 
       class_instance.alias_method(@cache_method_name, @method_name)
       @true_method_cached = true
+    end
+
+    def premock_setup
+      cache_method unless @true_method_cached
+      send_to_store
+    end
+
+    def send_to_store
+      Grift.mock_store.store(self) unless Grift.mock_store.include?(self)
     end
 
     def class_instance

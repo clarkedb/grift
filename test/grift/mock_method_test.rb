@@ -52,8 +52,6 @@ class MockMethodTest < Minitest::Test
     refute_empty full_name_mock.mock
     assert_empty full_name_mock.mock.calls.first
     assert_equal target_full_name, full_name_mock.mock.results.first
-
-    full_name_mock.mock_restore
   end
 
   def test_it_does_not_watch_if_watch_is_false
@@ -65,8 +63,6 @@ class MockMethodTest < Minitest::Test
     assert_equal target_full_name, target.full_name
 
     assert_empty full_name_mock.mock
-
-    full_name_mock.mock_restore
   end
 
   def test_mock_restore_unwatches_by_default
@@ -97,8 +93,6 @@ class MockMethodTest < Minitest::Test
 
     assert_equal target_full_name, target.full_name
     refute_empty full_name_mock.mock
-
-    full_name_mock.mock_restore(watch: false)
   end
 
   def test_it_mocks_an_instance_method_implementation
@@ -117,8 +111,6 @@ class MockMethodTest < Minitest::Test
 
     assert_empty full_name_mock.mock.calls.first
     assert_equal expected_full_name_result, full_name_mock.mock.results.first
-
-    full_name_mock.mock_restore
   end
 
   def test_it_mocks_an_class_method_implementation
@@ -137,8 +129,6 @@ class MockMethodTest < Minitest::Test
 
     assert_equal [target], mimic_mock.mock.calls.first
     assert_equal expected_mimic_result, mimic_mock.mock.results.first
-
-    mimic_mock.mock_restore
   end
 
   def test_returns_mock_executions_type_with_mock_accessor
@@ -159,8 +149,6 @@ class MockMethodTest < Minitest::Test
     convince_mock.mock_clear
     assert_empty convince_mock.mock
     assert_equal 'mocked', target.convince('The earth is round')
-
-    convince_mock.mock_restore
   end
 
   def test_it_clears_executions_and_mocks_return_value_nil_on_mock_reset
@@ -176,8 +164,6 @@ class MockMethodTest < Minitest::Test
     convince_mock.mock_reset
     assert_empty convince_mock.mock
     assert_nil target.convince('The earth is round')
-
-    convince_mock.mock_restore
   end
 
   def test_it_clears_executions_and_unmocks_method_on_mock_restore
@@ -194,8 +180,6 @@ class MockMethodTest < Minitest::Test
     assert_empty convince_mock.mock
     refute_equal 'mocked', target.convince('The earth is round')
     assert_instance_of Array, target.convince('The earth is round')
-
-    convince_mock.mock_restore
   end
 
   def test_raises_error_when_unmock_called_and_not_mocked
@@ -211,6 +195,32 @@ class MockMethodTest < Minitest::Test
     assert_raises Grift::Error do
       target_mock.send(:cache_method)
     end
-    target_mock.mock_restore
+  end
+
+  def test_raises_error_when_unknwon_method_mocked
+    refute_respond_to String, :banana
+    assert_raises Grift::Error do
+      Grift::MockMethod.new(String, :banana)
+    end
+  end
+
+  def test_it_has_hash_key_string_representation
+    target_mock = Grift::MockMethod.new(Target, :convince)
+    expected_string = Grift::MockMethod.hash_key(
+      target_mock.klass,
+      target_mock.method_name
+    )
+    assert_equal expected_string, target_mock.to_s
+  end
+
+  def test_it_produces_hash_key_by_klass_and_method
+    klass = String
+    method = :downcase
+    hash_key = Grift::MockMethod.hash_key(klass, method)
+    assert_includes hash_key, klass.to_s
+    assert_includes hash_key, method.to_s
+
+    # hash_key should be same for equivalent mocks
+    assert_equal hash_key, Grift::MockMethod.hash_key(klass, method)
   end
 end
