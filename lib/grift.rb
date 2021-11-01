@@ -23,7 +23,7 @@ module Grift
     # @example
     #   Grift.mock(MyClass, :some_method, true)
     #
-    def mock(klass, method, return_value)
+    def mock(klass, method, return_value = nil)
       spy_on(klass, method).mock_return_value(return_value)
     end
 
@@ -41,27 +41,32 @@ module Grift
     end
 
     def mock_method?(klass, method)
-      raise NotImplementedError
+      hash_key = Grift::MockMethod.hash_key(klass, method)
+      @mock_store.include?(hash_key)
     end
 
     def clear_mocks(klass)
-      raise NotImplementedError
+      @mock_store.mocks(klass: klass).each(&:mock_clear)
     end
 
     def reset_mocks(klass)
-      raise NotImplementedError
+      @mock_store.mocks(klass: klass).each(&:mock_reset)
     end
 
     def restore_mocks(klass, watch: false)
-      raise NotImplementedError
+      if watch
+        @mock_store.mocks(klass: klass).each { |m| m.mock_restore(watch: true) }
+      else
+        @mock_store.remove(klass: klass)
+      end
     end
 
     def clear_all_mocks
-      raise NotImplementedError
+      @mock_store.mocks.each(&:mock_clear)
     end
 
     def reset_all_mocks
-      raise NotImplementedError
+      @mock_store.mocks.each(&:mock_reset)
     end
 
     def restore_all_mocks(watch: false)
