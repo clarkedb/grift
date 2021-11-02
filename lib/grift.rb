@@ -51,8 +51,7 @@ module Grift
       klass_config = Grift::Config.restricted_methods[base_klass]
       return false unless klass_config
 
-      (klass_config.include?('*') && !klass_config.include?("^#{method}")) ||
-        klass_config.include?(method.to_s)
+      (klass_config.include?('*') && !klass_config.include?("^#{method}")) || klass_config.include?(method.to_s)
     end
 
     def clear_mocks(klass)

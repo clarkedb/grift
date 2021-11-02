@@ -28,10 +28,7 @@ class GriftTest < Minitest::Test
   end
 
   def test_clear_mocks_clears_mocks_by_klass
-    target_mocks = [
-      Grift.mock(Target, :full_name, 'Michael Kelso'),
-      Grift.mock(Target, :convince)
-    ]
+    target_mocks = [Grift.mock(Target, :full_name, 'Michael Kelso'), Grift.mock(Target, :convince)]
     string_mock = Grift.mock(String, :upcase, 'banana')
 
     # call methods to populate mock executions
@@ -50,10 +47,7 @@ class GriftTest < Minitest::Test
   end
 
   def test_reset_mocks_resets_mocks_by_class
-    target_mocks = [
-      Grift.mock(Target, :full_name, 'Radar O\'Reily'),
-      Grift.mock(Target, :convince)
-    ]
+    target_mocks = [Grift.mock(Target, :full_name, 'Radar O\'Reily'), Grift.mock(Target, :convince)]
     string_mock = Grift.mock(String, :upcase, 'banana')
 
     # call methods to populate mock executions
