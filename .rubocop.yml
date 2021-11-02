@@ -14,16 +14,6 @@ AllCops:
   NewCops: enable
   SuggestExtensions: false
 
-# Metrics
-Metrics/AbcSize:
-  Max: 35
-
-Metrics/ClassLength:
-  Max: 200
-
-Metrics/MethodLength:
-  Max: 30
-
 # Layout
 Layout/BlockAlignment:
   Enabled: true
@@ -95,7 +85,30 @@ Layout/TrailingEmptyLines:
   Enabled: true
   EnforcedStyle: final_newline
 
+# Metrics
+Metrics/AbcSize:
+  Max: 35
+
+Metrics/ClassLength:
+  Max: 200
+
+Metrics/MethodLength:
+  Max: 30
+
 # Style
+Style/AndOr:
+  EnforcedStyle: always
+
+Style/ArrayCoercion:
+  Enabled: true
+
+Style/CollectionCompact:
+  Enabled: true
+
+Style/ConstantVisibility:
+  Enabled: true
+  IgnoreModules: true
+
 Style/Documentation:
   Exclude:
     - "spec/**/*"
@@ -106,3 +119,20 @@ Style/Documentation:
     - "lib/grift/mock_method.rb"
     - "lib/grift/mock_method/mock_executions.rb"
     - "lib/grift/mock_store.rb"
+
+Style/DocumentationMethod:
+  Exclude:
+    - "spec/**/*"
+    - "test/**/*"
+    - "lib/grift.rb"
+    - "lib/grift/config.rb"
+    - "lib/grift/minitest_plugin.rb"
+    - "lib/grift/mock_method.rb"
+    - "lib/grift/mock_method/mock_executions.rb"
+    - "lib/grift/mock_store.rb"
+
+Style/SwapValues:
+  Enabled: true
+
+Style/TrailingCommaInArrayLiteral:
+  EnforcedStyleForMultiline: comma
