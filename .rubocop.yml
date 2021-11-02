@@ -27,6 +27,7 @@ Style/Documentation:
     - "spec/**/*"
     - "test/**/*"
     - "lib/grift.rb"
+    - "lib/grift/config.rb"
     - "lib/grift/minitest_plugin.rb"
     - "lib/grift/mock_method.rb"
     - "lib/grift/mock_method/mock_executions.rb"
