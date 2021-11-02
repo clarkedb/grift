@@ -9,10 +9,12 @@
 #
 # See https://docs.rubocop.org/rubocop/configuration
 
+# General
 AllCops:
   NewCops: enable
   SuggestExtensions: false
 
+# Metrics
 Metrics/AbcSize:
   Max: 35
 
@@ -22,6 +24,78 @@ Metrics/ClassLength:
 Metrics/MethodLength:
   Max: 30
 
+# Layout
+Layout/BlockAlignment:
+  Enabled: true
+  EnforcedStyleAlignWith: start_of_block
+
+Layout/ClassStructure:
+  Enabled: true
+
+Layout/DotPosition:
+  Enabled: true
+  EnforcedStyle: leading
+
+Layout/FirstArrayElementIndentation:
+  Enabled: true
+  EnforcedStyle: consistent
+
+Layout/FirstHashElementIndentation:
+  Enabled: true
+  EnforcedStyle: consistent
+
+Layout/HashAlignment:
+  Enabled: true
+  EnforcedColonStyle: key
+  EnforcedLastArgumentHashStyle: always_inspect
+
+Layout/LineEndStringConcatenationIndentation:
+  Enabled: true
+  EnforcedStyle: aligned
+
+Layout/LineLength:
+  Enabled: true
+  Max: 120
+
+Layout/MultilineArrayLineBreaks:
+  Enabled: true
+
+Layout/MultilineAssignmentLayout:
+  Enabled: false
+
+Layout/MultilineHashKeyLineBreaks:
+  Enabled: true
+
+Layout/MultilineMethodArgumentLineBreaks:
+  Enabled: true
+
+Layout/MultilineMethodCallIndentation:
+  Enabled: true
+  EnforcedStyle: indented_relative_to_receiver
+
+Layout/MultilineOperationIndentation:
+  Enabled: true
+  EnforcedStyle: indented
+
+Layout/ParameterAlignment:
+  Enabled: true
+  EnforcedStyle: with_first_parameter
+
+Layout/RedundantLineBreak:
+  Enabled: true
+  InspectBlocks: false
+
+Layout/SingleLineBlockChain:
+  Enabled: false
+
+Layout/SpaceBeforeBrackets:
+  Enabled: true
+
+Layout/TrailingEmptyLines:
+  Enabled: true
+  EnforcedStyle: final_newline
+
+# Style
 Style/Documentation:
   Exclude:
     - "spec/**/*"
