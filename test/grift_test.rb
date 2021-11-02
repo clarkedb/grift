@@ -92,7 +92,7 @@ class GriftTest < Minitest::Test
     mocks = [
       Grift.mock(Target, :full_name, 'Michael Kelso'),
       Grift.mock(Target, :convince),
-      Grift.mock(String, :upcase, 'banana')
+      Grift.mock(String, :upcase, 'banana'),
     ]
 
     # call methods to populate mock executions
@@ -113,7 +113,7 @@ class GriftTest < Minitest::Test
     mocks = [
       Grift.mock(Target, :full_name, 'Radar O\'Reily'),
       Grift.mock(Target, :convince),
-      Grift.mock(String, :upcase, 'banana')
+      Grift.mock(String, :upcase, 'banana'),
     ]
 
     # call methods to populate mock executions
