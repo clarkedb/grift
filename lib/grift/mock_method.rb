@@ -7,6 +7,10 @@ module Grift
     CACHE_METHOD_PREFIX = 'grift_cache'
 
     def initialize(klass, method_name, watch: true)
+      if Grift.restricted_method?(klass, method_name)
+        raise(Grift::Error, "Cannont mock restricted method #{method_name} for class #{klass}")
+      end
+
       @klass = klass
       @method_name = method_name
       @true_method_cached = false
@@ -18,6 +22,10 @@ module Grift
 
       unless class_instance.instance_methods(true).include?(method_name)
         raise(Grift::Error, "Cannont mock unknown method #{method_name} for class #{klass}")
+      end
+
+      if class_instance.instance_methods.include?(@cache_method_name)
+        raise(Grift::Error, "Cannot mock already mocked method #{method_name} for class #{klass}")
       end
 
       watch_method if watch

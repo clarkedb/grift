@@ -223,4 +223,18 @@ class MockMethodTest < Minitest::Test
     # hash_key should be same for equivalent mocks
     assert_equal hash_key, Grift::MockMethod.hash_key(klass, method)
   end
+
+  def test_raises_error_when_initializing_for_restricted_method
+    assert_raises Grift::Error do
+      Grift::MockMethod.new(Grift::MockMethod, :mock_implementation)
+    end
+  end
+
+  def test_raises_error_when_method_already_mocked
+    full_name_mock = Grift::MockMethod.new(Target, :full_name)
+    assert_includes Grift.mock_store, full_name_mock
+    assert_raises Grift::Error do
+      Grift::MockMethod.new(Target, :full_name)
+    end
+  end
 end
