@@ -85,15 +85,46 @@ Layout/TrailingEmptyLines:
   Enabled: true
   EnforcedStyle: final_newline
 
+# Lint
+Lint/AmbiguousAssignment:
+  Enabled: true
+
+Lint/AmbiguousOperatorPrecedence:
+  Enabled: true
+
+Lint/AmbiguousRange:
+  Enabled: true
+
 # Metrics
 Metrics/AbcSize:
-  Max: 35
+  Max: 20
+  Exclude:
+    - "test/**/*"
 
 Metrics/ClassLength:
-  Max: 200
+  Max: 150
+  CountAsOne:
+    - array
+    - hash
+    - heredoc
+  Exclude:
+    - "test/**/*"
 
 Metrics/MethodLength:
-  Max: 30
+  Max: 20
+  CountAsOne:
+    - array
+    - hash
+    - heredoc
+  Exclude:
+    - "test/**/*"
+
+# Naming
+Naming/InclusiveLanguage:
+  Enabled: true
+
+Naming/VariableNumber:
+  EnforcedStyle: snake_case
 
 # Style
 Style/AndOr:
@@ -111,7 +142,6 @@ Style/ConstantVisibility:
 
 Style/Documentation:
   Exclude:
-    - "spec/**/*"
     - "test/**/*"
     - "lib/grift.rb"
     - "lib/grift/config.rb"
@@ -122,7 +152,6 @@ Style/Documentation:
 
 Style/DocumentationMethod:
   Exclude:
-    - "spec/**/*"
     - "test/**/*"
     - "lib/grift.rb"
     - "lib/grift/config.rb"
@@ -130,6 +159,9 @@ Style/DocumentationMethod:
     - "lib/grift/mock_method.rb"
     - "lib/grift/mock_method/mock_executions.rb"
     - "lib/grift/mock_store.rb"
+
+Style/SelectByRegexp:
+  Enabled: false
 
 Style/SwapValues:
   Enabled: true
