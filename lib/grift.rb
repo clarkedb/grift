@@ -1,5 +1,6 @@
 # frozen_string_literal: true
 
+require 'grift/config'
 require 'grift/error'
 require 'grift/minitest_plugin'
 require 'grift/mock_method'
@@ -43,6 +44,15 @@ module Grift
     def mock_method?(klass, method)
       hash_key = Grift::MockMethod.hash_key(klass, method)
       @mock_store.include?(hash_key)
+    end
+
+    def restricted_method?(klass, method)
+      base_klass = klass.to_s.split('::').first
+      klass_config = Grift::Config.restricted_methods[base_klass]
+      return false unless klass_config
+
+      (klass_config.include?('*') && !klass_config.include?("^#{method}")) ||
+        klass_config.include?(method.to_s)
     end
 
     def clear_mocks(klass)

@@ -154,4 +154,11 @@ class GriftTest < Minitest::Test
     Grift.restore_all_mocks(watch: true)
     refute_empty Grift.mock_store
   end
+
+  def test_restricted_method_matches_config
+    assert Grift.restricted_method?(Grift, :spy_on)
+    assert Grift.restricted_method?(Grift::MockMethod, :mock)
+    assert Grift.restricted_method?(String, :to_sym)
+    refute Grift.restricted_method?(Target, :convince)
+  end
 end

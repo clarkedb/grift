@@ -1,0 +1,31 @@
+Grift:
+  - "*"
+
+Minitest:
+  - "*"
+
+# ruby classes
+Array:
+  - count
+  - empty?
+  - include?
+  - map
+  - push
+
+Class:
+  - "*"
+
+Hash:
+  - "[]"
+  - "[]="
+  - include?
+  - select
+
+String:
+  - "=="
+  - "[]"
+  - to_sym
+
+Symbol:
+  - "=="
+  - to_s
