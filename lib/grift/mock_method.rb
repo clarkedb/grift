@@ -5,6 +5,7 @@ module Grift
     attr_reader :true_method_cached, :klass, :method_name
 
     CACHE_METHOD_PREFIX = 'grift_cache'
+    private_constant :CACHE_METHOD_PREFIX
 
     def initialize(klass, method_name, watch: true)
       if Grift.restricted_method?(klass, method_name)

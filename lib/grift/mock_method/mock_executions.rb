@@ -28,12 +28,7 @@ module Grift
       end
 
       def store(args, result)
-        @executions.push(
-          {
-            args: args,
-            result: result
-          }
-        )
+        @executions.push({ args: args, result: result })
       end
     end
   end

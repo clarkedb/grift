@@ -206,10 +206,7 @@ class MockMethodTest < Minitest::Test
 
   def test_it_has_hash_key_string_representation
     target_mock = Grift::MockMethod.new(Target, :convince)
-    expected_string = Grift::MockMethod.hash_key(
-      target_mock.klass,
-      target_mock.method_name
-    )
+    expected_string = Grift::MockMethod.hash_key(target_mock.klass, target_mock.method_name)
     assert_equal expected_string, target_mock.to_s
   end
 
