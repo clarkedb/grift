@@ -1,0 +1,11 @@
+version: 2
+
+updates:
+  - directory: /
+    open-pull-requests-limit: 10
+    package-ecosystem: bundler
+    target-branch: develop
+    schedule:
+      interval: weekly
+    labels:
+      - dependencies

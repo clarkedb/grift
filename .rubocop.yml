@@ -1,0 +1,159 @@
+# The behavior of RuboCop can be controlled via the .rubocop.yml
+# configuration file. It makes it possible to enable/disable
+# certain cops (checks) and to alter their behavior if they accept
+# any parameters. The file can be placed either in your home
+# directory or in some project directory.
+#
+# RuboCop will start looking for the configuration file in the directory
+# where the inspected file is and continue its way up to the root directory.
+#
+# See https://docs.rubocop.org/rubocop/configuration
+
+# General
+AllCops:
+  NewCops: enable
+  SuggestExtensions: false
+
+# Layout
+Layout/BlockAlignment:
+  Enabled: true
+  EnforcedStyleAlignWith: start_of_block
+
+Layout/ClassStructure:
+  Enabled: true
+
+Layout/DotPosition:
+  Enabled: true
+  EnforcedStyle: leading
+
+Layout/FirstArrayElementIndentation:
+  Enabled: true
+  EnforcedStyle: consistent
+
+Layout/FirstHashElementIndentation:
+  Enabled: true
+  EnforcedStyle: consistent
+
+Layout/HashAlignment:
+  Enabled: true
+  EnforcedColonStyle: key
+  EnforcedLastArgumentHashStyle: always_inspect
+
+Layout/LineEndStringConcatenationIndentation:
+  Enabled: true
+  EnforcedStyle: aligned
+
+Layout/LineLength:
+  Enabled: true
+  Max: 120
+
+Layout/MultilineArrayLineBreaks:
+  Enabled: true
+
+Layout/MultilineAssignmentLayout:
+  Enabled: false
+
+Layout/MultilineHashKeyLineBreaks:
+  Enabled: true
+
+Layout/MultilineMethodArgumentLineBreaks:
+  Enabled: true
+
+Layout/MultilineMethodCallIndentation:
+  Enabled: true
+  EnforcedStyle: indented_relative_to_receiver
+
+Layout/MultilineOperationIndentation:
+  Enabled: true
+  EnforcedStyle: indented
+
+Layout/ParameterAlignment:
+  Enabled: true
+  EnforcedStyle: with_first_parameter
+
+Layout/RedundantLineBreak:
+  Enabled: true
+  InspectBlocks: false
+
+Layout/SingleLineBlockChain:
+  Enabled: false
+
+Layout/SpaceBeforeBrackets:
+  Enabled: true
+
+Layout/TrailingEmptyLines:
+  Enabled: true
+  EnforcedStyle: final_newline
+
+# Lint
+Lint/AmbiguousAssignment:
+  Enabled: true
+
+Lint/AmbiguousOperatorPrecedence:
+  Enabled: true
+
+Lint/AmbiguousRange:
+  Enabled: true
+
+# Metrics
+Metrics/AbcSize:
+  Max: 20
+  Exclude:
+    - "test/**/*"
+
+Metrics/ClassLength:
+  Max: 150
+  CountAsOne:
+    - array
+    - hash
+    - heredoc
+  Exclude:
+    - "test/**/*"
+
+Metrics/MethodLength:
+  Max: 20
+  CountAsOne:
+    - array
+    - hash
+    - heredoc
+  Exclude:
+    - "test/**/*"
+
+# Naming
+Naming/InclusiveLanguage:
+  Enabled: true
+
+Naming/VariableNumber:
+  EnforcedStyle: snake_case
+
+# Style
+Style/AndOr:
+  EnforcedStyle: always
+
+Style/ArrayCoercion:
+  Enabled: true
+
+Style/CollectionCompact:
+  Enabled: true
+
+Style/ConstantVisibility:
+  Enabled: true
+  IgnoreModules: true
+
+Style/Documentation:
+  Exclude:
+    - "test/**/*"
+
+Style/DocumentationMethod:
+  Enabled: true
+  Exclude:
+    - "test/**/*"
+
+Style/SelectByRegexp:
+  Enabled: false
+
+Style/SwapValues:
+  Enabled: true
+
+Style/TrailingCommaInArrayLiteral:
+  EnforcedStyleForMultiline: comma
