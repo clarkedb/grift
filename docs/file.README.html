@@ -81,15 +81,77 @@
 <pre class="code ruby"><code class="ruby"><span class='id identifier rubyid_gem'>gem</span> <span class='id identifier rubyid_install'>install</span> <span class='id identifier rubyid_grift'>grift</span>
 </code></pre>
 
+<h3 id="label-MiniTest+Plugin">MiniTest Plugin</h3>
+
+<p>We recommend using the plugin so that mocks are cleaned up after each test automatically. To enable the plugin, add the following lines of code to your <code>test_helper</code> file.</p>
+
+<pre class="code ruby"><code class="ruby"><span class='kw'>class</span> <span class='const'>Minitest</span><span class='op'>::</span><span class='const'>Test</span>
+  <span class='id identifier rubyid_include'>include</span> <span class='const'><span class='object_link'><a href="Grift.html" title="Grift (module)">Grift</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="Grift/MinitestPlugin.html" title="Grift::MinitestPlugin (module)">MinitestPlugin</a></span></span>
+<span class='kw'>end</span>
+</code></pre>
+
 <h2 id="label-Usage">Usage</h2>
 
-<p>TODO: Write usage instructions here</p>
+<p>For complete usage guide, see the <a href="https://clarkedb.github.io/grift/">docs</a>.</p>
+
+<h3 id="label-Spy">Spy</h3>
+
+<p>To “mock” a method and spy on its call args and results without changing the behavior of the method:</p>
+
+<pre class="code ruby"><code class="ruby"><span class='id identifier rubyid_my_mock'>my_mock</span> <span class='op'>=</span> <span class='const'><span class='object_link'><a href="Grift.html" title="Grift (module)">Grift</a></span></span><span class='period'>.</span><span class='id identifier rubyid_spy_on'><span class='object_link'><a href="Grift.html#spy_on-class_method" title="Grift.spy_on (method)">spy_on</a></span></span><span class='lparen'>(</span><span class='const'>MyClass</span><span class='comma'>,</span> <span class='symbol'>:my_method</span><span class='rparen'>)</span>
+</code></pre>
+
+<h3 id="label-Mock">Mock</h3>
+
+<p>To mock a method and its return value:</p>
+
+<pre class="code ruby"><code class="ruby"><span class='id identifier rubyid_my_mock'>my_mock</span> <span class='op'>=</span> <span class='const'><span class='object_link'><a href="Grift.html" title="Grift (module)">Grift</a></span></span><span class='period'>.</span><span class='id identifier rubyid_mock'><span class='object_link'><a href="Grift.html#mock-class_method" title="Grift.mock (method)">mock</a></span></span><span class='lparen'>(</span><span class='const'>MyClass</span><span class='comma'>,</span> <span class='symbol'>:my_method</span><span class='comma'>,</span> <span class='id identifier rubyid_return_value'>return_value</span><span class='rparen'>)</span>
+
+<span class='id identifier rubyid_my_spy'>my_spy</span> <span class='op'>=</span> <span class='const'><span class='object_link'><a href="Grift.html" title="Grift (module)">Grift</a></span></span><span class='period'>.</span><span class='id identifier rubyid_spy_on'><span class='object_link'><a href="Grift.html#spy_on-class_method" title="Grift.spy_on (method)">spy_on</a></span></span><span class='lparen'>(</span><span class='const'>MyClass</span><span class='comma'>,</span> <span class='symbol'>:my_method</span><span class='rparen'>)</span>
+<span class='id identifier rubyid_my_spy'>my_spy</span><span class='period'>.</span><span class='id identifier rubyid_mock_return_value'>mock_return_value</span><span class='lparen'>(</span><span class='id identifier rubyid_return_value'>return_value</span><span class='rparen'>)</span>
+</code></pre>
+
+<p>To mock the implementation:</p>
+
+<pre class="code ruby"><code class="ruby"><span class='id identifier rubyid_my_spy'>my_spy</span> <span class='op'>=</span> <span class='const'><span class='object_link'><a href="Grift.html" title="Grift (module)">Grift</a></span></span><span class='period'>.</span><span class='id identifier rubyid_spy_on'><span class='object_link'><a href="Grift.html#spy_on-class_method" title="Grift.spy_on (method)">spy_on</a></span></span><span class='lparen'>(</span><span class='const'>MyClass</span><span class='comma'>,</span> <span class='symbol'>:my_method</span><span class='rparen'>)</span>
+<span class='id identifier rubyid_my_spy'>my_spy</span><span class='period'>.</span><span class='id identifier rubyid_mock_implementation'>mock_implementation</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id identifier rubyid_arg1'>arg1</span><span class='comma'>,</span> <span class='id identifier rubyid_arg2'>arg2</span><span class='op'>|</span>
+    <span class='id identifier rubyid_x'>x</span> <span class='op'>=</span> <span class='id identifier rubyid_do_something'>do_something</span><span class='lparen'>(</span><span class='id identifier rubyid_arg1'>arg1</span><span class='comma'>,</span> <span class='id identifier rubyid_arg2'>arg2</span><span class='rparen'>)</span>
+    <span class='id identifier rubyid_do_something_else'>do_something_else</span><span class='lparen'>(</span><span class='id identifier rubyid_x'>x</span><span class='rparen'>)</span> <span class='comment'># the last line will be returned
+</span><span class='kw'>end</span>
+</code></pre>
+
+<h3 id="label-Chaining">Chaining</h3>
+
+<p>You can chain <code>mock_return_value</code> and <code>mock_implementation</code> after initializing the mock.</p>
+
+<pre class="code ruby"><code class="ruby"><span class='id identifier rubyid_my_mock'>my_mock</span> <span class='op'>=</span> <span class='const'><span class='object_link'><a href="Grift.html" title="Grift (module)">Grift</a></span></span><span class='period'>.</span><span class='id identifier rubyid_spy_on'><span class='object_link'><a href="Grift.html#spy_on-class_method" title="Grift.spy_on (method)">spy_on</a></span></span><span class='lparen'>(</span><span class='const'>MyClass</span><span class='comma'>,</span> <span class='symbol'>:my_method</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_mock_implementation'><span class='object_link'><a href="Grift/MockMethod.html#mock_implementation-instance_method" title="Grift::MockMethod#mock_implementation (method)">mock_implementation</a></span></span> <span class='kw'>do</span> <span class='op'>|</span><span class='op'>*</span><span class='id identifier rubyid_args'>args</span><span class='op'>|</span>
+    <span class='id identifier rubyid_do_something'>do_something</span><span class='lparen'>(</span><span class='op'>*</span><span class='id identifier rubyid_args'>args</span><span class='rparen'>)</span>
+<span class='kw'>end</span>
+<span class='comment'>#=&gt; Grift::MockMethod object is returned
+</span></code></pre>
+
+<h3 id="label-Results">Results</h3>
+
+<p>To get the results and details of the calls, call <code>mock</code> on your mock method object.</p>
+
+<pre class="code ruby"><code class="ruby"><span class='comment'># get the number of times the mocked method has been called
+</span><span class='id identifier rubyid_my_mock'>my_mock</span><span class='period'>.</span><span class='id identifier rubyid_mock'>mock</span><span class='period'>.</span><span class='id identifier rubyid_count'>count</span>
+<span class='comment'>#=&gt; 2
+</span>
+<span class='comment'># get args for each call to the method while mocked
+</span><span class='id identifier rubyid_my_mock'>my_mock</span><span class='period'>.</span><span class='id identifier rubyid_mock'>mock</span><span class='period'>.</span><span class='id identifier rubyid_calls'>calls</span>
+<span class='comment'>#=&gt; [[&#39;first_arg1&#39;, &#39;second_arg1&#39;], [&#39;first_arg2&#39;, &#39;second_arg2&#39;]]
+</span>
+<span class='comment'># get results (return value) for each call to the method while mocked
+</span><span class='id identifier rubyid_my_mock'>my_mock</span><span class='period'>.</span><span class='id identifier rubyid_mock'>mock</span><span class='period'>.</span><span class='id identifier rubyid_results'>results</span>
+<span class='comment'>#=&gt; [&#39;result1&#39;, &#39;result2&#39;]
+</span></code></pre>
 
 <h2 id="label-Development">Development</h2>
 
 <p>After forking the repo, run <code>bin/setup</code> to install dependencies. Then, run <code>rake test</code> to run the tests. You can also run <code>bin/console</code> for an interactive prompt that will allow you to experiment.</p>
 
-<p>When developing, to install Grift whith your changes onto your local machine, run <code>bundle exec rake install</code>. To release a new version, update the version number in <code>version.rb</code>, and then run <code>bundle exec rake release</code>, which will create a git tag for the version, push git commits and tags, and push the <code>.gem</code> file to <a href="https://rubygems.org">rubygems.org</a>.</p>
+<p>When developing, to install Grift whith your changes onto your local machine, run <code>bundle exec rake install</code> . To release a new version, update the version number in <code>version.rb</code> , and then run <code>bundle exec rake release</code> , which will create a git tag for the version, push git commits and tags, and push the <code>.gem</code> file to <a href="https://rubygems.org">rubygems.org</a>.</p>
 
 <h2 id="label-Contributing">Contributing</h2>
 
@@ -97,7 +159,7 @@
 </div></div>
 
       <div id="footer">
-  Generated on Sat Nov  6 16:22:59 2021 by
+  Generated on Sat Nov  6 17:10:23 2021 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.9.26 (ruby-2.7.1).
 </div>
