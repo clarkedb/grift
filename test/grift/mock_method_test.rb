@@ -234,4 +234,9 @@ class MockMethodTest < Minitest::Test
       Grift::MockMethod.new(Target, :full_name)
     end
   end
+
+  def test_it_mocks_a_constructor
+    Grift::MockMethod.new(Target, :new).mock_return_value
+    assert_nil Target.new(first_name: 'Jim')
+  end
 end

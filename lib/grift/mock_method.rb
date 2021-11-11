@@ -29,7 +29,7 @@ module Grift
     #
     def initialize(klass, method_name, watch: true)
       if Grift.restricted_method?(klass, method_name)
-        raise(Grift::Error, "Cannont mock restricted method #{method_name} for class #{klass}")
+        raise(Grift::Error, "Cannot mock restricted method #{method_name} for class #{klass}")
       end
 
       @klass = klass
@@ -41,8 +41,8 @@ module Grift
       # class methods are really instance methods of the singleton class
       @class_method = klass.singleton_class.instance_methods(true).include?(method_name)
 
-      unless class_instance.instance_methods(true).include?(method_name)
-        raise(Grift::Error, "Cannont mock unknown method #{method_name} for class #{klass}")
+      unless @class_method || class_instance.instance_methods(true).include?(method_name)
+        raise(Grift::Error, "Cannot mock unknown method #{method_name} for class #{klass}")
       end
 
       if class_instance.instance_methods.include?(@cache_method_name)
@@ -137,7 +137,7 @@ module Grift
       premock_setup
       mock_executions = @mock_executions # required to access inside class instance block
 
-      class_instance.remove_method(@method_name)
+      class_instance.remove_method(@method_name) if class_instance.instance_methods(false).include?(@method_name)
       class_instance.define_method @method_name do |*args|
         return_value = block.call(*args)
 
@@ -168,7 +168,7 @@ module Grift
       premock_setup
       mock_executions = @mock_executions # required to access inside class instance block
 
-      class_instance.remove_method(@method_name)
+      class_instance.remove_method(@method_name) if method_defined?
       class_instance.define_method @method_name do |*args|
         # record the args passed in the call to the method and the result
         mock_executions.store(args, return_value)
@@ -217,7 +217,7 @@ module Grift
       mock_executions = @mock_executions # required to access inside class instance block
       cache_method_name = @cache_method_name
 
-      class_instance.remove_method(@method_name)
+      class_instance.remove_method(@method_name) if method_defined?
       class_instance.define_method @method_name do |*args|
         return_value = send(cache_method_name, *args)
 
@@ -237,7 +237,7 @@ module Grift
     def unmock_method
       raise(Grift::Error, 'Method is not cached') unless @true_method_cached
 
-      class_instance.remove_method(@method_name)
+      class_instance.remove_method(@method_name) if method_defined?
       class_instance.alias_method(@method_name, @cache_method_name)
       class_instance.remove_method(@cache_method_name)
 
@@ -279,6 +279,17 @@ module Grift
     #
     def class_instance
       @class_method ? @klass.singleton_class : @klass
+    end
+
+    ##
+    # Checks if the method is defined on the class instance. If the method is
+    # inherited from the super class and has not been mocked yet, this will
+    # return false because the super class defined the method.
+    #
+    # @return [Boolean]
+    #
+    def method_defined?
+      class_instance.instance_methods(false).include?(@method_name)
     end
   end
 end
