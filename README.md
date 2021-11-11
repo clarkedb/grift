@@ -36,6 +36,14 @@ class Minitest::Test
 end
 ```
 
+Or for Ruby on Rails:
+
+```ruby
+class ActiveSupport::TestCase
+  include Grift::MinitestPlugin
+end
+```
+
 ## Usage
 
 For complete usage guide, see the [docs](https://clarkedb.github.io/grift/).
