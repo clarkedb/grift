@@ -7,7 +7,8 @@ module Grift
   # The config for Grift. This is readonly for now.
   #
   module Config
-    @restricted_methods = YAML.safe_load(File.read('lib/grift/config/restricted.yml'))
+    restricted_file_path = File.join(File.dirname(__FILE__), 'config/restricted.yml')
+    @restricted_methods = YAML.safe_load(File.read(restricted_file_path))
 
     class << self
       ##
