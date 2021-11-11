@@ -8,6 +8,14 @@ This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.htm
 
 N/A
 
+## [1.0.2](https://github.com/clarkedb/grift/releases/tag/v1.0.2) - 2021-11-11
+
+This version fixes a bug that prevented the mocking of methods defined by a class's super class.
+
+### Fixed
+
+* Allow mocks of inherited methods
+
 ## [1.0.1](https://github.com/clarkedb/grift/releases/tag/v1.0.1) - 2021-11-10
 
 This version fixes a bug that prevented most mocking features in Grift from functioning as expected.
