@@ -8,6 +8,19 @@ This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.htm
 
 N/A
 
+## [1.0.1](https://github.com/clarkedb/grift/releases/tag/v1.0.1) - 2021-11-10
+
+This version fixes a bug that prevented most mocking features in Grift from functioning as expected.
+
+### Fixed
+
+* Uses relative path for yaml config files
+
+### Updated
+
+* Updates `rubocop-performance`
+* Updates `rake`
+
 ## [1.0.0](https://github.com/clarkedb/grift/releases/tag/v1.0.0) - 2021-11-06
 
 The first major version of Grift! 100% documentation and 100% code coverage.
