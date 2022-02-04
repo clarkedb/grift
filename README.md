@@ -106,11 +106,19 @@ my_mock.mock.results
 #=> ['result1', 'result2']
 ```
 
+## Requirements
+
+Grift supports all Ruby versions >= 2.5 (including 3.1).
+
 ## Development
 
 After forking the repo, run `bin/setup` to install dependencies. Then, run `rake test` to run the tests. You can also run `bin/console` for an interactive prompt that will allow you to experiment.
 
 When developing, to install Grift whith your changes onto your local machine, run `bundle exec rake install` . To release a new version, update the version number in `version.rb` , and then run `bundle exec rake release` , which will create a git tag for the version, push git commits and tags, and push the `.gem` file to [rubygems.org](https://rubygems.org).
+
+### Docs
+
+The docs are generated using YARD. To build the docs, first `gem install yard`. Then run `yardoc` to build the new docs. This is always done before a release to update the docs that get published and made available with the gem.
 
 ## Contributing
 

@@ -19,6 +19,7 @@ Gem::Specification.new do |spec|
     'changelog_uri' => "#{spec.homepage}/blob/main/CHANGELOG.md",
     'documentation_uri' => spec.homepage.to_s,
     'homepage_uri' => spec.homepage.to_s,
+    'rubygems_mfa_required' => 'true',
     'source_code_uri' => spec.homepage.to_s
   }
 
