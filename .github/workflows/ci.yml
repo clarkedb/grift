@@ -26,13 +26,13 @@ jobs:
         run: bundle exec rubocop --format progress
 
   build:
-    needs: [ linting ]
+    needs: [linting]
     runs-on: ubuntu-latest
     name: build (ruby v${{ matrix.ruby }})
     strategy:
       fail-fast: false
       matrix:
-        ruby: [ '2.5', '2.6', '2.7', '3.0' ]
+        ruby: ["2.5", "2.6", "2.7", "3.0", "3.1"]
 
     steps:
       - uses: actions/checkout@v2
