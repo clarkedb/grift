@@ -106,6 +106,10 @@ my_mock.mock.results
 #=> ['result1', 'result2']
 ```
 
+## Requirements
+
+Grift supports all Ruby versions >= 2.5 (including 3.1).
+
 ## Development
 
 After forking the repo, run `bin/setup` to install dependencies. Then, run `rake test` to run the tests. You can also run `bin/console` for an interactive prompt that will allow you to experiment.
