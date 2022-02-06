@@ -9,13 +9,19 @@ GEM
     ansi (1.5.0)
     ast (2.4.2)
     builder (3.2.4)
+    childprocess (4.1.0)
     docile (1.4.0)
+    iniparse (1.5.0)
     minitest (5.15.0)
     minitest-reporters (1.5.0)
       ansi
       builder
       minitest (>= 5.0)
       ruby-progressbar
+    overcommit (0.58.0)
+      childprocess (>= 0.6.3, < 5)
+      iniparse (~> 1.4)
+      rexml (~> 3.2)
     parallel (1.21.0)
     parser (3.1.0.0)
       ast (~> 2.4.1)
@@ -57,6 +63,7 @@ DEPENDENCIES
   grift!
   minitest (>= 5.0)
   minitest-reporters (>= 1.4.3)
+  overcommit
   rake (>= 12.0)
   rubocop
   rubocop-minitest

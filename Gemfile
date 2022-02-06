@@ -14,6 +14,7 @@ group :development, :test do
 end
 
 group :development, :lint do
+  gem 'overcommit'
   gem 'rubocop'
   gem 'rubocop-minitest'
   gem 'rubocop-packaging', '>= 0.5'
