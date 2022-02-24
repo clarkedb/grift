@@ -44,3 +44,14 @@ jobs:
       - name: Test
         continue-on-error: ${{ matrix.experimental }}
         run: bundle exec rake test
+
+      - name: Upload coverage to Codecov
+        uses: codecov/codecov-action@v2
+        with:
+          token: ${{ secrets.CODECOV_TOKEN }}
+          directory: ./coverage/
+          files: ./.resultset.json
+          path_to_write_report: ./coverage/codecov_report.txt
+          name: codecov-umbrella
+          verbose: true
+          fail_ci_if_error: true
