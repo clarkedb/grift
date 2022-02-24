@@ -49,8 +49,7 @@ jobs:
         uses: codecov/codecov-action@v2
         with:
           token: ${{ secrets.CODECOV_TOKEN }}
-          directory: ./coverage/
-          files: ./.resultset.json
+          files: ./coverage/.resultset.json
           name: codecov-umbrella
           verbose: true
           fail_ci_if_error: true
