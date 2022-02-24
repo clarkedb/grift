@@ -4,8 +4,10 @@ updates:
   - directory: /
     open-pull-requests-limit: 10
     package-ecosystem: bundler
-    target-branch: develop
+    target-branch: main
     schedule:
       interval: weekly
     labels:
       - dependencies
+    assignees:
+      - clarkedb
