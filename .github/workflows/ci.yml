@@ -3,6 +3,7 @@ name: CI
 on: push
 
 env:
+  CI: true
   GIT_COMMIT_SHA: ${{ github.sha }}
   GIT_BRANCH: ${{ github.ref }}
 
