@@ -3,6 +3,7 @@ name: CI
 on: push
 
 env:
+  CI: true
   GIT_COMMIT_SHA: ${{ github.sha }}
   GIT_BRANCH: ${{ github.ref }}
 
@@ -44,3 +45,12 @@ jobs:
       - name: Test
         continue-on-error: ${{ matrix.experimental }}
         run: bundle exec rake test
+
+      - name: Upload coverage to Codecov
+        uses: codecov/codecov-action@v2
+        with:
+          token: ${{ secrets.CODECOV_TOKEN }}
+          files: ./coverage/.resultset.json
+          name: codecov-umbrella
+          verbose: true
+          fail_ci_if_error: true

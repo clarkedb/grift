@@ -11,6 +11,11 @@ unless ENV['CODE_COVERAGE'] == 'false'
 
     enable_coverage :branch
   end
+
+  if ENV['CI'] == 'true'
+    require 'codecov'
+    SimpleCov.formatter = SimpleCov::Formatter::Codecov
+  end
 end
 
 # load gem files

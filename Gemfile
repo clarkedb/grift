@@ -8,12 +8,14 @@ gemspec
 gem 'rake', '>= 12.0'
 
 group :development, :test do
+  gem 'codecov'
   gem 'minitest', '>= 5.0'
   gem 'minitest-reporters', '>= 1.4.3'
   gem 'simplecov', '>= 0.21.2'
 end
 
 group :development, :lint do
+  gem 'overcommit'
   gem 'rubocop'
   gem 'rubocop-minitest'
   gem 'rubocop-packaging', '>= 0.5'

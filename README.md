@@ -3,6 +3,7 @@
 [![gem version](https://badge.fury.io/rb/grift.svg)](https://rubygems.org/gems/grift)
 [![downloads](https://ruby-gem-downloads-badge.herokuapp.com/grift)](https://rubygems.org/gems/grift)
 [![build](https://github.com/clarkedb/grift/actions/workflows/ci.yml/badge.svg)](https://github.com/clarkedb/grift/actions?query=workflow%3ACI)
+[![codecov](https://codecov.io/gh/clarkedb/grift/branch/main/graph/badge.svg)](https://codecov.io/gh/clarkedb/grift)
 
 Mocking and spying in Ruby's MiniTest framework
 
@@ -114,7 +115,7 @@ Grift supports all Ruby versions >= 2.5 (including 3.1).
 
 After forking the repo, run `bin/setup` to install dependencies. Then, run `rake test` to run the tests. You can also run `bin/console` for an interactive prompt that will allow you to experiment.
 
-When developing, to install Grift whith your changes onto your local machine, run `bundle exec rake install` . To release a new version, update the version number in `version.rb` , and then run `bundle exec rake release` , which will create a git tag for the version, push git commits and tags, and push the `.gem` file to [rubygems.org](https://rubygems.org).
+When developing, to install Grift whith your changes onto your local machine, run `bundle exec rake install` . For those with write access: to release a new version, update the version number in `version.rb` , and then run `bundle exec rake release` , which will create a git tag for the version, push git commits and tags, and push the `.gem` file to [rubygems.org](https://rubygems.org).
 
 ### Docs
 

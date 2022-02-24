@@ -9,19 +9,27 @@ GEM
     ansi (1.5.0)
     ast (2.4.2)
     builder (3.2.4)
+    childprocess (4.1.0)
+    codecov (0.6.0)
+      simplecov (>= 0.15, < 0.22)
     docile (1.4.0)
+    iniparse (1.5.0)
     minitest (5.15.0)
     minitest-reporters (1.5.0)
       ansi
       builder
       minitest (>= 5.0)
       ruby-progressbar
+    overcommit (0.58.0)
+      childprocess (>= 0.6.3, < 5)
+      iniparse (~> 1.4)
+      rexml (~> 3.2)
     parallel (1.21.0)
     parser (3.1.0.0)
       ast (~> 2.4.1)
     rainbow (3.1.1)
     rake (13.0.6)
-    regexp_parser (2.2.0)
+    regexp_parser (2.2.1)
     rexml (3.2.5)
     rubocop (1.25.1)
       parallel (~> 1.10)
@@ -32,9 +40,9 @@ GEM
       rubocop-ast (>= 1.15.1, < 2.0)
       ruby-progressbar (~> 1.7)
       unicode-display_width (>= 1.4.0, < 3.0)
-    rubocop-ast (1.15.1)
+    rubocop-ast (1.15.2)
       parser (>= 3.0.1.1)
-    rubocop-minitest (0.17.1)
+    rubocop-minitest (0.17.2)
       rubocop (>= 0.90, < 2.0)
     rubocop-packaging (0.5.1)
       rubocop (>= 0.89, < 2.0)
@@ -54,9 +62,11 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
+  codecov
   grift!
   minitest (>= 5.0)
   minitest-reporters (>= 1.4.3)
+  overcommit
   rake (>= 12.0)
   rubocop
   rubocop-minitest
