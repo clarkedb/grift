@@ -133,13 +133,13 @@ module Grift
     #
     # @return [Grift::MockMethod] the mock itself
     #
-    def mock_implementation(&block)
+    def mock_implementation(*)
       premock_setup
       mock_executions = @mock_executions # required to access inside class instance block
 
       class_instance.remove_method(@method_name) if class_instance.instance_methods(false).include?(@method_name)
       class_instance.define_method @method_name do |*args|
-        return_value = block.call(*args)
+        return_value = yield(*args)
 
         # record the args passed in the call to the method and the result
         mock_executions.store(args, return_value)

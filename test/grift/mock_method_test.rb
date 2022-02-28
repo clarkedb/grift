@@ -8,7 +8,7 @@ class MockMethodTest < Minitest::Test
     mock_target_name = 'Dwight Schrute'
 
     target = Target.new(first_name: 'Michael', last_name: 'Scott')
-    assert target.respond_to?(:full_name)
+    assert_respond_to target, :full_name
     assert_equal true_target_name, target.full_name
 
     full_name_mock = Grift::MockMethod.new(Target, :full_name)
@@ -26,7 +26,7 @@ class MockMethodTest < Minitest::Test
   def test_it_mocks_a_class_method_return_value
     target = Target.new(first_name: 'Jerry')
     mock_target = Target.new(first_name: 'Larry')
-    assert Target.respond_to?(:mimic)
+    assert_respond_to Target, :mimic
     assert_equal target.first_name, Target.mimic(target).first_name
 
     mimic_mock = Grift::MockMethod.new(Target, :mimic)
@@ -98,7 +98,7 @@ class MockMethodTest < Minitest::Test
   def test_it_mocks_an_instance_method_implementation
     target_full_name = 'Buster Bluth'
     target = Target.new(first_name: 'Buster', last_name: 'Bluth')
-    assert target.respond_to?(:full_name)
+    assert_respond_to target, :full_name
     assert_equal target_full_name, target.full_name
 
     full_name_mock = Grift::MockMethod.new(Target, :full_name)
@@ -115,7 +115,7 @@ class MockMethodTest < Minitest::Test
 
   def test_it_mocks_an_class_method_implementation
     target = Target.new(first_name: 'Jerry')
-    assert Target.respond_to?(:mimic)
+    assert_respond_to Target, :mimic
     assert_equal target.first_name, Target.mimic(target).first_name
 
     mimic_mock = Grift::MockMethod.new(Target, :mimic)
@@ -138,7 +138,7 @@ class MockMethodTest < Minitest::Test
 
   def test_it_clears_executions_and_keeps_method_mocked_on_mock_clear
     target = Target.new(gullible: true)
-    assert target.respond_to?(:convince)
+    assert_respond_to target, :convince
     assert_instance_of Array, target.convince('The earth is flat')
 
     convince_mock = Grift::MockMethod.new(Target, :convince)
@@ -153,7 +153,7 @@ class MockMethodTest < Minitest::Test
 
   def test_it_clears_executions_and_mocks_return_value_nil_on_mock_reset
     target = Target.new(gullible: true)
-    assert target.respond_to?(:convince)
+    assert_respond_to target, :convince
     assert_instance_of Array, target.convince('The earth is flat')
 
     convince_mock = Grift::MockMethod.new(Target, :convince)
@@ -168,7 +168,7 @@ class MockMethodTest < Minitest::Test
 
   def test_it_clears_executions_and_unmocks_method_on_mock_restore
     target = Target.new(gullible: true)
-    assert target.respond_to?(:convince)
+    assert_respond_to target, :convince
     assert_instance_of Array, target.convince('The earth is flat')
 
     convince_mock = Grift::MockMethod.new(Target, :convince)
