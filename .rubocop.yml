@@ -9,6 +9,11 @@
 #
 # See https://docs.rubocop.org/rubocop/configuration
 
+require:
+  - rubocop-minitest
+  - rubocop-packaging
+  - rubocop-performance
+
 # General
 AllCops:
   NewCops: enable
@@ -118,6 +123,10 @@ Metrics/MethodLength:
     - heredoc
   Exclude:
     - "test/**/*"
+
+# Minitest
+Minitest/MultipleAssertions:
+  Max: 10
 
 # Naming
 Naming/InclusiveLanguage:
