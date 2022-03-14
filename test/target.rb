@@ -26,7 +26,25 @@ class Target
     !@secrets.empty?
   end
 
-  def self.mimic(target)
-    Target.new(first_name: target.first_name, last_name: target.last_name, gullible: false)
+  def change_name(first_name: nil, last_name: nil)
+    @first_name = first_name if first_name
+    @last_name = last_name if last_name
+  end
+
+  def self.mimic(target, gullible: false)
+    Target.new(first_name: target.first_name, last_name: target.last_name, gullible: gullible)
+  end
+
+  protected
+
+  def gullible?
+    @gullible
+  end
+
+  private
+
+  def wipe_memory
+    @knowledge = []
+    @secrets = []
   end
 end
