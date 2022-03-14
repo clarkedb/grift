@@ -6,7 +6,13 @@ This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.htm
 
 ## Unreleased
 
-N/A
+### Added
+
+* Support for mocking private instance and class methods
+
+### Fixed
+
+* When mocking protected methods, the method now remains protected while mocked and after unmocking
 
 ## [1.1.0](https://github.com/clarkedb/grift/releases/tag/v1.1.0) - 2022-02-03
 
@@ -15,14 +21,6 @@ This version adds support for Ruby 3.1 and updates various dependencies.
 ### Added
 
 * Support Ruby 3.1
-
-### Updated
-
-* Updates `minitest`
-* Updates `minitest-reporters`
-* Updates `rubocop`
-* Updates `rubocop-minitest`
-* Updates `rubocop-performance`
 
 ## [1.0.2](https://github.com/clarkedb/grift/releases/tag/v1.0.2) - 2021-11-11
 
