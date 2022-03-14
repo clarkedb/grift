@@ -197,7 +197,7 @@ class MockMethodTest < Minitest::Test
     end
   end
 
-  def test_raises_error_when_unknwon_method_mocked
+  def test_raises_error_when_unknown_method_mocked
     refute_respond_to String, :banana
     assert_raises Grift::Error do
       Grift::MockMethod.new(String, :banana)
@@ -238,5 +238,87 @@ class MockMethodTest < Minitest::Test
   def test_it_mocks_a_constructor
     Grift::MockMethod.new(Target, :new).mock_return_value
     assert_nil Target.new(first_name: 'Jim')
+  end
+
+  def test_it_watches_a_protected_method
+    target = Target.new(gullible: false)
+    refute target.send(:gullible?)
+    assert Target.protected_method_defined?(:gullible?)
+    protected_mock = Grift::MockMethod.new(Target, :gullible?)
+    assert_equal :protected, protected_mock.method_access
+    assert Target.protected_method_defined?(:gullible?), 'Expected method to be protected after mocking'
+    refute target.send(:gullible?)
+    refute_empty protected_mock.mock
+    protected_mock.mock_restore
+    assert Target.protected_method_defined?(:gullible?), 'Expected method to be protected after unmocking'
+  end
+
+  def test_it_watches_a_private_method
+    target = Target.new(secrets: ['the password is 1234'])
+    assert target.knows_secrets?
+    assert Target.private_method_defined?(:wipe_memory)
+    private_mock = Grift::MockMethod.new(Target, :wipe_memory)
+    assert_equal :private, private_mock.method_access
+    assert Target.private_method_defined?(:wipe_memory), 'Expected method to be private after mocking'
+    target.send(:wipe_memory)
+    refute target.knows_secrets?
+    refute_empty private_mock.mock
+    private_mock.mock_restore
+    assert Target.private_method_defined?(:wipe_memory), 'Expected method to be private after unmocking'
+  end
+
+  def test_it_mocks_a_protected_method_return_value
+    target = Target.new(gullible: false)
+    refute target.send(:gullible?)
+    assert Target.protected_method_defined?(:gullible?)
+    protected_mock = Grift::MockMethod.new(Target, :gullible?).mock_return_value(true)
+    assert_equal :protected, protected_mock.method_access
+    assert Target.protected_method_defined?(:gullible?), 'Expected method to be protected after mocking'
+    assert target.send(:gullible?)
+    protected_mock.mock_restore
+    assert Target.protected_method_defined?(:gullible?), 'Expected method to be protected after unmocking'
+  end
+
+  def test_it_mocks_a_private_method_return_value
+    target = Target.new(secrets: ['the password is 1234'])
+    assert target.knows_secrets?
+    assert Target.private_method_defined?(:wipe_memory)
+    private_mock = Grift::MockMethod.new(Target, :wipe_memory).mock_return_value
+    assert_equal :private, private_mock.method_access
+    assert Target.private_method_defined?(:wipe_memory), 'Expected method to be private after mocking'
+    assert_nil target.send(:wipe_memory)
+    assert target.knows_secrets?
+    private_mock.mock_restore
+    assert Target.private_method_defined?(:wipe_memory), 'Expected method to be private after unmocking'
+  end
+
+  def test_it_mocks_a_protected_method_implementation
+    target = Target.new(gullible: false)
+    refute target.send(:gullible?)
+    assert Target.protected_method_defined?(:gullible?)
+    protected_mock = Grift::MockMethod.new(Target, :gullible?).mock_implementation do
+      return true
+    end
+    assert_equal :protected, protected_mock.method_access
+    assert Target.protected_method_defined?(:gullible?), 'Expected method to be protected after mocking'
+    assert target.send(:gullible?)
+    protected_mock.mock_restore
+    assert Target.protected_method_defined?(:gullible?), 'Expected method to be protected after unmocking'
+  end
+
+  def test_it_mocks_a_private_method_implementation
+    target = Target.new(secrets: ['the password is 1234'], gullible: true)
+    assert target.knows_secrets?
+    assert Target.private_method_defined?(:wipe_memory)
+    private_mock = Grift::MockMethod.new(Target, :wipe_memory).mock_implementation do
+      target.convince('the password is wrong')
+    end
+    assert_equal :private, private_mock.method_access
+    assert Target.private_method_defined?(:wipe_memory), 'Expected method to be private after mocking'
+    target.send(:wipe_memory)
+    assert target.knows_secrets?
+    assert_equal ['the password is wrong'], target.knowledge
+    private_mock.mock_restore
+    assert Target.private_method_defined?(:wipe_memory), 'Expected method to be private after unmocking'
   end
 end

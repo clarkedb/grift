@@ -6,7 +6,7 @@ module Grift
   # usually returns a {Grift::MockMethod}.
   #
   class MockMethod
-    attr_reader :true_method_cached, :klass, :method_name
+    attr_reader :true_method_cached, :klass, :method_name, :method_access
 
     CACHE_METHOD_PREFIX = 'grift_cache'
     private_constant :CACHE_METHOD_PREFIX
@@ -39,13 +39,13 @@ module Grift
       @cache_method_name = "#{CACHE_METHOD_PREFIX}_#{method_name}".to_sym
 
       # class methods are really instance methods of the singleton class
-      @class_method = klass.singleton_class.instance_methods(true).include?(method_name)
+      @class_method = klass.singleton_class.method_defined?(method_name, true) ||
+        klass.singleton_class.private_method_defined?(method_name, true)
 
-      unless @class_method || class_instance.instance_methods(true).include?(method_name)
-        raise(Grift::Error, "Cannot mock unknown method #{method_name} for class #{klass}")
-      end
+      @method_access = method_access_definition
+      raise(Grift::Error, "Cannot mock unknown method #{method_name} for class #{klass}") unless @method_access
 
-      if class_instance.instance_methods.include?(@cache_method_name)
+      if class_instance.method_defined?(@cache_method_name)
         raise(Grift::Error, "Cannot mock already mocked method #{method_name} for class #{klass}")
       end
 
@@ -145,6 +145,7 @@ module Grift
         mock_executions.store(args, return_value)
         return return_value
       end
+      class_instance.send(@method_access, @method_name)
 
       self
     end
@@ -174,6 +175,7 @@ module Grift
         mock_executions.store(args, return_value)
         return return_value
       end
+      class_instance.send(@method_access, @method_name)
 
       self
     end
@@ -225,6 +227,7 @@ module Grift
         mock_executions.store(args, return_value)
         return return_value
       end
+      class_instance.send(@method_access, @method_name)
 
       self
     end
@@ -289,7 +292,24 @@ module Grift
     # @return [Boolean]
     #
     def method_defined?
-      class_instance.instance_methods(false).include?(@method_name)
+      class_instance.instance_methods(false).include?(@method_name) ||
+        class_instance.private_instance_methods(false).include?(@method_name)
+    end
+
+    ##
+    # Checks for the original access of the method (public, protected, private).
+    # Returns `nil` if no definition for the method is found.
+    #
+    # @return [Symbol]
+    #
+    def method_access_definition
+      if class_instance.public_method_defined?(@method_name, true)
+        :public
+      elsif class_instance.protected_method_defined?(@method_name, true)
+        :protected
+      elsif class_instance.private_method_defined?(@method_name, true)
+        :private
+      end
     end
   end
 end

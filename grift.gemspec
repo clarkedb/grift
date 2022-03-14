@@ -12,7 +12,7 @@ Gem::Specification.new do |spec|
   spec.description   = "A gem for simple mocking and spying in Ruby's MiniTest framework."
   spec.homepage      = 'https://github.com/clarkedb/grift'
   spec.license       = 'MIT'
-  spec.required_ruby_version = Gem::Requirement.new('>= 2.5.0')
+  spec.required_ruby_version = Gem::Requirement.new('>= 2.6.0')
 
   spec.metadata = {
     'bug_tracker_uri' => "#{spec.homepage}/issues",
