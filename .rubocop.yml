@@ -125,8 +125,14 @@ Metrics/MethodLength:
     - "test/**/*"
 
 # Minitest
+Minitest/AssertPredicate:
+  Enabled: false
+
 Minitest/MultipleAssertions:
   Max: 10
+
+Minitest/RefutePredicate:
+  Enabled: false
 
 # Naming
 Naming/InclusiveLanguage:
