@@ -113,7 +113,7 @@ class MockMethodTest < Minitest::Test
     assert_equal expected_full_name_result, full_name_mock.mock.results.first
   end
 
-  def test_it_mocks_an_class_method_implementation
+  def test_it_mocks_a_class_method_implementation
     target = Target.new(first_name: 'Jerry')
     assert_respond_to Target, :mimic
     assert_equal target.first_name, Target.mimic(target).first_name
@@ -127,7 +127,7 @@ class MockMethodTest < Minitest::Test
     expected_mimic_result = target.full_name * 2
     assert_equal expected_mimic_result, mocked_result
 
-    assert_equal [target], mimic_mock.mock.calls.first
+    assert_equal [target], mimic_mock.mock.calls.first.args
     assert_equal expected_mimic_result, mimic_mock.mock.results.first
   end
 

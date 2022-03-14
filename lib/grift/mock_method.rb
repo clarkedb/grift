@@ -131,7 +131,7 @@ module Grift
     #   MyClass.my_method(1, 2)
     #   #=> [2, 1]
     #
-    # @return [Grift::MockMethod] the mock itself
+    # @return [self] the mock itself
     #
     def mock_implementation(*)
       premock_setup
@@ -163,7 +163,7 @@ module Grift
     #
     # @param return_value the value to return from the method
     #
-    # @return [Grift::MockMethod] the mock itself
+    # @return [self] the mock itself
     #
     def mock_return_value(return_value = nil)
       premock_setup
@@ -212,7 +212,7 @@ module Grift
     ##
     # Watches the method without mocking its impelementation or return value.
     #
-    # @return [Grift::MockMethod] the mock itself
+    # @return [self] the mock itself
     #
     def watch_method
       premock_setup

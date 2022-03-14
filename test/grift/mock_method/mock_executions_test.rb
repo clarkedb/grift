@@ -21,6 +21,6 @@ class MockExecutionsTest < Minitest::Test
     assert_equal 1, executions.count
 
     assert_equal result, executions.results.first
-    assert_equal args, executions.calls.first
+    assert_equal args, executions.calls.first.args
   end
 end
