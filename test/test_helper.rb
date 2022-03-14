@@ -29,6 +29,7 @@ Minitest::Reporters.use! [Minitest::Reporters::SpecReporter.new]
 
 # classes for mock tests
 require 'target'
+require 'mark'
 
 # rubocop:disable Style/ClassAndModuleChildren
 class Minitest::Test
