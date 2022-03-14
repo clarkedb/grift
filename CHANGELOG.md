@@ -6,6 +6,10 @@ This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.htm
 
 ## Unreleased
 
+### Changed
+
+* Dropped support for Ruby 2.5
+
 ### Added
 
 * Support for mocking private instance and class methods
@@ -13,6 +17,7 @@ This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.htm
 ### Fixed
 
 * When mocking protected methods, the method now remains protected while mocked and after unmocking
+* When mocking inherited methods, the method goes back to the ancestor's definition after unmocking
 
 ## [1.1.0](https://github.com/clarkedb/grift/releases/tag/v1.1.0) - 2022-02-03
 

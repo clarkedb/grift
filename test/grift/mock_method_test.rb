@@ -321,4 +321,16 @@ class MockMethodTest < Minitest::Test
     private_mock.mock_restore
     assert Target.private_method_defined?(:wipe_memory), 'Expected method to be private after unmocking'
   end
+
+  def test_it_mocks_inherited_methods
+    mark = Mark.new(first_name: 'Charles', last_name: 'Boyle')
+    refute Mark.method_defined?(:full_name, false)
+    assert Mark.method_defined?(:full_name, true)
+    full_name_mock = Grift::MockMethod.new(Mark, :full_name).mock_return_value('Jake Peralta')
+    assert Mark.method_defined?(:full_name, false), 'Expected method to be defined by child after mocking'
+    assert_equal 'Jake Peralta', mark.full_name
+    full_name_mock.mock_restore
+    refute Mark.method_defined?(:full_name, false), 'Expected method not to be defined by child after unmocking'
+    assert Mark.method_defined?(:full_name, true), 'Expected method to be defined by an ancestor after unmocking'
+  end
 end

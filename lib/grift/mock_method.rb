@@ -42,7 +42,7 @@ module Grift
       @class_method = klass.singleton_class.method_defined?(method_name, true) ||
         klass.singleton_class.private_method_defined?(method_name, true)
 
-      @method_access = method_access_definition
+      @method_access, @inherited = method_access_definition
       raise(Grift::Error, "Cannot mock unknown method #{method_name} for class #{klass}") unless @method_access
 
       if class_instance.method_defined?(@cache_method_name)
@@ -137,7 +137,7 @@ module Grift
       premock_setup
       mock_executions = @mock_executions # required to access inside class instance block
 
-      class_instance.remove_method(@method_name) if class_instance.instance_methods(false).include?(@method_name)
+      class_instance.remove_method(@method_name) if !@inherited && method_defined?
       class_instance.define_method @method_name do |*args|
         return_value = yield(*args)
 
@@ -169,7 +169,7 @@ module Grift
       premock_setup
       mock_executions = @mock_executions # required to access inside class instance block
 
-      class_instance.remove_method(@method_name) if method_defined?
+      class_instance.remove_method(@method_name) if !@inherited && method_defined?
       class_instance.define_method @method_name do |*args|
         # record the args passed in the call to the method and the result
         mock_executions.store(args, return_value)
@@ -219,7 +219,7 @@ module Grift
       mock_executions = @mock_executions # required to access inside class instance block
       cache_method_name = @cache_method_name
 
-      class_instance.remove_method(@method_name) if method_defined?
+      class_instance.remove_method(@method_name) if !@inherited && method_defined?
       class_instance.define_method @method_name do |*args|
         return_value = send(cache_method_name, *args)
 
@@ -241,7 +241,7 @@ module Grift
       raise(Grift::Error, 'Method is not cached') unless @true_method_cached
 
       class_instance.remove_method(@method_name) if method_defined?
-      class_instance.alias_method(@method_name, @cache_method_name)
+      class_instance.alias_method(@method_name, @cache_method_name) unless @inherited
       class_instance.remove_method(@cache_method_name)
 
       @true_method_cached = false
@@ -297,18 +297,20 @@ module Grift
     end
 
     ##
-    # Checks for the original access of the method (public, protected, private).
+    # Checks for the original access of the method (public, protected, private),
+    # and if that definition is inherited from an ancestor (super) class.
     # Returns `nil` if no definition for the method is found.
     #
-    # @return [Symbol]
+    # @return [Symbol] the method access
+    # @return [Boolean] true if the method is inherited
     #
     def method_access_definition
       if class_instance.public_method_defined?(@method_name, true)
-        :public
+        [:public, !class_instance.public_method_defined?(@method_name, false)]
       elsif class_instance.protected_method_defined?(@method_name, true)
-        :protected
+        [:protected, !class_instance.protected_method_defined?(@method_name, false)]
       elsif class_instance.private_method_defined?(@method_name, true)
-        :private
+        [:private, !class_instance.private_method_defined?(@method_name, false)]
       end
     end
   end
