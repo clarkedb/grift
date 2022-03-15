@@ -60,7 +60,7 @@
       <div id="content"><div id='filecontents'>
 <h1 id="label-Grift">Grift</h1>
 
-<p><a href="https://rubygems.org/gems/grift"><img src="https://badge.fury.io/rb/grift.svg"></a> <a href="https://rubygems.org/gems/grift"><img src="https://ruby-gem-downloads-badge.herokuapp.com/grift"></a> <a href="https://github.com/clarkedb/grift/actions?query=workflow%3ACI"><img src="https://github.com/clarkedb/grift/actions/workflows/ci.yml/badge.svg"></a></p>
+<p><a href="https://rubygems.org/gems/grift"><img src="https://badge.fury.io/rb/grift.svg"></a> <a href="https://rubygems.org/gems/grift"><img src="https://ruby-gem-downloads-badge.herokuapp.com/grift"></a> <a href="https://github.com/clarkedb/grift/actions?query=workflow%3ACI"><img src="https://github.com/clarkedb/grift/actions/workflows/ci.yml/badge.svg"></a> <a href="https://codecov.io/gh/clarkedb/grift"><img src="https://codecov.io/gh/clarkedb/grift/branch/main/graph/badge.svg"></a></p>
 
 <p>Mocking and spying in Ruby’s MiniTest framework</p>
 
@@ -127,46 +127,70 @@
 </span><span class='kw'>end</span>
 </code></pre>
 
-<h3 id="label-Chaining">Chaining</h3>
+<p>or for a method taking keyword arguments:</p>
 
-<p>You can chain <code>mock_return_value</code> and <code>mock_implementation</code> after initializing the mock.</p>
+<pre class="code ruby"><code class="ruby">my_spy = Grift.spy_on(MyClass, :my_method)
+my_spy.mock_implementation do |arg1, arg2, **kwargs|
+    x = do_something(arg1, arg2, kwargs[:arg3], kwargs[:arg4])
+    do_something_else(x) # the last line will be returned
+end
 
-<pre class="code ruby"><code class="ruby"><span class='id identifier rubyid_my_mock'>my_mock</span> <span class='op'>=</span> <span class='const'><span class='object_link'><a href="Grift.html" title="Grift (module)">Grift</a></span></span><span class='period'>.</span><span class='id identifier rubyid_spy_on'><span class='object_link'><a href="Grift.html#spy_on-class_method" title="Grift.spy_on (method)">spy_on</a></span></span><span class='lparen'>(</span><span class='const'>MyClass</span><span class='comma'>,</span> <span class='symbol'>:my_method</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_mock_implementation'><span class='object_link'><a href="Grift/MockMethod.html#mock_implementation-instance_method" title="Grift::MockMethod#mock_implementation (method)">mock_implementation</a></span></span> <span class='kw'>do</span> <span class='op'>|</span><span class='op'>*</span><span class='id identifier rubyid_args'>args</span><span class='op'>|</span>
-    <span class='id identifier rubyid_do_something'>do_something</span><span class='lparen'>(</span><span class='op'>*</span><span class='id identifier rubyid_args'>args</span><span class='rparen'>)</span>
-<span class='kw'>end</span>
-<span class='comment'>#=&gt; Grift::MockMethod object is returned
-</span></code></pre>
+### Chaining
 
-<h3 id="label-Results">Results</h3>
+You can chain `mock_return_value` and `mock_implementation` after initializing the mock.
+</code></pre>
 
-<p>To get the results and details of the calls, call <code>mock</code> on your mock method object.</p>
+<p>ruby my_mock = Grift.spy_on(MyClass, :my_method).mock_implementation do |<em>args, kwargs|  do_something(</em>args, **kwargs) end</p>
 
-<pre class="code ruby"><code class="ruby"><span class='comment'># get the number of times the mocked method has been called
-</span><span class='id identifier rubyid_my_mock'>my_mock</span><span class='period'>.</span><span class='id identifier rubyid_mock'>mock</span><span class='period'>.</span><span class='id identifier rubyid_count'>count</span>
-<span class='comment'>#=&gt; 2
-</span>
-<span class='comment'># get args for each call to the method while mocked
-</span><span class='id identifier rubyid_my_mock'>my_mock</span><span class='period'>.</span><span class='id identifier rubyid_mock'>mock</span><span class='period'>.</span><span class='id identifier rubyid_calls'>calls</span>
-<span class='comment'>#=&gt; [[&#39;first_arg1&#39;, &#39;second_arg1&#39;], [&#39;first_arg2&#39;, &#39;second_arg2&#39;]]
-</span>
-<span class='comment'># get results (return value) for each call to the method while mocked
-</span><span class='id identifier rubyid_my_mock'>my_mock</span><span class='period'>.</span><span class='id identifier rubyid_mock'>mock</span><span class='period'>.</span><span class='id identifier rubyid_results'>results</span>
-<span class='comment'>#=&gt; [&#39;result1&#39;, &#39;result2&#39;]
-</span></code></pre>
+<h1 id="label-3D-3E+Grift-3A-3AMockMethod+object+is+returned">=&gt; Grift::MockMethod object is returned</h1>
+
+<pre class="code ruby"><code class="ruby">
+### Results
+
+To get the results and details of the calls, call `mock` on your mock method object.
+</code></pre>
+
+<p>ruby</p>
+
+<h1 id="label-get+the+number+of+times+the+mocked+method+has+been+called">get the number of times the mocked method has been called</h1>
+
+<p>my_mock.mock.count</p>
+
+<h1 id="label-3D-3E+2">=&gt; 2</h1>
+
+<h1 id="label-get+args+for+each+call+to+the+method+while+mocked">get args for each call to the method while mocked</h1>
+
+<p><a href="0">my_mock.mock.calls</a>.args</p>
+
+<h1 id="label-3D-3E+-5B-27first_arg1-27-2C+-27second_arg1-27-5D">=&gt; [‘first_arg1’, ‘second_arg1’]</h1>
+
+<h1 id="label-get+kwargs+for+each+call+to+the+method+while+mocked">get kwargs for each call to the method while mocked</h1>
+
+<p><a href="0">my_mock.mock.calls</a>.kwargs</p>
+
+<h1 id="label-3D-3E+-7B+first_arg1-3A+-27value-27+-7D">=&gt; { first_arg1: ‘value’ }</h1>
+
+<h1 id="label-get+results+-28return+value-29+for+each+call+to+the+method+while+mocked">get results (return value) for each call to the method while mocked</h1>
+
+<p>my_mock.mock.results</p>
+
+<h1 id="label-3D-3E+-5B-27result1-27-2C+-27result2-27-5D">=&gt; [‘result1’, ‘result2’]</h1>
+
+<p>“‘</p>
 
 <h2 id="label-Requirements">Requirements</h2>
 
-<p>Grift supports all Ruby versions &gt;= 2.5 (including 3.1).</p>
+<p>Grift supports all Ruby versions &gt;= 2.7 (including 3.1).</p>
 
 <h2 id="label-Development">Development</h2>
 
 <p>After forking the repo, run <code>bin/setup</code> to install dependencies. Then, run <code>rake test</code> to run the tests. You can also run <code>bin/console</code> for an interactive prompt that will allow you to experiment.</p>
 
-<p>When developing, to install Grift whith your changes onto your local machine, run <code>bundle exec rake install</code> . To release a new version, update the version number in <code>version.rb</code> , and then run <code>bundle exec rake release</code> , which will create a git tag for the version, push git commits and tags, and push the <code>.gem</code> file to <a href="https://rubygems.org">rubygems.org</a>.</p>
+<p>When developing, to install Grift whith your changes onto your local machine, run <code>bundle exec rake install</code> . For those with write access: to release a new version, update the version number in <code>version.rb</code> , and then run <code>bundle exec rake release</code> , which will create a git tag for the version, push git commits and tags, and push the <code>.gem</code> file to <a href="https://rubygems.org">rubygems.org</a>.</p>
 
 <h3 id="label-Docs">Docs</h3>
 
-<p>The docs are generated using YARD. To build the docs, first <code>gem install yard</code>. Then run <code>yardoc</code> to build the new docs. This is always done before a release to update the docs that get published and made available with the gem.</p>
+<p>The docs are generated using YARD. To build the docs, first <code>gem install yard</code> . Then run <code>yardoc</code> to build the new docs. This is always done before a release to update the docs that get published and made available with the gem.</p>
 
 <h2 id="label-Contributing">Contributing</h2>
 
@@ -174,9 +198,9 @@
 </div></div>
 
       <div id="footer">
-  Generated on Thu Feb  3 20:35:19 2022 by
+  Generated on Mon Mar 14 21:41:20 2022 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
-  0.9.27 (ruby-3.1.0).
+  0.9.27 (ruby-2.7.5).
 </div>
 
     </div>
