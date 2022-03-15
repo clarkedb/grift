@@ -15,12 +15,14 @@ class MockExecutionsTest < Minitest::Test
     assert_empty executions
 
     args = %w[what is the answer?]
+    kwargs = { test: true }
     result = 42
-    executions.store(args, result)
+    executions.store(args: args, kwargs: kwargs, result: result)
     refute_empty executions
     assert_equal 1, executions.count
 
     assert_equal result, executions.results.first
-    assert_equal args, executions.calls.first
+    assert_equal args, executions.calls.first.args
+    assert_equal kwargs, executions.calls.first.kwargs
   end
 end

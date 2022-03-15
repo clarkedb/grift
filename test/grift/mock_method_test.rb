@@ -113,7 +113,7 @@ class MockMethodTest < Minitest::Test
     assert_equal expected_full_name_result, full_name_mock.mock.results.first
   end
 
-  def test_it_mocks_an_class_method_implementation
+  def test_it_mocks_a_class_method_implementation
     target = Target.new(first_name: 'Jerry')
     assert_respond_to Target, :mimic
     assert_equal target.first_name, Target.mimic(target).first_name
@@ -127,7 +127,7 @@ class MockMethodTest < Minitest::Test
     expected_mimic_result = target.full_name * 2
     assert_equal expected_mimic_result, mocked_result
 
-    assert_equal [target], mimic_mock.mock.calls.first
+    assert_equal [target], mimic_mock.mock.calls.first.args
     assert_equal expected_mimic_result, mimic_mock.mock.results.first
   end
 
@@ -244,11 +244,13 @@ class MockMethodTest < Minitest::Test
     target = Target.new(gullible: false)
     refute target.send(:gullible?)
     assert Target.protected_method_defined?(:gullible?)
+
     protected_mock = Grift::MockMethod.new(Target, :gullible?)
     assert_equal :protected, protected_mock.method_access
     assert Target.protected_method_defined?(:gullible?), 'Expected method to be protected after mocking'
     refute target.send(:gullible?)
     refute_empty protected_mock.mock
+
     protected_mock.mock_restore
     assert Target.protected_method_defined?(:gullible?), 'Expected method to be protected after unmocking'
   end
@@ -257,12 +259,14 @@ class MockMethodTest < Minitest::Test
     target = Target.new(secrets: ['the password is 1234'])
     assert target.knows_secrets?
     assert Target.private_method_defined?(:wipe_memory)
+
     private_mock = Grift::MockMethod.new(Target, :wipe_memory)
     assert_equal :private, private_mock.method_access
     assert Target.private_method_defined?(:wipe_memory), 'Expected method to be private after mocking'
     target.send(:wipe_memory)
     refute target.knows_secrets?
     refute_empty private_mock.mock
+
     private_mock.mock_restore
     assert Target.private_method_defined?(:wipe_memory), 'Expected method to be private after unmocking'
   end
@@ -271,10 +275,12 @@ class MockMethodTest < Minitest::Test
     target = Target.new(gullible: false)
     refute target.send(:gullible?)
     assert Target.protected_method_defined?(:gullible?)
+
     protected_mock = Grift::MockMethod.new(Target, :gullible?).mock_return_value(true)
     assert_equal :protected, protected_mock.method_access
     assert Target.protected_method_defined?(:gullible?), 'Expected method to be protected after mocking'
     assert target.send(:gullible?)
+
     protected_mock.mock_restore
     assert Target.protected_method_defined?(:gullible?), 'Expected method to be protected after unmocking'
   end
@@ -283,11 +289,13 @@ class MockMethodTest < Minitest::Test
     target = Target.new(secrets: ['the password is 1234'])
     assert target.knows_secrets?
     assert Target.private_method_defined?(:wipe_memory)
+
     private_mock = Grift::MockMethod.new(Target, :wipe_memory).mock_return_value
     assert_equal :private, private_mock.method_access
     assert Target.private_method_defined?(:wipe_memory), 'Expected method to be private after mocking'
     assert_nil target.send(:wipe_memory)
     assert target.knows_secrets?
+
     private_mock.mock_restore
     assert Target.private_method_defined?(:wipe_memory), 'Expected method to be private after unmocking'
   end
@@ -296,12 +304,14 @@ class MockMethodTest < Minitest::Test
     target = Target.new(gullible: false)
     refute target.send(:gullible?)
     assert Target.protected_method_defined?(:gullible?)
+
     protected_mock = Grift::MockMethod.new(Target, :gullible?).mock_implementation do
       return true
     end
     assert_equal :protected, protected_mock.method_access
     assert Target.protected_method_defined?(:gullible?), 'Expected method to be protected after mocking'
     assert target.send(:gullible?)
+
     protected_mock.mock_restore
     assert Target.protected_method_defined?(:gullible?), 'Expected method to be protected after unmocking'
   end
@@ -310,6 +320,7 @@ class MockMethodTest < Minitest::Test
     target = Target.new(secrets: ['the password is 1234'], gullible: true)
     assert target.knows_secrets?
     assert Target.private_method_defined?(:wipe_memory)
+
     private_mock = Grift::MockMethod.new(Target, :wipe_memory).mock_implementation do
       target.convince('the password is wrong')
     end
@@ -318,6 +329,7 @@ class MockMethodTest < Minitest::Test
     target.send(:wipe_memory)
     assert target.knows_secrets?
     assert_equal ['the password is wrong'], target.knowledge
+
     private_mock.mock_restore
     assert Target.private_method_defined?(:wipe_memory), 'Expected method to be private after unmocking'
   end
@@ -326,11 +338,72 @@ class MockMethodTest < Minitest::Test
     mark = Mark.new(first_name: 'Charles', last_name: 'Boyle')
     refute Mark.method_defined?(:full_name, false)
     assert Mark.method_defined?(:full_name, true)
+
     full_name_mock = Grift::MockMethod.new(Mark, :full_name).mock_return_value('Jake Peralta')
     assert Mark.method_defined?(:full_name, false), 'Expected method to be defined by child after mocking'
     assert_equal 'Jake Peralta', mark.full_name
+
     full_name_mock.mock_restore
     refute Mark.method_defined?(:full_name, false), 'Expected method not to be defined by child after unmocking'
     assert Mark.method_defined?(:full_name, true), 'Expected method to be defined by an ancestor after unmocking'
+  end
+
+  def test_it_mocks_a_method_return_value_with_keyword_arguments
+    target = Target.new(first_name: 'Kelly', last_name: 'Kapoor')
+    change_name_mock = Grift::MockMethod.new(Target, :change_name).mock_return_value
+    assert_nil target.change_name(last_name: 'Howard')
+    refute_equal 'Howard', target.last_name
+    refute_empty change_name_mock.mock.calls
+    assert_equal({ last_name: 'Howard' }, change_name_mock.mock.calls.last.kwargs)
+  end
+
+  def test_it_mocks_a_method_implementation_with_keyword_arguments
+    target = Target.new(first_name: 'Kelly', last_name: 'Kapoor')
+    change_name_mock = Grift::MockMethod.new(Target, :change_name).mock_implementation do |*_args|
+      return target.full_name
+    end
+    refute_nil target.change_name(last_name: 'Howard')
+    refute_equal 'Howard', target.last_name
+    refute_empty change_name_mock.mock.calls
+    assert_equal({ last_name: 'Howard' }, change_name_mock.mock.calls.last.kwargs)
+  end
+
+  def test_it_watches_a_method_with_keyword_arguments
+    target = Target.new(first_name: 'Kelly', last_name: 'Kapoor')
+    change_name_mock = Grift::MockMethod.new(Target, :change_name)
+    target.change_name(last_name: 'Howard')
+    assert_equal 'Howard', target.last_name
+    refute_empty change_name_mock.mock.calls
+    assert_equal({ last_name: 'Howard' }, change_name_mock.mock.calls.last.kwargs)
+  end
+
+  def test_it_mocks_a_method_return_value_with_blended_argument_types
+    target = Target.new(first_name: 'Erin', last_name: 'Hannon')
+    mimic_mock = Grift::MockMethod.new(Target, :mimic).mock_return_value
+    assert_nil Target.mimic(target, gullible: true)
+    refute_empty mimic_mock.mock.calls
+    assert_equal target, mimic_mock.mock.calls.last.args.first
+    assert_equal({ gullible: true }, mimic_mock.mock.calls.last.kwargs)
+  end
+
+  def test_it_mocks_a_method_implementation_with_blended_argument_types
+    target = Target.new(first_name: 'Erin', last_name: 'Hannon')
+    mimic_mock = Grift::MockMethod.new(Target, :mimic).mock_implementation do |*_args|
+      return target.full_name
+    end
+    assert_equal 'Hannon', Target.mimic(target, gullible: true)
+    refute_empty mimic_mock.mock.calls
+    assert_equal target, mimic_mock.mock.calls.last.args.first
+    assert_equal({ gullible: true }, mimic_mock.mock.calls.last.kwargs)
+  end
+
+  def test_it_watches_a_method_with_blended_arguments_types
+    target = Target.new(first_name: 'Erin', last_name: 'Hannon')
+    mimic_mock = Grift::MockMethod.new(Target, :mimic)
+    target_mimic = Target.mimic(target, gullible: true)
+    assert target_mimic.gullible
+    refute_empty mimic_mock.mock.calls
+    assert_equal target, mimic_mock.mock.calls.last.args.first
+    assert_equal({ gullible: true }, mimic_mock.mock.calls.last.kwargs)
   end
 end

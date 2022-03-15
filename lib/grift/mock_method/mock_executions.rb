@@ -9,7 +9,7 @@ module Grift
       ##
       # A new instance of MockExecutions.
       #
-      # @return [Grift::MockMethod::MockExectuions]
+      # @return [Grift::MockMethod::MockExecutions]
       #
       def initialize
         @executions = []
@@ -21,14 +21,14 @@ module Grift
       # @example
       #   my_mock = Grift.spy_on(Number, :+)
       #   x = (3 + 4) + 5
-      #   my_mock.mock.calls
+      #   my_mock.mock.calls.map(&:values)
       #   #=> [[4], [5]]
       #
-      # @return [Array<Array>] an array of arrays of args
+      # @return [Array<Grift::MockMethod::MockExecutions::MockArguments>] an array of MockArguments
       #
       def calls
         @executions.map do |exec|
-          exec[:args]
+          exec[:arguments]
         end
       end
 
@@ -89,13 +89,17 @@ module Grift
       # Stores an args and result pair to the executions array.
       #
       # @example
-      #   mock_store = Grift::MockMethod::MockExecutions.new
-      #   mock_store.store([1, 1], [2])
+      #   mock_executions = Grift::MockMethod::MockExecutions.new
+      #   mock_executions.store(args: [1, 1], kwargs: { test: true }, result: 2)
       #
-      # @return [Array] an array of results
+      # @param args [Array] the postitional args to store
+      # @param kwargs [Hash] the keyword args to store
+      # @param result the method result to store
       #
-      def store(args, result)
-        @executions.push({ args: args, result: result })
+      # @return [Array] an updated array of executions
+      #
+      def store(args: [], kwargs: {}, result: nil)
+        @executions.push({ arguments: MockArguments.new(args: args, kwargs: kwargs), result: result })
       end
     end
   end

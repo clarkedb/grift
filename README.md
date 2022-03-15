@@ -78,13 +78,22 @@ my_spy.mock_implementation do |arg1, arg2|
 end
 ```
 
+or for a method taking keyword arguments:
+
+```ruby
+my_spy = Grift.spy_on(MyClass, :my_method)
+my_spy.mock_implementation do |arg1, arg2, **kwargs|
+    x = do_something(arg1, arg2, kwargs[:arg3], kwargs[:arg4])
+    do_something_else(x) # the last line will be returned
+end
+
 ### Chaining
 
 You can chain `mock_return_value` and `mock_implementation` after initializing the mock.
 
 ```ruby
-my_mock = Grift.spy_on(MyClass, :my_method).mock_implementation do |*args|
-    do_something(*args)
+my_mock = Grift.spy_on(MyClass, :my_method).mock_implementation do |*args, **kwargs|
+    do_something(*args, **kwargs)
 end
 #=> Grift::MockMethod object is returned
 ```
@@ -99,8 +108,12 @@ my_mock.mock.count
 #=> 2
 
 # get args for each call to the method while mocked
-my_mock.mock.calls
-#=> [['first_arg1', 'second_arg1'], ['first_arg2', 'second_arg2']]
+my_mock.mock.calls[0].args
+#=> ['first_arg1', 'second_arg1']
+
+# get kwargs for each call to the method while mocked
+my_mock.mock.calls[0].kwargs
+#=> { first_arg1: 'value' }
 
 # get results (return value) for each call to the method while mocked
 my_mock.mock.results
@@ -109,7 +122,7 @@ my_mock.mock.results
 
 ## Requirements
 
-Grift supports all Ruby versions >= 2.5 (including 3.1).
+Grift supports all Ruby versions >= 2.7 (including 3.1).
 
 ## Development
 
@@ -119,7 +132,7 @@ When developing, to install Grift whith your changes onto your local machine, ru
 
 ### Docs
 
-The docs are generated using YARD. To build the docs, first `gem install yard`. Then run `yardoc` to build the new docs. This is always done before a release to update the docs that get published and made available with the gem.
+The docs are generated using YARD. To build the docs, first `gem install yard` . Then run `yardoc` to build the new docs. This is always done before a release to update the docs that get published and made available with the gem.
 
 ## Contributing
 

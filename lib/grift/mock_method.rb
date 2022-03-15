@@ -125,24 +125,24 @@ module Grift
     #   #=> '7'
     #
     # @example
-    #   my_mock = Grift.spy_on(MyClass, :my_method).mock_implementation do |first, second|
-    #       [second, first]
+    #   my_mock = Grift.spy_on(MyClass, :my_method).mock_implementation do |first, second, **kwargs|
+    #       [second, kwargs[:third], first]
     #   end
-    #   MyClass.my_method(1, 2)
-    #   #=> [2, 1]
+    #   MyClass.my_method(1, 2, third: 3)
+    #   #=> [2, 3, 1]
     #
-    # @return [Grift::MockMethod] the mock itself
+    # @return [self] the mock itself
     #
     def mock_implementation(*)
       premock_setup
       mock_executions = @mock_executions # required to access inside class instance block
 
       class_instance.remove_method(@method_name) if !@inherited && method_defined?
-      class_instance.define_method @method_name do |*args|
-        return_value = yield(*args)
+      class_instance.define_method @method_name do |*args, **kwargs|
+        return_value = yield(*args, **kwargs)
 
         # record the args passed in the call to the method and the result
-        mock_executions.store(args, return_value)
+        mock_executions.store(args: args, result: return_value)
         return return_value
       end
       class_instance.send(@method_access, @method_name)
@@ -163,16 +163,16 @@ module Grift
     #
     # @param return_value the value to return from the method
     #
-    # @return [Grift::MockMethod] the mock itself
+    # @return [self] the mock itself
     #
     def mock_return_value(return_value = nil)
       premock_setup
       mock_executions = @mock_executions # required to access inside class instance block
 
       class_instance.remove_method(@method_name) if !@inherited && method_defined?
-      class_instance.define_method @method_name do |*args|
+      class_instance.define_method @method_name do |*args, **kwargs|
         # record the args passed in the call to the method and the result
-        mock_executions.store(args, return_value)
+        mock_executions.store(args: args, kwargs: kwargs, result: return_value)
         return return_value
       end
       class_instance.send(@method_access, @method_name)
@@ -212,7 +212,7 @@ module Grift
     ##
     # Watches the method without mocking its impelementation or return value.
     #
-    # @return [Grift::MockMethod] the mock itself
+    # @return [self] the mock itself
     #
     def watch_method
       premock_setup
@@ -220,11 +220,11 @@ module Grift
       cache_method_name = @cache_method_name
 
       class_instance.remove_method(@method_name) if !@inherited && method_defined?
-      class_instance.define_method @method_name do |*args|
-        return_value = send(cache_method_name, *args)
+      class_instance.define_method @method_name do |*args, **kwargs|
+        return_value = send(cache_method_name, *args, **kwargs)
 
         # record the args passed in the call to the method and the result
-        mock_executions.store(args, return_value)
+        mock_executions.store(args: args, kwargs: kwargs, result: return_value)
         return return_value
       end
       class_instance.send(@method_access, @method_name)

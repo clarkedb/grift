@@ -8,11 +8,16 @@ This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.htm
 
 ### Changed
 
-* Dropped support for Ruby 2.5
+* Dropped support for Ruby 2.5 and Ruby 2.6
+* To support keyword arguments, records of call arguments are no longer stored in simple arrays but in a custom Enumerable
+  + This changes the way that your tests will interact with mock calls
+  + When before `calls` returned an array, it returns a `Grift::MockMethod::MockExecutions::MockArguments` object
+  + Migrating to maintain previous behavior just requires appending `.args` to `calls`
 
 ### Added
 
 * Support for mocking private instance and class methods
+* Support for mocking methods that take positional and keyword arguments
 
 ### Fixed
 

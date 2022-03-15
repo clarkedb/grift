@@ -5,6 +5,7 @@ require 'grift/error'
 require 'grift/minitest_plugin'
 require 'grift/mock_method'
 require 'grift/mock_method/mock_executions'
+require 'grift/mock_method/mock_executions/mock_arguments'
 require 'grift/mock_store'
 require 'grift/version'
 
