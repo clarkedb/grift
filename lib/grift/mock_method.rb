@@ -125,11 +125,11 @@ module Grift
     #   #=> '7'
     #
     # @example
-    #   my_mock = Grift.spy_on(MyClass, :my_method).mock_implementation do |first, second|
-    #       [second, first]
+    #   my_mock = Grift.spy_on(MyClass, :my_method).mock_implementation do |first, second, **kwargs|
+    #       [second, kwargs[:third], first]
     #   end
-    #   MyClass.my_method(1, 2)
-    #   #=> [2, 1]
+    #   MyClass.my_method(1, 2, third: 3)
+    #   #=> [2, 3, 1]
     #
     # @return [self] the mock itself
     #
