@@ -86,6 +86,7 @@ my_spy.mock_implementation do |arg1, arg2, **kwargs|
     x = do_something(arg1, arg2, kwargs[:arg3], kwargs[:arg4])
     do_something_else(x) # the last line will be returned
 end
+```
 
 ### Chaining
 
