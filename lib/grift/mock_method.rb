@@ -138,11 +138,11 @@ module Grift
       mock_executions = @mock_executions # required to access inside class instance block
 
       class_instance.remove_method(@method_name) if !@inherited && method_defined?
-      class_instance.define_method @method_name do |*args|
-        return_value = yield(*args)
+      class_instance.define_method @method_name do |*args, **kwargs|
+        return_value = yield(*args, **kwargs)
 
         # record the args passed in the call to the method and the result
-        mock_executions.store(args, return_value)
+        mock_executions.store(args: args, result: return_value)
         return return_value
       end
       class_instance.send(@method_access, @method_name)
@@ -170,9 +170,9 @@ module Grift
       mock_executions = @mock_executions # required to access inside class instance block
 
       class_instance.remove_method(@method_name) if !@inherited && method_defined?
-      class_instance.define_method @method_name do |*args|
+      class_instance.define_method @method_name do |*args, **kwargs|
         # record the args passed in the call to the method and the result
-        mock_executions.store(args, return_value)
+        mock_executions.store(args: args, kwargs: kwargs, result: return_value)
         return return_value
       end
       class_instance.send(@method_access, @method_name)
@@ -220,11 +220,11 @@ module Grift
       cache_method_name = @cache_method_name
 
       class_instance.remove_method(@method_name) if !@inherited && method_defined?
-      class_instance.define_method @method_name do |*args|
-        return_value = send(cache_method_name, *args)
+      class_instance.define_method @method_name do |*args, **kwargs|
+        return_value = send(cache_method_name, *args, **kwargs)
 
         # record the args passed in the call to the method and the result
-        mock_executions.store(args, return_value)
+        mock_executions.store(args: args, kwargs: kwargs, result: return_value)
         return return_value
       end
       class_instance.send(@method_access, @method_name)

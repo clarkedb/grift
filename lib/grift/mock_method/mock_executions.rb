@@ -89,16 +89,17 @@ module Grift
       # Stores an args and result pair to the executions array.
       #
       # @example
-      #   mock_store = Grift::MockMethod::MockExecutions.new
-      #   mock_store.store([1, 1], [2])
+      #   mock_executions = Grift::MockMethod::MockExecutions.new
+      #   mock_executions.store(args: [1, 1], kwargs: { test: true }, result: 2)
       #
-      # @param args [Array] the args to store
+      # @param args [Array] the postitional args to store
+      # @param kwargs [Hash] the keyword args to store
       # @param result the method result to store
       #
       # @return [Array] an updated array of executions
       #
-      def store(args, result)
-        @executions.push({ arguments: MockArguments.new(args: args), result: result })
+      def store(args: [], kwargs: {}, result: nil)
+        @executions.push({ arguments: MockArguments.new(args: args, kwargs: kwargs), result: result })
       end
     end
   end

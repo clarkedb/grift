@@ -354,7 +354,7 @@ class MockMethodTest < Minitest::Test
     assert_nil target.change_name(last_name: 'Howard')
     refute_equal 'Howard', target.last_name
     refute_empty change_name_mock.mock.calls
-    assert_equal({ last_name: 'Howard' }, change_name_mock.mock.calls.last.last)
+    assert_equal({ last_name: 'Howard' }, change_name_mock.mock.calls.last.kwargs)
   end
 
   def test_it_mocks_a_method_implementation_with_keyword_arguments
@@ -365,7 +365,7 @@ class MockMethodTest < Minitest::Test
     refute_nil target.change_name(last_name: 'Howard')
     refute_equal 'Howard', target.last_name
     refute_empty change_name_mock.mock.calls
-    assert_equal({ last_name: 'Howard' }, change_name_mock.mock.calls.last.last)
+    assert_equal({ last_name: 'Howard' }, change_name_mock.mock.calls.last.kwargs)
   end
 
   def test_it_watches_a_method_with_keyword_arguments
@@ -374,7 +374,7 @@ class MockMethodTest < Minitest::Test
     target.change_name(last_name: 'Howard')
     assert_equal 'Howard', target.last_name
     refute_empty change_name_mock.mock.calls
-    assert_equal({ last_name: 'Howard' }, change_name_mock.mock.calls.last.last)
+    assert_equal({ last_name: 'Howard' }, change_name_mock.mock.calls.last.kwargs)
   end
 
   def test_it_mocks_a_method_return_value_with_blended_argument_types
@@ -382,8 +382,8 @@ class MockMethodTest < Minitest::Test
     mimic_mock = Grift::MockMethod.new(Target, :mimic).mock_return_value
     assert_nil Target.mimic(target, gullible: true)
     refute_empty mimic_mock.mock.calls
-    assert_equal target, mimic_mock.mock.calls.last.first
-    assert_equal({ gullible: true }, mimic_mock.mock.calls.last.last)
+    assert_equal target, mimic_mock.mock.calls.last.args.first
+    assert_equal({ gullible: true }, mimic_mock.mock.calls.last.kwargs)
   end
 
   def test_it_mocks_a_method_implementation_with_blended_argument_types
@@ -393,8 +393,8 @@ class MockMethodTest < Minitest::Test
     end
     assert_equal 'Hannon', Target.mimic(target, gullible: true)
     refute_empty mimic_mock.mock.calls
-    assert_equal target, mimic_mock.mock.calls.last.first
-    assert_equal({ gullible: true }, mimic_mock.mock.calls.last.last)
+    assert_equal target, mimic_mock.mock.calls.last.args.first
+    assert_equal({ gullible: true }, mimic_mock.mock.calls.last.kwargs)
   end
 
   def test_it_watches_a_method_with_blended_arguments_types
@@ -403,7 +403,7 @@ class MockMethodTest < Minitest::Test
     target_mimic = Target.mimic(target, gullible: true)
     assert target_mimic.gullible
     refute_empty mimic_mock.mock.calls
-    assert_equal target, mimic_mock.mock.calls.last.first
-    assert_equal({ gullible: true }, mimic_mock.mock.calls.last.last)
+    assert_equal target, mimic_mock.mock.calls.last.args.first
+    assert_equal({ gullible: true }, mimic_mock.mock.calls.last.kwargs)
   end
 end
