@@ -134,6 +134,8 @@ module Grift
     # @return [self] the mock itself
     #
     def mock_implementation(*)
+      raise(Grift::Error, 'Must provide a block for the new implementation') unless block_given?
+
       premock_setup
       mock_executions = @mock_executions # required to access inside class instance block
 

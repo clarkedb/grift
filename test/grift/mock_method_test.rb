@@ -131,6 +131,12 @@ class MockMethodTest < Minitest::Test
     assert_equal expected_mimic_result, mimic_mock.mock.results.first
   end
 
+  def test_it_raises_error_when_no_block_given_for_mock_implementation
+    assert_raises Grift::Error do
+      Grift.spy_on(Target, :new).mock_implementation
+    end
+  end
+
   def test_returns_mock_executions_type_with_mock_accessor
     target_mock = Grift::MockMethod.new(Target, :full_name, watch: false)
     assert_instance_of Grift::MockMethod::MockExecutions, target_mock.mock
