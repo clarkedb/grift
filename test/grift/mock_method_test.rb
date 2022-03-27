@@ -412,4 +412,12 @@ class MockMethodTest < Minitest::Test
     assert_equal target, mimic_mock.mock.calls.last.args.first
     assert_equal({ gullible: true }, mimic_mock.mock.calls.last.kwargs)
   end
+
+  def test_it_watches_a_method_that_takes_a_block_and_forwards_the_block
+    Grift.spy_on(Target, :act)
+    target = Target.new
+    assert_output(/hello/) do
+      target.act { puts 'hello' }
+    end
+  end
 end

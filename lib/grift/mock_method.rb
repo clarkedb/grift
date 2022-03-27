@@ -222,8 +222,8 @@ module Grift
       cache_method_name = @cache_method_name
 
       class_instance.remove_method(@method_name) if !@inherited && method_defined?
-      class_instance.define_method @method_name do |*args, **kwargs|
-        return_value = send(cache_method_name, *args, **kwargs)
+      class_instance.define_method @method_name do |*args, **kwargs, &block|
+        return_value = send(cache_method_name, *args, **kwargs, &block)
 
         # record the args passed in the call to the method and the result
         mock_executions.store(args: args, kwargs: kwargs, result: return_value)

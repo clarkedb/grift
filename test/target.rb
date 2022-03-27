@@ -31,6 +31,10 @@ class Target
     @last_name = last_name if last_name
   end
 
+  def act
+    yield
+  end
+
   def self.mimic(target, gullible: false)
     Target.new(first_name: target.first_name, last_name: target.last_name, gullible: gullible)
   end
