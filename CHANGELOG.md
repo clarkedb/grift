@@ -8,7 +8,16 @@ This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.htm
 
 None
 
+## [2.0.1](https://github.com/clarkedb/grift/releases/tag/v2.0.1) - 2022-03-27
+
+### Fixed
+
+* When spying on a method that takes a block, the block now gets forwarded to the original method ([#78](https://github.com/clarkedb/grift/pull/78))
+* When mocking the implementation, if a block is not provided a `Grift::Error` is raised instead of a `LocalJumpError` ([#77](https://github.com/clarkedb/grift/pull/77))
+
 ## [2.0.0](https://github.com/clarkedb/grift/releases/tag/v2.0.0) - 2022-03-14
+
+This version adds true keyword argument support for Ruby 3. See below for how to handle breaking changes.
 
 ### Changed
 
@@ -17,7 +26,7 @@ None
 * To support keyword arguments, records of call arguments are no longer stored in simple arrays but in a custom Enumerable ([#72](https://github.com/clarkedb/grift/pull/72))
   + This changes the way that your tests will interact with mock calls
   + When before `calls` returned an array, it returns a `Grift::MockMethod::MockExecutions::MockArguments` object
-  + Migrating to maintain previous behavior just requires appending `.args` to `calls`
+  + Migrating to maintain previous behavior just requires appending `.args` to `calls[i]`
 
 ### Added
 
