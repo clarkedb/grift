@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 # configure code coverage
-unless ENV['CODE_COVERAGE'] == 'false'
+unless ENV.fetch('CODE_COVERAGE', nil) == 'false'
   require 'simplecov'
   SimpleCov.start do
     add_filter %w[bin docs db log pkg test tmp]
@@ -12,7 +12,7 @@ unless ENV['CODE_COVERAGE'] == 'false'
     enable_coverage :branch
   end
 
-  if ENV['CI'] == 'true'
+  if ENV.fetch('CI', nil) == 'true'
     require 'codecov'
     SimpleCov.formatter = SimpleCov::Formatter::Codecov
   end
