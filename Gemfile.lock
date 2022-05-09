@@ -20,7 +20,7 @@ GEM
       builder
       minitest (>= 5.0)
       ruby-progressbar
-    overcommit (0.59.0)
+    overcommit (0.59.1)
       childprocess (>= 0.6.3, < 5)
       iniparse (~> 1.4)
       rexml (~> 3.2)
