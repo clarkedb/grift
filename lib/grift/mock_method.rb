@@ -206,7 +206,7 @@ module Grift
     # @return [String] the hash of the class and method
     #
     def self.hash_key(klass, method_name)
-      "#{klass}\##{method_name}"
+      "#{klass}##{method_name}"
     end
 
     private
