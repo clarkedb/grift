@@ -145,7 +145,7 @@ module Grift
 
         # record the args passed in the call to the method and the result
         mock_executions.store(args: args, result: return_value)
-        return return_value
+        return_value
       end
       class_instance.send(@method_access, @method_name)
 
@@ -175,7 +175,7 @@ module Grift
       class_instance.define_method @method_name do |*args, **kwargs|
         # record the args passed in the call to the method and the result
         mock_executions.store(args: args, kwargs: kwargs, result: return_value)
-        return return_value
+        return_value
       end
       class_instance.send(@method_access, @method_name)
 
@@ -227,7 +227,7 @@ module Grift
 
         # record the args passed in the call to the method and the result
         mock_executions.store(args: args, kwargs: kwargs, result: return_value)
-        return return_value
+        return_value
       end
       class_instance.send(@method_access, @method_name)
 
