@@ -1,7 +1,6 @@
 # Grift
 
 [![gem version](https://badge.fury.io/rb/grift.svg)](https://rubygems.org/gems/grift)
-[![downloads](https://ruby-gem-downloads-badge.herokuapp.com/grift)](https://rubygems.org/gems/grift)
 [![build](https://github.com/clarkedb/grift/actions/workflows/ci.yml/badge.svg)](https://github.com/clarkedb/grift/actions?query=workflow%3ACI)
 [![codecov](https://codecov.io/gh/clarkedb/grift/branch/main/graph/badge.svg)](https://codecov.io/gh/clarkedb/grift)
 
