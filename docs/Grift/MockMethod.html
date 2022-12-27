@@ -6,7 +6,7 @@
 <title>
   Class: Grift::MockMethod
   
-    &mdash; Documentation by YARD 0.9.27
+    &mdash; Documentation by YARD 0.9.28
   
 </title>
 
@@ -392,6 +392,54 @@
         <li class="public ">
   <span class="summary_signature">
     
+      <a href="#mock_implementation_n_times-instance_method" title="#mock_implementation_n_times (instance method)">#<strong>mock_implementation_n_times</strong>(n)  &#x21d2; self </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Accepts a number <code>n</code> and a block and mocks the method to execute that block instaead of the original behavior the next <code>n</code> times the method is called while mocked.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#mock_implementation_once-instance_method" title="#mock_implementation_once (instance method)">#<strong>mock_implementation_once</strong>  &#x21d2; self </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Accepts a block and mocks the method to execute that block instead of the original behavior the next time the method is called while mocked.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
       <a href="#mock_reset-instance_method" title="#mock_reset (instance method)">#<strong>mock_reset</strong>  &#x21d2; Grift::MockMethod::MockExecutions </a>
     
 
@@ -456,6 +504,78 @@
   
     <span class="summary_desc"><div class='inline'>
 <p>Accepts a value and mocks the method to return that value instead of executing its original behavior while mocked.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#mock_return_value_n_times-instance_method" title="#mock_return_value_n_times (instance method)">#<strong>mock_return_value_n_times</strong>(n, return_value = nil)  &#x21d2; self </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Accepts a value and mocks the method to return that value <code>n</code> times instead of executing its original behavior while mocked.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#mock_return_value_once-instance_method" title="#mock_return_value_once (instance method)">#<strong>mock_return_value_once</strong>(return_value = nil)  &#x21d2; self </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Accepts a value and mocks the method to return that value once instead of executing its original behavior while mocked.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#mock_return_values_in_order-instance_method" title="#mock_return_values_in_order (instance method)">#<strong>mock_return_values_in_order</strong>(return_values)  &#x21d2; self </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Accepts an array of values and mocks the method to return those values in order instead of executing its original behavior while mocked.</p>
 </div></span>
   
 </li>
@@ -922,15 +1042,15 @@
       <pre class="lines">
 
 
-208
-209
-210</pre>
+454
+455
+456</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/grift/mock_method.rb', line 208</span>
+      <pre class="code"><span class="info file"># File 'lib/grift/mock_method.rb', line 454</span>
 
 <span class='kw'>def</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_hash_key'>hash_key</span><span class='lparen'>(</span><span class='id identifier rubyid_klass'>klass</span><span class='comma'>,</span> <span class='id identifier rubyid_method_name'>method_name</span><span class='rparen'>)</span>
-  <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_klass'>klass</span><span class='embexpr_end'>}</span><span class='tstring_content'>\#</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_method_name'>method_name</span><span class='embexpr_end'>}</span><span class='tstring_end'>&quot;</span></span>
+  <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_klass'>klass</span><span class='embexpr_end'>}</span><span class='tstring_content'>#</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_method_name'>method_name</span><span class='embexpr_end'>}</span><span class='tstring_end'>&quot;</span></span>
 <span class='kw'>end</span></pre>
     </td>
   </tr>
@@ -1185,7 +1305,320 @@
 
     <span class='comment'># record the args passed in the call to the method and the result
 </span>    <span class='id identifier rubyid_mock_executions'>mock_executions</span><span class='period'>.</span><span class='id identifier rubyid_store'>store</span><span class='lparen'>(</span><span class='label'>args:</span> <span class='id identifier rubyid_args'>args</span><span class='comma'>,</span> <span class='label'>result:</span> <span class='id identifier rubyid_return_value'>return_value</span><span class='rparen'>)</span>
-    <span class='kw'>return</span> <span class='id identifier rubyid_return_value'>return_value</span>
+    <span class='id identifier rubyid_return_value'>return_value</span>
+  <span class='kw'>end</span>
+  <span class='id identifier rubyid_class_instance'>class_instance</span><span class='period'>.</span><span class='id identifier rubyid_send'>send</span><span class='lparen'>(</span><span class='ivar'>@method_access</span><span class='comma'>,</span> <span class='ivar'>@method_name</span><span class='rparen'>)</span>
+
+  <span class='kw'>self</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="mock_implementation_n_times-instance_method">
+  
+    #<strong>mock_implementation_n_times</strong>(n)  &#x21d2; <tt>self</tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Accepts a number <code>n</code> and a block and mocks the method to execute that block instaead of the original behavior the next <code>n</code> times the method is called while mocked. After the method has been called once, it will return to its original behavior. The method will continue to be watched.</p>
+
+<p><strong>IMPORANT:</strong> Calling <span class='object_link'><a href="#mock_clear-instance_method" title="Grift::MockMethod#mock_clear (method)">#mock_clear</a></span> clears the method call history. If it is called before the nth execution of the mocked method, the method will remain mocked for an additonal <code>n</code> calls.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+  <div class="examples">
+    <p class="tag_title">Examples:</p>
+    
+      
+      <pre class="example code"><code><span class='id identifier rubyid_my_mock'>my_mock</span> <span class='op'>=</span> <span class='const'><span class='object_link'><a href="../Grift.html" title="Grift (module)">Grift</a></span></span><span class='period'>.</span><span class='id identifier rubyid_spy_on'><span class='object_link'><a href="../Grift.html#spy_on-class_method" title="Grift.spy_on (method)">spy_on</a></span></span><span class='lparen'>(</span><span class='const'>String</span><span class='comma'>,</span> <span class='symbol'>:downcase</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_mock_implementation_n_times'>mock_implementation_n_times</span><span class='lparen'>(</span><span class='int'>3</span><span class='rparen'>)</span> <span class='kw'>do</span>
+    <span class='id identifier rubyid_x'>x</span> <span class='op'>=</span> <span class='int'>3</span> <span class='op'>+</span> <span class='int'>4</span>
+    <span class='id identifier rubyid_x'>x</span><span class='period'>.</span><span class='id identifier rubyid_to_s'>to_s</span>
+<span class='kw'>end</span>
+<span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>Banana</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>Apple</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>Orange</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>Guava</span><span class='tstring_end'>&quot;</span></span><span class='rbracket'>]</span><span class='period'>.</span><span class='id identifier rubyid_map'>map</span><span class='lparen'>(</span><span class='op'>&amp;</span><span class='symbol'>:downcase</span><span class='rparen'>)</span>
+<span class='comment'>#=&gt; [&quot;7&quot;, &quot;7&quot;, &quot;7&quot;, &quot;guava&quot;]</span></code></pre>
+    
+      
+      <pre class="example code"><code><span class='id identifier rubyid_my_mock'>my_mock</span> <span class='op'>=</span> <span class='const'><span class='object_link'><a href="../Grift.html" title="Grift (module)">Grift</a></span></span><span class='period'>.</span><span class='id identifier rubyid_spy_on'><span class='object_link'><a href="../Grift.html#spy_on-class_method" title="Grift.spy_on (method)">spy_on</a></span></span><span class='lparen'>(</span><span class='const'>String</span><span class='comma'>,</span> <span class='symbol'>:downcase</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_mock_implementation_n_times'>mock_implementation_n_times</span><span class='lparen'>(</span><span class='int'>5</span><span class='rparen'>)</span> <span class='kw'>do</span>
+    <span class='id identifier rubyid_x'>x</span> <span class='op'>=</span> <span class='int'>3</span> <span class='op'>+</span> <span class='int'>4</span>
+    <span class='id identifier rubyid_x'>x</span><span class='period'>.</span><span class='id identifier rubyid_to_s'>to_s</span>
+<span class='kw'>end</span>
+<span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>Banana</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>Apple</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>Orange</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>Guava</span><span class='tstring_end'>&quot;</span></span><span class='rbracket'>]</span><span class='period'>.</span><span class='id identifier rubyid_map'>map</span><span class='lparen'>(</span><span class='op'>&amp;</span><span class='symbol'>:downcase</span><span class='rparen'>)</span>
+<span class='comment'>#=&gt; [&quot;7&quot;, &quot;7&quot;, &quot;7&quot;, &quot;7&quot;]
+</span><span class='id identifier rubyid_my_mock'>my_mock</span><span class='period'>.</span><span class='id identifier rubyid_mock_clear'>mock_clear</span> <span class='comment'># clear mock history before 5th (nth) method call
+</span><span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>Banana</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>Apple</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>Orange</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>Guava</span><span class='tstring_end'>&quot;</span></span><span class='rbracket'>]</span><span class='period'>.</span><span class='id identifier rubyid_map'>map</span><span class='lparen'>(</span><span class='op'>&amp;</span><span class='symbol'>:downcase</span><span class='rparen'>)</span>
+<span class='comment'>#=&gt; [&quot;7&quot;, &quot;7&quot;, &quot;7&quot;, &quot;7&quot;]</span></code></pre>
+    
+  </div>
+<p class="tag_title">Parameters:</p>
+<ul class="param">
+  
+    <li>
+      
+        <span class='name'>n</span>
+      
+      
+        <span class='type'>(<tt>Number</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>the number of times to mock the implementation</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>self</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>the mock itself</p>
+</div>
+      
+    </li>
+  
+</ul>
+<p class="tag_title">Raises:</p>
+<ul class="raise">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="Error.html" title="Grift::Error (class)">Grift::Error</a></span></tt>)</span>
+      
+      
+      
+    </li>
+  
+</ul>
+
+  <p class="tag_title">See Also:</p>
+  <ul class="see">
+    
+      <li><span class='object_link'><a href="#mock_implementation-instance_method" title="Grift::MockMethod#mock_implementation (method)">#mock_implementation</a></span></li>
+    
+  </ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+236
+237
+238
+239
+240
+241
+242
+243
+244
+245
+246
+247
+248
+249
+250
+251
+252
+253
+254
+255
+256
+257
+258
+259
+260
+261
+262</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/grift/mock_method.rb', line 236</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_mock_implementation_n_times'>mock_implementation_n_times</span><span class='lparen'>(</span><span class='id identifier rubyid_n'>n</span><span class='comma'>,</span> <span class='op'>*</span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_raise'>raise</span><span class='lparen'>(</span><span class='const'><span class='object_link'><a href="../Grift.html" title="Grift (module)">Grift</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="Error.html" title="Grift::Error (class)">Error</a></span></span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>Must provide a block for the new implementation</span><span class='tstring_end'>&#39;</span></span><span class='rparen'>)</span> <span class='kw'>unless</span> <span class='id identifier rubyid_block_given?'>block_given?</span>
+
+  <span class='id identifier rubyid_premock_setup'>premock_setup</span>
+
+  <span class='comment'># required to access inside class instance block
+</span>  <span class='id identifier rubyid_mock_executions'>mock_executions</span> <span class='op'>=</span> <span class='ivar'>@mock_executions</span>
+  <span class='id identifier rubyid_clean_mock'>clean_mock</span> <span class='op'>=</span> <span class='id identifier rubyid_lambda'>lambda</span> <span class='kw'>do</span>
+    <span class='id identifier rubyid_unmock_method'>unmock_method</span>
+    <span class='id identifier rubyid_watch_method'>watch_method</span>
+  <span class='kw'>end</span>
+
+  <span class='id identifier rubyid_class_instance'>class_instance</span><span class='period'>.</span><span class='id identifier rubyid_remove_method'>remove_method</span><span class='lparen'>(</span><span class='ivar'>@method_name</span><span class='rparen'>)</span> <span class='kw'>if</span> <span class='op'>!</span><span class='ivar'>@inherited</span> <span class='op'>&amp;&amp;</span> <span class='id identifier rubyid_method_defined?'>method_defined?</span>
+  <span class='id identifier rubyid_class_instance'>class_instance</span><span class='period'>.</span><span class='id identifier rubyid_define_method'>define_method</span> <span class='ivar'>@method_name</span> <span class='kw'>do</span> <span class='op'>|</span><span class='op'>*</span><span class='id identifier rubyid_args'>args</span><span class='comma'>,</span> <span class='op'>**</span><span class='id identifier rubyid_kwargs'>kwargs</span><span class='op'>|</span>
+    <span class='id identifier rubyid_return_value'>return_value</span> <span class='op'>=</span> <span class='kw'>yield</span><span class='lparen'>(</span><span class='op'>*</span><span class='id identifier rubyid_args'>args</span><span class='comma'>,</span> <span class='op'>**</span><span class='id identifier rubyid_kwargs'>kwargs</span><span class='rparen'>)</span>
+
+    <span class='comment'># record the args passed in the call to the method and the result
+</span>    <span class='id identifier rubyid_mock_executions'>mock_executions</span><span class='period'>.</span><span class='id identifier rubyid_store'>store</span><span class='lparen'>(</span><span class='label'>args:</span> <span class='id identifier rubyid_args'>args</span><span class='comma'>,</span> <span class='label'>result:</span> <span class='id identifier rubyid_return_value'>return_value</span><span class='rparen'>)</span>
+
+    <span class='id identifier rubyid_clean_mock'>clean_mock</span><span class='period'>.</span><span class='id identifier rubyid_call'>call</span> <span class='kw'>if</span> <span class='id identifier rubyid_mock_executions'>mock_executions</span><span class='period'>.</span><span class='id identifier rubyid_count'>count</span> <span class='op'>==</span> <span class='id identifier rubyid_n'>n</span>
+
+    <span class='id identifier rubyid_return_value'>return_value</span>
+  <span class='kw'>end</span>
+  <span class='id identifier rubyid_class_instance'>class_instance</span><span class='period'>.</span><span class='id identifier rubyid_send'>send</span><span class='lparen'>(</span><span class='ivar'>@method_access</span><span class='comma'>,</span> <span class='ivar'>@method_name</span><span class='rparen'>)</span>
+
+  <span class='kw'>self</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="mock_implementation_once-instance_method">
+  
+    #<strong>mock_implementation_once</strong>  &#x21d2; <tt>self</tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Accepts a block and mocks the method to execute that block instead of the original behavior the next time the method is called while mocked. After the method has been called once, it will return to its original behavior. The method will continue to be watched.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+  <div class="examples">
+    <p class="tag_title">Examples:</p>
+    
+      
+      <pre class="example code"><code><span class='id identifier rubyid_my_mock'>my_mock</span> <span class='op'>=</span> <span class='const'><span class='object_link'><a href="../Grift.html" title="Grift (module)">Grift</a></span></span><span class='period'>.</span><span class='id identifier rubyid_spy_on'><span class='object_link'><a href="../Grift.html#spy_on-class_method" title="Grift.spy_on (method)">spy_on</a></span></span><span class='lparen'>(</span><span class='const'>String</span><span class='comma'>,</span> <span class='symbol'>:downcase</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_mock_implementation_once'>mock_implementation_once</span> <span class='kw'>do</span>
+    <span class='id identifier rubyid_x'>x</span> <span class='op'>=</span> <span class='int'>3</span> <span class='op'>+</span> <span class='int'>4</span>
+    <span class='id identifier rubyid_x'>x</span><span class='period'>.</span><span class='id identifier rubyid_to_s'>to_s</span>
+<span class='kw'>end</span>
+<span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>Banana</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>Apple</span><span class='tstring_end'>&quot;</span></span><span class='rbracket'>]</span><span class='period'>.</span><span class='id identifier rubyid_map'>map</span><span class='lparen'>(</span><span class='op'>&amp;</span><span class='symbol'>:downcase</span><span class='rparen'>)</span>
+<span class='comment'>#=&gt; [&quot;7&quot;, &quot;apple&quot;]</span></code></pre>
+    
+  </div>
+
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>self</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>the mock itself</p>
+</div>
+      
+    </li>
+  
+</ul>
+<p class="tag_title">Raises:</p>
+<ul class="raise">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="Error.html" title="Grift::Error (class)">Grift::Error</a></span></tt>)</span>
+      
+      
+      
+    </li>
+  
+</ul>
+
+  <p class="tag_title">See Also:</p>
+  <ul class="see">
+    
+      <li><span class='object_link'><a href="#mock_implementation-instance_method" title="Grift::MockMethod#mock_implementation (method)">#mock_implementation</a></span></li>
+    
+  </ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+173
+174
+175
+176
+177
+178
+179
+180
+181
+182
+183
+184
+185
+186
+187
+188
+189
+190
+191
+192
+193
+194
+195
+196
+197
+198
+199</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/grift/mock_method.rb', line 173</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_mock_implementation_once'>mock_implementation_once</span><span class='lparen'>(</span><span class='op'>*</span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_raise'>raise</span><span class='lparen'>(</span><span class='const'><span class='object_link'><a href="../Grift.html" title="Grift (module)">Grift</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="Error.html" title="Grift::Error (class)">Error</a></span></span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>Must provide a block for the new implementation</span><span class='tstring_end'>&#39;</span></span><span class='rparen'>)</span> <span class='kw'>unless</span> <span class='id identifier rubyid_block_given?'>block_given?</span>
+
+  <span class='id identifier rubyid_premock_setup'>premock_setup</span>
+
+  <span class='comment'># required to access inside class instance block
+</span>  <span class='id identifier rubyid_mock_executions'>mock_executions</span> <span class='op'>=</span> <span class='ivar'>@mock_executions</span>
+  <span class='id identifier rubyid_clean_mock'>clean_mock</span> <span class='op'>=</span> <span class='id identifier rubyid_lambda'>lambda</span> <span class='kw'>do</span>
+    <span class='id identifier rubyid_unmock_method'>unmock_method</span>
+    <span class='id identifier rubyid_watch_method'>watch_method</span>
+  <span class='kw'>end</span>
+
+  <span class='id identifier rubyid_class_instance'>class_instance</span><span class='period'>.</span><span class='id identifier rubyid_remove_method'>remove_method</span><span class='lparen'>(</span><span class='ivar'>@method_name</span><span class='rparen'>)</span> <span class='kw'>if</span> <span class='op'>!</span><span class='ivar'>@inherited</span> <span class='op'>&amp;&amp;</span> <span class='id identifier rubyid_method_defined?'>method_defined?</span>
+  <span class='id identifier rubyid_class_instance'>class_instance</span><span class='period'>.</span><span class='id identifier rubyid_define_method'>define_method</span> <span class='ivar'>@method_name</span> <span class='kw'>do</span> <span class='op'>|</span><span class='op'>*</span><span class='id identifier rubyid_args'>args</span><span class='comma'>,</span> <span class='op'>**</span><span class='id identifier rubyid_kwargs'>kwargs</span><span class='op'>|</span>
+    <span class='id identifier rubyid_return_value'>return_value</span> <span class='op'>=</span> <span class='kw'>yield</span><span class='lparen'>(</span><span class='op'>*</span><span class='id identifier rubyid_args'>args</span><span class='comma'>,</span> <span class='op'>**</span><span class='id identifier rubyid_kwargs'>kwargs</span><span class='rparen'>)</span>
+
+    <span class='comment'># record the args passed in the call to the method and the result
+</span>    <span class='id identifier rubyid_mock_executions'>mock_executions</span><span class='period'>.</span><span class='id identifier rubyid_store'>store</span><span class='lparen'>(</span><span class='label'>args:</span> <span class='id identifier rubyid_args'>args</span><span class='comma'>,</span> <span class='label'>result:</span> <span class='id identifier rubyid_return_value'>return_value</span><span class='rparen'>)</span>
+
+    <span class='id identifier rubyid_clean_mock'>clean_mock</span><span class='period'>.</span><span class='id identifier rubyid_call'>call</span>
+
+    <span class='id identifier rubyid_return_value'>return_value</span>
   <span class='kw'>end</span>
   <span class='id identifier rubyid_class_instance'>class_instance</span><span class='period'>.</span><span class='id identifier rubyid_send'>send</span><span class='lparen'>(</span><span class='ivar'>@method_access</span><span class='comma'>,</span> <span class='ivar'>@method_name</span><span class='rparen'>)</span>
 
@@ -1419,23 +1852,23 @@
       <pre class="lines">
 
 
-170
-171
-172
-173
-174
-175
-176
-177
-178
-179
-180
-181
-182
-183</pre>
+279
+280
+281
+282
+283
+284
+285
+286
+287
+288
+289
+290
+291
+292</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/grift/mock_method.rb', line 170</span>
+      <pre class="code"><span class="info file"># File 'lib/grift/mock_method.rb', line 279</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_mock_return_value'>mock_return_value</span><span class='lparen'>(</span><span class='id identifier rubyid_return_value'>return_value</span> <span class='op'>=</span> <span class='kw'>nil</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_premock_setup'>premock_setup</span>
@@ -1445,7 +1878,437 @@
   <span class='id identifier rubyid_class_instance'>class_instance</span><span class='period'>.</span><span class='id identifier rubyid_define_method'>define_method</span> <span class='ivar'>@method_name</span> <span class='kw'>do</span> <span class='op'>|</span><span class='op'>*</span><span class='id identifier rubyid_args'>args</span><span class='comma'>,</span> <span class='op'>**</span><span class='id identifier rubyid_kwargs'>kwargs</span><span class='op'>|</span>
     <span class='comment'># record the args passed in the call to the method and the result
 </span>    <span class='id identifier rubyid_mock_executions'>mock_executions</span><span class='period'>.</span><span class='id identifier rubyid_store'>store</span><span class='lparen'>(</span><span class='label'>args:</span> <span class='id identifier rubyid_args'>args</span><span class='comma'>,</span> <span class='label'>kwargs:</span> <span class='id identifier rubyid_kwargs'>kwargs</span><span class='comma'>,</span> <span class='label'>result:</span> <span class='id identifier rubyid_return_value'>return_value</span><span class='rparen'>)</span>
-    <span class='kw'>return</span> <span class='id identifier rubyid_return_value'>return_value</span>
+    <span class='id identifier rubyid_return_value'>return_value</span>
+  <span class='kw'>end</span>
+  <span class='id identifier rubyid_class_instance'>class_instance</span><span class='period'>.</span><span class='id identifier rubyid_send'>send</span><span class='lparen'>(</span><span class='ivar'>@method_access</span><span class='comma'>,</span> <span class='ivar'>@method_name</span><span class='rparen'>)</span>
+
+  <span class='kw'>self</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="mock_return_value_n_times-instance_method">
+  
+    #<strong>mock_return_value_n_times</strong>(n, return_value = nil)  &#x21d2; <tt>self</tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Accepts a value and mocks the method to return that value <code>n</code> times instead of executing its original behavior while mocked. After the method has been called <code>n</code> times, it will return to its original behavior. The method will continue to be watched.</p>
+
+<p><strong>IMPORANT:</strong> Calling <span class='object_link'><a href="#mock_clear-instance_method" title="Grift::MockMethod#mock_clear (method)">#mock_clear</a></span> clears the method call history. If it is called before the nth execution of the mocked method, the method will remain mocked for an additional <code>n</code> calls.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+  <div class="examples">
+    <p class="tag_title">Examples:</p>
+    
+      
+      <pre class="example code"><code><span class='id identifier rubyid_my_mock'>my_mock</span> <span class='op'>=</span> <span class='const'><span class='object_link'><a href="../Grift.html" title="Grift (module)">Grift</a></span></span><span class='period'>.</span><span class='id identifier rubyid_spy_on'><span class='object_link'><a href="../Grift.html#spy_on-class_method" title="Grift.spy_on (method)">spy_on</a></span></span><span class='lparen'>(</span><span class='const'>String</span><span class='comma'>,</span> <span class='symbol'>:upcase</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_mock_return_value_n_times'>mock_return_value_n_times</span><span class='lparen'>(</span><span class='int'>2</span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>BANANA</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span>
+<span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>apple</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>apple</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>apple</span><span class='tstring_end'>&quot;</span></span><span class='rbracket'>]</span><span class='period'>.</span><span class='id identifier rubyid_map'>map</span><span class='lparen'>(</span><span class='op'>&amp;</span><span class='symbol'>:upcase</span><span class='rparen'>)</span>
+<span class='comment'>#=&gt; [&quot;BANANA&quot;, &quot;BANANA&quot;, &quot;APPLE&quot;]</span></code></pre>
+    
+      
+      <pre class="example code"><code><span class='id identifier rubyid_my_mock'>my_mock</span> <span class='op'>=</span> <span class='const'><span class='object_link'><a href="../Grift.html" title="Grift (module)">Grift</a></span></span><span class='period'>.</span><span class='id identifier rubyid_spy_on'><span class='object_link'><a href="../Grift.html#spy_on-class_method" title="Grift.spy_on (method)">spy_on</a></span></span><span class='lparen'>(</span><span class='const'>String</span><span class='comma'>,</span> <span class='symbol'>:upcase</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_mock_return_value_n_times'>mock_return_value_n_times</span><span class='lparen'>(</span><span class='int'>4</span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>BANANA</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span>
+<span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>apple</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>apple</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>apple</span><span class='tstring_end'>&quot;</span></span><span class='rbracket'>]</span><span class='period'>.</span><span class='id identifier rubyid_map'>map</span><span class='lparen'>(</span><span class='op'>&amp;</span><span class='symbol'>:upcase</span><span class='rparen'>)</span>
+<span class='comment'>#=&gt; [&quot;BANANA&quot;, &quot;BANANA&quot;, &quot;BANANA&quot;]
+</span><span class='id identifier rubyid_my_mock'>my_mock</span><span class='period'>.</span><span class='id identifier rubyid_mock_clear'>mock_clear</span> <span class='comment'># clear mock history before 4th (nth) method call
+</span><span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>apple</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>apple</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>apple</span><span class='tstring_end'>&quot;</span></span><span class='rbracket'>]</span><span class='period'>.</span><span class='id identifier rubyid_map'>map</span><span class='lparen'>(</span><span class='op'>&amp;</span><span class='symbol'>:upcase</span><span class='rparen'>)</span>
+<span class='comment'>#=&gt; [&quot;BANANA&quot;, &quot;BANANA&quot;, &quot;BANANA&quot;]</span></code></pre>
+    
+  </div>
+<p class="tag_title">Parameters:</p>
+<ul class="param">
+  
+    <li>
+      
+        <span class='name'>n</span>
+      
+      
+        <span class='type'>(<tt>Number</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>the number of times to mock the return value</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>return_value</span>
+      
+      
+        <span class='type'></span>
+      
+      
+        <em class="default">(defaults to: <tt>nil</tt>)</em>
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>the value to return from the method <code>n</code> times</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>self</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>the mock itself</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+361
+362
+363
+364
+365
+366
+367
+368
+369
+370
+371
+372
+373
+374
+375
+376
+377
+378
+379
+380
+381
+382
+383</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/grift/mock_method.rb', line 361</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_mock_return_value_n_times'>mock_return_value_n_times</span><span class='lparen'>(</span><span class='id identifier rubyid_n'>n</span><span class='comma'>,</span> <span class='id identifier rubyid_return_value'>return_value</span> <span class='op'>=</span> <span class='kw'>nil</span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_premock_setup'>premock_setup</span>
+
+  <span class='comment'># required to access mock inside class instance block
+</span>  <span class='id identifier rubyid_mock_executions'>mock_executions</span> <span class='op'>=</span> <span class='ivar'>@mock_executions</span>
+  <span class='id identifier rubyid_clean_mock'>clean_mock</span> <span class='op'>=</span> <span class='id identifier rubyid_lambda'>lambda</span> <span class='kw'>do</span>
+    <span class='id identifier rubyid_unmock_method'>unmock_method</span>
+    <span class='id identifier rubyid_watch_method'>watch_method</span>
+  <span class='kw'>end</span>
+
+  <span class='id identifier rubyid_class_instance'>class_instance</span><span class='period'>.</span><span class='id identifier rubyid_remove_method'>remove_method</span><span class='lparen'>(</span><span class='ivar'>@method_name</span><span class='rparen'>)</span> <span class='kw'>if</span> <span class='op'>!</span><span class='ivar'>@inherited</span> <span class='op'>&amp;&amp;</span> <span class='id identifier rubyid_method_defined?'>method_defined?</span>
+  <span class='id identifier rubyid_class_instance'>class_instance</span><span class='period'>.</span><span class='id identifier rubyid_define_method'>define_method</span> <span class='ivar'>@method_name</span> <span class='kw'>do</span> <span class='op'>|</span><span class='op'>*</span><span class='id identifier rubyid_args'>args</span><span class='comma'>,</span> <span class='op'>**</span><span class='id identifier rubyid_kwargs'>kwargs</span><span class='op'>|</span>
+    <span class='comment'># record the args passed in the call to the method and the result
+</span>    <span class='id identifier rubyid_mock_executions'>mock_executions</span><span class='period'>.</span><span class='id identifier rubyid_store'>store</span><span class='lparen'>(</span><span class='label'>args:</span> <span class='id identifier rubyid_args'>args</span><span class='comma'>,</span> <span class='label'>kwargs:</span> <span class='id identifier rubyid_kwargs'>kwargs</span><span class='comma'>,</span> <span class='label'>result:</span> <span class='id identifier rubyid_return_value'>return_value</span><span class='rparen'>)</span>
+
+    <span class='id identifier rubyid_clean_mock'>clean_mock</span><span class='period'>.</span><span class='id identifier rubyid_call'>call</span> <span class='kw'>if</span> <span class='id identifier rubyid_mock_executions'>mock_executions</span><span class='period'>.</span><span class='id identifier rubyid_count'>count</span> <span class='op'>==</span> <span class='id identifier rubyid_n'>n</span>
+
+    <span class='id identifier rubyid_return_value'>return_value</span>
+  <span class='kw'>end</span>
+  <span class='id identifier rubyid_class_instance'>class_instance</span><span class='period'>.</span><span class='id identifier rubyid_send'>send</span><span class='lparen'>(</span><span class='ivar'>@method_access</span><span class='comma'>,</span> <span class='ivar'>@method_name</span><span class='rparen'>)</span>
+
+  <span class='kw'>self</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="mock_return_value_once-instance_method">
+  
+    #<strong>mock_return_value_once</strong>(return_value = nil)  &#x21d2; <tt>self</tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Accepts a value and mocks the method to return that value once instead of executing its original behavior while mocked. After the method has been called once, it will return to its original behavior. The method will continue to be watched.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+  <div class="examples">
+    <p class="tag_title">Examples:</p>
+    
+      
+      <pre class="example code"><code><span class='id identifier rubyid_my_mock'>my_mock</span> <span class='op'>=</span> <span class='const'><span class='object_link'><a href="../Grift.html" title="Grift (module)">Grift</a></span></span><span class='period'>.</span><span class='id identifier rubyid_spy_on'><span class='object_link'><a href="../Grift.html#spy_on-class_method" title="Grift.spy_on (method)">spy_on</a></span></span><span class='lparen'>(</span><span class='const'>String</span><span class='comma'>,</span> <span class='symbol'>:upcase</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_mock_return_value_once'>mock_return_value_once</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>BANANA</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span>
+<span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>apple</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>apple</span><span class='tstring_end'>&quot;</span></span><span class='rbracket'>]</span><span class='period'>.</span><span class='id identifier rubyid_map'>map</span><span class='lparen'>(</span><span class='op'>&amp;</span><span class='symbol'>:upcase</span><span class='rparen'>)</span>
+<span class='comment'>#=&gt; [&quot;BANANA&quot;, &quot;APPLE&quot;]</span></code></pre>
+    
+  </div>
+<p class="tag_title">Parameters:</p>
+<ul class="param">
+  
+    <li>
+      
+        <span class='name'>return_value</span>
+      
+      
+        <span class='type'></span>
+      
+      
+        <em class="default">(defaults to: <tt>nil</tt>)</em>
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>the value to return from the method once</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>self</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>the mock itself</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+309
+310
+311
+312
+313
+314
+315
+316
+317
+318
+319
+320
+321
+322
+323
+324
+325
+326
+327
+328
+329
+330
+331</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/grift/mock_method.rb', line 309</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_mock_return_value_once'>mock_return_value_once</span><span class='lparen'>(</span><span class='id identifier rubyid_return_value'>return_value</span> <span class='op'>=</span> <span class='kw'>nil</span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_premock_setup'>premock_setup</span>
+
+  <span class='comment'># required to access mock inside class instance block
+</span>  <span class='id identifier rubyid_mock_executions'>mock_executions</span> <span class='op'>=</span> <span class='ivar'>@mock_executions</span>
+  <span class='id identifier rubyid_clean_mock'>clean_mock</span> <span class='op'>=</span> <span class='id identifier rubyid_lambda'>lambda</span> <span class='kw'>do</span>
+    <span class='id identifier rubyid_unmock_method'>unmock_method</span>
+    <span class='id identifier rubyid_watch_method'>watch_method</span>
+  <span class='kw'>end</span>
+
+  <span class='id identifier rubyid_class_instance'>class_instance</span><span class='period'>.</span><span class='id identifier rubyid_remove_method'>remove_method</span><span class='lparen'>(</span><span class='ivar'>@method_name</span><span class='rparen'>)</span> <span class='kw'>if</span> <span class='op'>!</span><span class='ivar'>@inherited</span> <span class='op'>&amp;&amp;</span> <span class='id identifier rubyid_method_defined?'>method_defined?</span>
+  <span class='id identifier rubyid_class_instance'>class_instance</span><span class='period'>.</span><span class='id identifier rubyid_define_method'>define_method</span> <span class='ivar'>@method_name</span> <span class='kw'>do</span> <span class='op'>|</span><span class='op'>*</span><span class='id identifier rubyid_args'>args</span><span class='comma'>,</span> <span class='op'>**</span><span class='id identifier rubyid_kwargs'>kwargs</span><span class='op'>|</span>
+    <span class='comment'># record the args passed in the call to the method and the result
+</span>    <span class='id identifier rubyid_mock_executions'>mock_executions</span><span class='period'>.</span><span class='id identifier rubyid_store'>store</span><span class='lparen'>(</span><span class='label'>args:</span> <span class='id identifier rubyid_args'>args</span><span class='comma'>,</span> <span class='label'>kwargs:</span> <span class='id identifier rubyid_kwargs'>kwargs</span><span class='comma'>,</span> <span class='label'>result:</span> <span class='id identifier rubyid_return_value'>return_value</span><span class='rparen'>)</span>
+
+    <span class='id identifier rubyid_clean_mock'>clean_mock</span><span class='period'>.</span><span class='id identifier rubyid_call'>call</span>
+
+    <span class='id identifier rubyid_return_value'>return_value</span>
+  <span class='kw'>end</span>
+  <span class='id identifier rubyid_class_instance'>class_instance</span><span class='period'>.</span><span class='id identifier rubyid_send'>send</span><span class='lparen'>(</span><span class='ivar'>@method_access</span><span class='comma'>,</span> <span class='ivar'>@method_name</span><span class='rparen'>)</span>
+
+  <span class='kw'>self</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="mock_return_values_in_order-instance_method">
+  
+    #<strong>mock_return_values_in_order</strong>(return_values)  &#x21d2; <tt>self</tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Accepts an array of values and mocks the method to return those values in order instead of executing its original behavior while mocked. After the method has been called enough times to return each of the values, it will return to its original behavior. The method continue to be watched.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+  <div class="examples">
+    <p class="tag_title">Examples:</p>
+    
+      
+      <pre class="example code"><code><span class='id identifier rubyid_mock_values'>mock_values</span> <span class='op'>=</span> <span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>APPLE</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>BANANA</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>ORANGE</span><span class='tstring_end'>&quot;</span></span><span class='rbracket'>]</span>
+<span class='id identifier rubyid_my_mock'>my_mock</span> <span class='op'>=</span> <span class='const'><span class='object_link'><a href="../Grift.html" title="Grift (module)">Grift</a></span></span><span class='period'>.</span><span class='id identifier rubyid_spy_on'><span class='object_link'><a href="../Grift.html#spy_on-class_method" title="Grift.spy_on (method)">spy_on</a></span></span><span class='lparen'>(</span><span class='const'>String</span><span class='comma'>,</span> <span class='symbol'>:upcase</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_mock_return_values_in_order'>mock_return_values_in_order</span><span class='lparen'>(</span><span class='id identifier rubyid_mock_values'>mock_values</span><span class='rparen'>)</span>
+<span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>pineapple</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>orange</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>guava</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>mango</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>watermelon</span><span class='tstring_end'>&quot;</span></span><span class='rbracket'>]</span><span class='period'>.</span><span class='id identifier rubyid_map'>map</span><span class='lparen'>(</span><span class='op'>&amp;</span><span class='symbol'>:upcase</span><span class='rparen'>)</span>
+<span class='comment'>#=&gt; [&quot;APPLE&quot;, &quot;BANANA&quot;, &quot;ORANGE&quot;, &quot;MANGO&quot;, &quot;WATERMELON&quot;]</span></code></pre>
+    
+  </div>
+<p class="tag_title">Parameters:</p>
+<ul class="param">
+  
+    <li>
+      
+        <span class='name'>return_values</span>
+      
+      
+        <span class='type'>(<tt>Array</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>the values to return from the method in order</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>self</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>the mock itself</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+401
+402
+403
+404
+405
+406
+407
+408
+409
+410
+411
+412
+413
+414
+415
+416
+417
+418
+419
+420
+421
+422
+423
+424
+425
+426
+427
+428
+429</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/grift/mock_method.rb', line 401</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_mock_return_values_in_order'>mock_return_values_in_order</span><span class='lparen'>(</span><span class='id identifier rubyid_return_values'>return_values</span><span class='rparen'>)</span>
+  <span class='kw'>unless</span> <span class='id identifier rubyid_return_values'>return_values</span><span class='period'>.</span><span class='id identifier rubyid_is_a?'>is_a?</span><span class='lparen'>(</span><span class='const'>Array</span><span class='rparen'>)</span> <span class='op'>&amp;&amp;</span> <span class='op'>!</span><span class='id identifier rubyid_return_values'>return_values</span><span class='period'>.</span><span class='id identifier rubyid_empty?'>empty?</span>
+    <span class='id identifier rubyid_raise'>raise</span><span class='lparen'>(</span><span class='const'><span class='object_link'><a href="../Grift.html" title="Grift (module)">Grift</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="Error.html" title="Grift::Error (class)">Error</a></span></span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>Must provide a non-empty array for the return values</span><span class='tstring_end'>&#39;</span></span><span class='rparen'>)</span>
+  <span class='kw'>end</span>
+
+  <span class='id identifier rubyid_premock_setup'>premock_setup</span>
+
+  <span class='comment'># required to access mock inside class instance block
+</span>  <span class='id identifier rubyid_mock_executions'>mock_executions</span> <span class='op'>=</span> <span class='ivar'>@mock_executions</span>
+  <span class='id identifier rubyid_clean_mock'>clean_mock</span> <span class='op'>=</span> <span class='id identifier rubyid_lambda'>lambda</span> <span class='kw'>do</span>
+    <span class='id identifier rubyid_unmock_method'>unmock_method</span>
+    <span class='id identifier rubyid_watch_method'>watch_method</span>
+  <span class='kw'>end</span>
+  <span class='id identifier rubyid_return_values_internal'>return_values_internal</span> <span class='op'>=</span> <span class='id identifier rubyid_return_values'>return_values</span><span class='period'>.</span><span class='id identifier rubyid_dup'>dup</span>
+
+  <span class='id identifier rubyid_class_instance'>class_instance</span><span class='period'>.</span><span class='id identifier rubyid_remove_method'>remove_method</span><span class='lparen'>(</span><span class='ivar'>@method_name</span><span class='rparen'>)</span> <span class='kw'>if</span> <span class='op'>!</span><span class='ivar'>@inherited</span> <span class='op'>&amp;&amp;</span> <span class='id identifier rubyid_method_defined?'>method_defined?</span>
+  <span class='id identifier rubyid_class_instance'>class_instance</span><span class='period'>.</span><span class='id identifier rubyid_define_method'>define_method</span> <span class='ivar'>@method_name</span> <span class='kw'>do</span> <span class='op'>|</span><span class='op'>*</span><span class='id identifier rubyid_args'>args</span><span class='comma'>,</span> <span class='op'>**</span><span class='id identifier rubyid_kwargs'>kwargs</span><span class='op'>|</span>
+    <span class='comment'># record the args passed in the call to the method and the result
+</span>    <span class='id identifier rubyid_return_value'>return_value</span> <span class='op'>=</span> <span class='id identifier rubyid_return_values_internal'>return_values_internal</span><span class='period'>.</span><span class='id identifier rubyid_shift'>shift</span>
+    <span class='id identifier rubyid_mock_executions'>mock_executions</span><span class='period'>.</span><span class='id identifier rubyid_store'>store</span><span class='lparen'>(</span><span class='label'>args:</span> <span class='id identifier rubyid_args'>args</span><span class='comma'>,</span> <span class='label'>kwargs:</span> <span class='id identifier rubyid_kwargs'>kwargs</span><span class='comma'>,</span> <span class='label'>result:</span> <span class='id identifier rubyid_return_value'>return_value</span><span class='rparen'>)</span>
+
+    <span class='id identifier rubyid_clean_mock'>clean_mock</span><span class='period'>.</span><span class='id identifier rubyid_call'>call</span> <span class='kw'>if</span> <span class='id identifier rubyid_return_values_internal'>return_values_internal</span><span class='period'>.</span><span class='id identifier rubyid_empty?'>empty?</span>
+
+    <span class='id identifier rubyid_return_value'>return_value</span>
   <span class='kw'>end</span>
   <span class='id identifier rubyid_class_instance'>class_instance</span><span class='period'>.</span><span class='id identifier rubyid_send'>send</span><span class='lparen'>(</span><span class='ivar'>@method_access</span><span class='comma'>,</span> <span class='ivar'>@method_name</span><span class='rparen'>)</span>
 
@@ -1502,12 +2365,12 @@
       <pre class="lines">
 
 
-192
-193
-194</pre>
+438
+439
+440</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/grift/mock_method.rb', line 192</span>
+      <pre class="code"><span class="info file"># File 'lib/grift/mock_method.rb', line 438</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_to_s'>to_s</span>
   <span class='const'><span class='object_link'><a href="../Grift.html" title="Grift (module)">Grift</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="" title="Grift::MockMethod (class)">MockMethod</a></span></span><span class='period'>.</span><span class='id identifier rubyid_hash_key'><span class='object_link'><a href="#hash_key-class_method" title="Grift::MockMethod.hash_key (method)">hash_key</a></span></span><span class='lparen'>(</span><span class='ivar'>@klass</span><span class='comma'>,</span> <span class='ivar'>@method_name</span><span class='rparen'>)</span>
@@ -1522,9 +2385,9 @@
 </div>
 
       <div id="footer">
-  Generated on Sun Mar 27 14:35:43 2022 by
-  <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
-  0.9.27 (ruby-3.0.3).
+  Generated on Tue Dec 27 12:12:06 2022 by
+  <a href="https://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
+  0.9.28 (ruby-3.1.3).
 </div>
 
     </div>
