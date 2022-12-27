@@ -102,12 +102,12 @@ Lint/AmbiguousRange:
 
 # Metrics
 Metrics/AbcSize:
-  Max: 20
+  Max: 25
   Exclude:
     - "test/**/*"
 
 Metrics/ClassLength:
-  Max: 150
+  Max: 170
   CountAsOne:
     - array
     - hash
