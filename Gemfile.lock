@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    grift (2.0.1)
+    grift (2.1.0)
 
 GEM
   remote: https://rubygems.org/
