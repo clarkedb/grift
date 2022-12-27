@@ -183,6 +183,141 @@ module Grift
     end
 
     ##
+    # Accepts a value and mocks the method to return that value once instead
+    # of executing its original behavior while mocked. After the method has
+    # been called once, it will return to its original behavior.
+    #
+    # @example
+    #   my_mock = Grift.spy_on(String, :upcase).mock_return_value_once("BANANA")
+    #   ["apple", "apple"].map(&:upcase)
+    #   #=> ["BANANA", "APPLE"]
+    #
+    # @param return_value the value to return from the method once
+    #
+    # @return [self] the mock itself
+    #
+    def mock_return_value_once(return_value = nil)
+      premock_setup
+
+      # required to access mock inside class instance block
+      mock_executions = @mock_executions
+      clean_mock = lambda do
+        unmock_method
+        watch_method
+      end
+
+      class_instance.remove_method(@method_name) if !@inherited && method_defined?
+      class_instance.define_method @method_name do |*args, **kwargs|
+        # record the args passed in the call to the method and the result
+        mock_executions.store(args: args, kwargs: kwargs, result: return_value)
+
+        clean_mock.call
+
+        return_value
+      end
+      class_instance.send(@method_access, @method_name)
+
+      self
+    end
+
+    ##
+    # Accepts a value and mocks the method to return that value +n+ times instead
+    # of executing its original behavior while mocked. After the method has
+    # been called +n+ times, it will return to its original behavior.
+    #
+    # **IMPORANT:** Calling {#mock_clear} clears the method call history. If it is
+    # called before the nth execution of the mocked method, the method will remain
+    # mocked for another +n+ times.
+    #
+    # @example
+    #   my_mock = Grift.spy_on(String, :upcase).mock_return_value_n_times(2, "BANANA")
+    #   ["apple", "apple", "apple"].map(&:upcase)
+    #   #=> ["BANANA", "BANANA", "APPLE"]
+    #
+    # @example
+    #   my_mock = Grift.spy_on(String, :upcase).mock_return_value_n_times(4, "BANANA")
+    #   ["apple", "apple", "apple"].map(&:upcase)
+    #   #=> ["BANANA", "BANANA", "BANANA"]
+    #   my_mock.mock_clear # clear mock history before 4th (nth) method call
+    #   ["apple", "apple", "apple"].map(&:upcase)
+    #   #=> ["BANANA", "BANANA", "BANANA"]
+    #
+    # @param n [Number] the number of times to mock the return value
+    # @param return_value the value to return from the method +n+ times
+    #
+    # @return [self] the mock itself
+    #
+    def mock_return_value_n_times(n, return_value = nil)
+      premock_setup
+
+      # required to access mock inside class instance block
+      mock_executions = @mock_executions
+      clean_mock = lambda do
+        unmock_method
+        watch_method
+      end
+
+      class_instance.remove_method(@method_name) if !@inherited && method_defined?
+      class_instance.define_method @method_name do |*args, **kwargs|
+        # record the args passed in the call to the method and the result
+        mock_executions.store(args: args, kwargs: kwargs, result: return_value)
+
+        clean_mock.call if mock_executions.count == n
+
+        return_value
+      end
+      class_instance.send(@method_access, @method_name)
+
+      self
+    end
+
+    ##
+    # Accepts an array of values and mocks the method to return those values
+    # in order instead of executing its original behavior while mocked. After
+    # the method has been called enough times to return each of the values,
+    # it will return to its original behavior.
+    #
+    # @example
+    #   mock_values = ["APPLE", "BANANA", "ORANGE"]
+    #   my_mock = Grift.spy_on(String, :upcase).mock_return_values_in_order(mock_values)
+    #   ["pineapple", "orange", "guava", "mango", "watermelon"].map(&:upcase)
+    #   #=> ["APPLE", "BANANA", "ORANGE", "MANGO", "WATERMELON"]
+    #
+    # @param return_values [Array] the values to return from the method in order
+    #
+    # @return [self] the mock itself
+    #
+    def mock_return_values_in_order(return_values)
+      unless return_values.is_a?(Array) && !return_values.empty?
+        raise(Grift::Error, 'Must provide a non-empty array for the return values')
+      end
+
+      premock_setup
+
+      # required to access mock inside class instance block
+      mock_executions = @mock_executions
+      clean_mock = lambda do
+        unmock_method
+        watch_method
+      end
+      return_values_internal = return_values.dup
+
+      class_instance.remove_method(@method_name) if !@inherited && method_defined?
+      class_instance.define_method @method_name do |*args, **kwargs|
+        # record the args passed in the call to the method and the result
+        return_value = return_values_internal.shift
+        mock_executions.store(args: args, kwargs: kwargs, result: return_value)
+
+        clean_mock.call if return_values_internal.empty?
+
+        return_value
+      end
+      class_instance.send(@method_access, @method_name)
+
+      self
+    end
+
+    ##
     # String representation of the MockMethod
     #
     # @see Grift::MockMethod.hash_key
