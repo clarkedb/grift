@@ -153,6 +153,52 @@ module Grift
     end
 
     ##
+    # Accepts a block and mocks the method to execute that block instead
+    # of the original behavior the next time the method is called while mocked.
+    # After the method has been called once, it will return to its original
+    # behavior. The method will continue to be watched.
+    #
+    # @see #mock_implementation
+    #
+    # @example
+    #   my_mock = Grift.spy_on(String, :downcase).mock_implementation_once do
+    #       x = 3 + 4
+    #       x.to_s
+    #   end
+    #   ["Banana", "Apple"].map(&:downcase)
+    #   #=> ["7", "apple"]
+    #
+    # @return [self] the mock itself
+    #
+    def mock_implementation_once(*)
+      raise(Grift::Error, 'Must provide a block for the new implementation') unless block_given?
+
+      premock_setup
+
+      # required to access inside class instance block
+      mock_executions = @mock_executions
+      clean_mock = lambda do
+        unmock_method
+        watch_method
+      end
+
+      class_instance.remove_method(@method_name) if !@inherited && method_defined?
+      class_instance.define_method @method_name do |*args, **kwargs|
+        return_value = yield(*args, **kwargs)
+
+        # record the args passed in the call to the method and the result
+        mock_executions.store(args: args, result: return_value)
+
+        clean_mock.call
+
+        return_value
+      end
+      class_instance.send(@method_access, @method_name)
+
+      self
+    end
+
+    ##
     # Accepts a value and mocks the method to return that value instead
     # of executing its original behavior while mocked.
     #
@@ -185,7 +231,8 @@ module Grift
     ##
     # Accepts a value and mocks the method to return that value once instead
     # of executing its original behavior while mocked. After the method has
-    # been called once, it will return to its original behavior.
+    # been called once, it will return to its original behavior. The method
+    # will continue to be watched.
     #
     # @example
     #   my_mock = Grift.spy_on(String, :upcase).mock_return_value_once("BANANA")
@@ -223,7 +270,8 @@ module Grift
     ##
     # Accepts a value and mocks the method to return that value +n+ times instead
     # of executing its original behavior while mocked. After the method has
-    # been called +n+ times, it will return to its original behavior.
+    # been called +n+ times, it will return to its original behavior. The method
+    # will continue to be watched.
     #
     # **IMPORANT:** Calling {#mock_clear} clears the method call history. If it is
     # called before the nth execution of the mocked method, the method will remain
@@ -275,7 +323,7 @@ module Grift
     # Accepts an array of values and mocks the method to return those values
     # in order instead of executing its original behavior while mocked. After
     # the method has been called enough times to return each of the values,
-    # it will return to its original behavior.
+    # it will return to its original behavior. The method continue to be watched.
     #
     # @example
     #   mock_values = ["APPLE", "BANANA", "ORANGE"]
