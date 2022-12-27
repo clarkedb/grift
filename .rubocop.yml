@@ -141,6 +141,10 @@ Minitest/RefutePredicate:
 Naming/InclusiveLanguage:
   Enabled: true
 
+Naming/MethodParameterName:
+  AllowedNames:
+    - n
+
 Naming/VariableNumber:
   EnforcedStyle: snake_case
 
