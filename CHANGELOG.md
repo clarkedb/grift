@@ -8,6 +8,15 @@ This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.htm
 
 None
 
+## [2.1.0](https://github.com/clarkedb/grift/releases/tag/v2.1.0) - 2022-12-27
+
+### Added
+
+* Official support for Ruby 3.2 ([#126](https://github.com/clarkedb/grift/pull/126))
+* Support for finite/self-terminating mocking for more precision in testing where a method may get called multiple times
+  + The Grift API now supports `mock_return_value_once`,  `mock_return_value_n_times`, and `mock_return_values_in_order` ([#135](https://github.com/clarkedb/grift/pull/135))
+  + The Grift API now supports `mock_implementation_once` and `mock_implementation_n_times` ([#136](https://github.com/clarkedb/grift/pull/136))
+
 ## [2.0.1](https://github.com/clarkedb/grift/releases/tag/v2.0.1) - 2022-03-27
 
 ### Fixed
