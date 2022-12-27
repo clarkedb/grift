@@ -41,6 +41,44 @@ class MockMethodTest < Minitest::Test
     assert_equal target.first_name, Target.mimic(target).first_name
   end
 
+  def test_it_mocks_an_instance_method_return_value_once
+    true_target_name = 'Michael Scott'
+    mock_target_name = 'Dwight Schrute'
+
+    target = Target.new(first_name: 'Michael', last_name: 'Scott')
+    assert_respond_to target, :full_name
+    assert_equal true_target_name, target.full_name
+
+    full_name_mock = Grift::MockMethod.new(Target, :full_name)
+    full_name_mock.mock_return_value_once(mock_target_name)
+
+    mocked_result = target.full_name
+    assert_equal mock_target_name, mocked_result
+    assert_equal mock_target_name, full_name_mock.mock.results.first
+
+    assert_equal true_target_name, target.full_name
+    assert_equal 2, full_name_mock.mock.results.length
+    assert_equal true_target_name, full_name_mock.mock.results.last
+  end
+
+  def test_it_mocks_a_class_method_return_value_once
+    target = Target.new(first_name: 'Jerry', gullible: false)
+    mock_target = Target.new(first_name: 'Larry')
+    assert_respond_to Target, :mimic
+    assert_equal target.first_name, Target.mimic(target).first_name
+
+    mimic_mock = Grift::MockMethod.new(Target, :mimic)
+    mimic_mock.mock_return_value_once(mock_target)
+
+    mocked_result = Target.mimic(target)
+    refute_equal target.first_name, mocked_result.first_name
+    assert_equal mock_target, mimic_mock.mock.results.first
+
+    assert_equal target.first_name, Target.mimic(target).first_name
+    assert_equal 2, mimic_mock.mock.results.length
+    assert_equal target, mimic_mock.mock.results.last
+  end
+
   def test_it_watches_the_method_by_default
     target_full_name = 'Tobias Funke'
     target = Target.new(first_name: 'Tobias', last_name: 'Funke')

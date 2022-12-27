@@ -35,6 +35,14 @@ class Target
     yield
   end
 
+  def ==(other)
+    @first_name == other.first_name &&
+      @last_name == other.last_name &&
+      @gullible == other.gullible &&
+      @knowledge == other.knowledge &&
+      knows_secrets? == other.knows_secrets?
+  end
+
   def self.mimic(target, gullible: false)
     Target.new(first_name: target.first_name, last_name: target.last_name, gullible: gullible)
   end

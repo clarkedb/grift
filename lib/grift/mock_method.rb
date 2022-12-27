@@ -183,6 +183,44 @@ module Grift
     end
 
     ##
+    # Accepts a value and mocks the method to return that value once instead
+    # of executing its original behavior while mocked. After the method has
+    # been called once, it will return to its original behavior.
+    #
+    # @example
+    #   my_mock = Grift.spy_on(String, :upcase).mock_return_value_once("BANANA")
+    #   ["apple", "apple"].map(&:upcase)
+    #   #=> ["BANANA", "APPLE"]
+    #
+    # @param return_value the value to return from the method once
+    #
+    # @return [self] the mock itself
+    #
+    def mock_return_value_once(return_value = nil)
+      premock_setup
+
+      # required to access mock inside class instance block
+      mock_executions = @mock_executions
+      clean_mock = lambda do
+        unmock_method
+        watch_method
+      end
+
+      class_instance.remove_method(@method_name) if !@inherited && method_defined?
+      class_instance.define_method @method_name do |*args, **kwargs|
+        # record the args passed in the call to the method and the result
+        mock_executions.store(args: args, kwargs: kwargs, result: return_value)
+
+        clean_mock.call
+
+        return_value
+      end
+      class_instance.send(@method_access, @method_name)
+
+      self
+    end
+
+    ##
     # String representation of the MockMethod
     #
     # @see Grift::MockMethod.hash_key
