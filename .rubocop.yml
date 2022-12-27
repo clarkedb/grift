@@ -107,7 +107,7 @@ Metrics/AbcSize:
     - "test/**/*"
 
 Metrics/ClassLength:
-  Max: 170
+  Max: 225
   CountAsOne:
     - array
     - hash
