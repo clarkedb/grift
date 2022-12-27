@@ -272,6 +272,29 @@ class MockMethodTest < Minitest::Test
     assert_equal target_full_name, full_name_mock.mock.results.last
   end
 
+  def test_it_mocks_an_instance_method_implementation_n_times
+    target_full_name = 'Buster Bluth'
+    target = Target.new(first_name: 'Buster', last_name: 'Bluth')
+    assert_respond_to target, :full_name
+    assert_equal target_full_name, target.full_name
+
+    full_name_mock = Grift::MockMethod.new(Target, :full_name)
+    n = 3
+    full_name_mock.mock_implementation_n_times(n) do
+      [target.last_name, target.first_name].join(' ')
+    end
+
+    expected_full_name_result = target_full_name.split.reverse.join(' ')
+    n.times.each do |i|
+      assert_equal expected_full_name_result, target.full_name
+      assert_equal expected_full_name_result, full_name_mock.mock.results[i]
+    end
+
+    assert_equal target_full_name, target.full_name
+    assert_equal n + 1, full_name_mock.mock.count
+    assert_equal target_full_name, full_name_mock.mock.results.last
+  end
+
   def test_it_mocks_a_class_method_implementation
     target = Target.new(first_name: 'Jerry')
     assert_respond_to Target, :mimic
@@ -310,6 +333,30 @@ class MockMethodTest < Minitest::Test
     assert_equal target, mimic_mock.mock.results.last
   end
 
+  def test_it_mocks_a_class_method_implementation_n_times
+    target = Target.new(first_name: 'Jerry')
+    assert_respond_to Target, :mimic
+    assert_equal target.first_name, Target.mimic(target).first_name
+
+    mimic_mock = Grift::MockMethod.new(Target, :mimic)
+    n = 4
+    mimic_mock.mock_implementation_n_times(n) do |t|
+      t.full_name * 2
+    end
+
+    n.times.each do |i|
+      mocked_result = Target.mimic(target, gullible: true)
+      expected_mimic_result = target.full_name * 2
+      assert_equal expected_mimic_result, mocked_result
+      assert_equal expected_mimic_result, mimic_mock.mock.results[i]
+    end
+
+    unmocked_result = Target.mimic(target, gullible: true)
+    assert_equal target, unmocked_result
+    assert_equal n + 1, mimic_mock.mock.count
+    assert_equal target, mimic_mock.mock.results.last
+  end
+
   def test_it_raises_error_when_no_block_given_for_mock_implementation
     assert_raises Grift::Error do
       Grift.spy_on(Target, :new).mock_implementation
@@ -319,6 +366,12 @@ class MockMethodTest < Minitest::Test
   def test_it_raises_error_when_no_block_given_for_mock_implementation_once
     assert_raises Grift::Error do
       Grift.spy_on(Target, :new).mock_implementation_once
+    end
+  end
+
+  def test_it_raises_error_when_no_block_given_for_mock_implementation_n_times
+    assert_raises Grift::Error do
+      Grift.spy_on(Target, :new).mock_implementation_n_times(10)
     end
   end
 
