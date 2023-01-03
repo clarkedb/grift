@@ -6,6 +6,10 @@
 class Target
   attr_reader :first_name, :last_name, :gullible, :knowledge
 
+  def self.mimic(target, gullible: false)
+    Target.new(first_name: target.first_name, last_name: target.last_name, gullible: gullible)
+  end
+
   def initialize(first_name: 'Tobias', last_name: 'Funke', gullible: true, secrets: [])
     @first_name = first_name
     @last_name = last_name
@@ -41,10 +45,6 @@ class Target
       @gullible == other.gullible &&
       @knowledge == other.knowledge &&
       knows_secrets? == other.knows_secrets?
-  end
-
-  def self.mimic(target, gullible: false)
-    Target.new(first_name: target.first_name, last_name: target.last_name, gullible: gullible)
   end
 
   protected
