@@ -12,6 +12,22 @@ module Grift
     private_constant :CACHE_METHOD_PREFIX
 
     ##
+    # Hashes the class and method for tracking mocks.
+    #
+    # @example
+    #   Grift::MockMethod.hash_key(String, :upcase)
+    #   #=> 'String#upcase'
+    #
+    # @param klass [Class]
+    # @param method_name [Symbol]
+    #
+    # @return [String] the hash of the class and method
+    #
+    def self.hash_key(klass, method_name)
+      "#{klass}##{method_name}"
+    end
+
+    ##
     # A new instance of MockMethod. Should be initialized via {Grift.mock} or {Grift.spy_on}
     #
     # @see Grift.mock
@@ -437,22 +453,6 @@ module Grift
     #
     def to_s
       Grift::MockMethod.hash_key(@klass, @method_name)
-    end
-
-    ##
-    # Hashes the class and method for tracking mocks.
-    #
-    # @example
-    #   Grift::MockMethod.hash_key(String, :upcase)
-    #   #=> 'String#upcase'
-    #
-    # @param klass [Class]
-    # @param method_name [Symbol]
-    #
-    # @return [String] the hash of the class and method
-    #
-    def self.hash_key(klass, method_name)
-      "#{klass}##{method_name}"
     end
 
     private
