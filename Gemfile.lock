@@ -11,9 +11,8 @@ GEM
     base64 (0.1.1)
     builder (3.2.4)
     childprocess (4.1.0)
-    codecov (0.2.12)
-      json
-      simplecov
+    codecov (0.6.0)
+      simplecov (>= 0.15, < 0.22)
     docile (1.4.0)
     iniparse (1.5.0)
     json (2.6.3)
@@ -59,7 +58,7 @@ GEM
       rubocop (>= 1.7.0, < 2.0)
       rubocop-ast (>= 0.4.0)
     ruby-progressbar (1.13.0)
-    simplecov (0.22.0)
+    simplecov (0.21.2)
       docile (~> 1.1)
       simplecov-html (~> 0.11)
       simplecov_json_formatter (~> 0.1)
