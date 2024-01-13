@@ -52,7 +52,7 @@ module Grift
       @method_name = method_name
       @true_method_cached = false
       @mock_executions = MockExecutions.new
-      @cache_method_name = "#{CACHE_METHOD_PREFIX}_#{method_name}".to_sym
+      @cache_method_name = :"#{CACHE_METHOD_PREFIX}_#{method_name}"
 
       # class methods are really instance methods of the singleton class
       @class_method = klass.singleton_class.method_defined?(method_name, true) ||
