@@ -8,6 +8,12 @@ This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.htm
 
 None
 
+## [2.2.0](https://github.com/clarkedb/grift/releases/tag/v2.2.0) - 2024-01-13
+
+### Added
+
+* Official support for Ruby 3.3 ([#203](https://github.com/clarkedb/grift/pull/203))
+
 ## [2.1.0](https://github.com/clarkedb/grift/releases/tag/v2.1.0) - 2022-12-27
 
 ### Added
