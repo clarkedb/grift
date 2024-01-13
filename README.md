@@ -122,7 +122,7 @@ my_mock.mock.results
 
 ## Requirements
 
-Grift supports all Ruby versions >= 2.7 (including 3.2).
+Grift supports all Ruby versions >= 2.7 (including 3.3).
 
 ## Development
 
