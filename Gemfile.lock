@@ -17,7 +17,7 @@ GEM
     iniparse (1.5.0)
     json (2.7.1)
     language_server-protocol (3.17.0.3)
-    minitest (5.20.0)
+    minitest (5.21.1)
     minitest-reporters (1.6.1)
       ansi
       builder
