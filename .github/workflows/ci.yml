@@ -43,10 +43,10 @@ jobs:
           bundler-cache: true
 
       - name: Test
-        continue-on-error: ${{ matrix.experimental }}
         run: bundle exec rake test
 
       - name: Upload coverage to Codecov
+        if: always()
         uses: codecov/codecov-action@v3
         with:
           token: ${{ secrets.CODECOV_TOKEN }}
