@@ -43,7 +43,7 @@ jobs:
           bundler-cache: true
 
       - name: Test
-        run: bundle exec rake test
+        run: bundle exec rake --trace test
 
       - name: Upload coverage to Codecov
         if: always()
