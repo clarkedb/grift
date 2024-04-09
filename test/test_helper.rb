@@ -13,8 +13,8 @@ unless ENV.fetch('CODE_COVERAGE', nil) == 'false'
   end
 
   if ENV.fetch('CI', nil) == 'true'
-    require 'codecov'
-    SimpleCov.formatter = SimpleCov::Formatter::Codecov
+    require 'simplecov-cobertura'
+    SimpleCov.formatter = SimpleCov::Formatter::CoberturaFormatter
   end
 end
 
