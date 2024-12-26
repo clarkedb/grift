@@ -455,6 +455,84 @@ module Grift
       Grift::MockMethod.hash_key(@klass, @method_name)
     end
 
+    ##
+    # Returns an array of the args used in each call to the mocked method
+    # This is syntactical sugar equivalent to calling `mock` and then `calls`.
+    #
+    # @see Grift::MockMethod::MockExecutions#calls
+    #
+    # @example
+    #   my_mock = Grift.spy_on(Number, :+)
+    #   x = (3 + 4) + 5
+    #   my_mock.calls.map(&:values)
+    #   #=> [[4], [5]]
+    #
+    # @return [Array<Grift::MockMethod::MockExecutions::MockArguments>] an array of MockArguments
+    #
+    def calls
+      @mock_executions.calls
+    end
+
+    ##
+    # Returns true if there have been no calls to the mock.
+    # This is syntactical sugar equivalent to calling `mock` and then `empty?`.
+    #
+    # @see Grift::MockMethod::MockExecutions#empty?
+    #
+    # @example
+    #   my_mock = Grift.mock(String, :upcase)
+    #   my_mock.mock.empty?
+    #   #=> true
+    #   "apple".upcase
+    #   #=> "APPLE"
+    #   my_mock.empty?
+    #   #=> false
+    #
+    # @return [Boolean] if the executions are empty
+    #
+    def empty?
+      @mock_executions.empty?
+    end
+
+    ##
+    # Returns the count of mock executions.
+    # This is syntactical sugar equivalent to calling `mock` and then `count`.
+    #
+    # @see Grift::MockMethod::MockExecutions#count
+    #
+    # @example
+    #   my_mock = Grift.mock(String, :upcase)
+    #   my_mock.mock.count
+    #   #=> 0
+    #   "apple".upcase
+    #   #=> "APPLE"
+    #   my_mock.count
+    #   #=> 1
+    #
+    # @return [Number] the number of executions
+    #
+    def count
+      @mock_executions.count
+    end
+
+    ##
+    # Returns an array of the results of each call to the mocked method
+    # This is syntactical sugar equivalent to calling `mock` and then `results`.
+    #
+    # @see Grift::MockMethod::MockExecutions#results
+    #
+    # @example
+    #   my_mock = Grift.spy_on(Number, :+)
+    #   x = (3 + 4) + 5
+    #   my_mock.results
+    #   #=> [7, 12]
+    #
+    # @return [Array] an array of results
+    #
+    def results
+      @mock_executions.results
+    end
+
     private
 
     ##

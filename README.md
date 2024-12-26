@@ -100,23 +100,23 @@ end
 
 ### Results
 
-To get the results and details of the calls, call `mock` on your mock method object.
+To get the results and details of the calls, call `calls` or `results` on your mock method object.
 
 ```ruby
 # get the number of times the mocked method has been called
-my_mock.mock.count
+my_mock.count
 #=> 2
 
 # get args for each call to the method while mocked
-my_mock.mock.calls[0].args
+my_mock.calls[0].args
 #=> ['first_arg1', 'second_arg1']
 
 # get kwargs for each call to the method while mocked
-my_mock.mock.calls[0].kwargs
+my_mock.calls[0].kwargs
 #=> { first_arg1: 'value' }
 
 # get results (return value) for each call to the method while mocked
-my_mock.mock.results
+my_mock.results
 #=> ['result1', 'result2']
 ```
 

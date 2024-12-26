@@ -658,4 +658,33 @@ class MockMethodTest < Minitest::Test
       target.act { puts 'hello' }
     end
   end
+
+  def test_it_can_access_calls_directly
+    target = Target.new(first_name: 'Erin', last_name: 'Hannon')
+    mimic_mock = Grift::MockMethod.new(Target, :mimic).mock_return_value
+    assert_nil Target.mimic(target, gullible: true)
+    refute_empty mimic_mock.calls
+    assert_equal target, mimic_mock.calls.last.args.first
+    assert_equal({ gullible: true }, mimic_mock.calls.last.kwargs)
+  end
+
+  def test_it_can_access_empty_and_count_directly
+    target = Target.new(first_name: 'Erin', last_name: 'Hannon')
+    mimic_mock = Grift::MockMethod.new(Target, :mimic).mock_return_value
+    assert_empty mimic_mock
+    assert_equal 0, mimic_mock.count
+    assert_nil Target.mimic(target, gullible: true)
+    refute_empty mimic_mock
+    assert_equal 1, mimic_mock.count
+  end
+
+  def test_it_can_access_results_directly
+    target_full_name = 'Tobias Funke'
+    target = Target.new(first_name: 'Tobias', last_name: 'Funke')
+    full_name_mock = Grift::MockMethod.new(Target, :full_name, watch: true)
+    assert_equal target_full_name, target.full_name
+
+    refute_empty full_name_mock.results
+    assert_equal target_full_name, full_name_mock.results.first
+  end
 end
