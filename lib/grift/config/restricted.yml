@@ -29,3 +29,6 @@ String:
 Symbol:
   - "=="
   - to_s
+
+Thread:
+  - "current"

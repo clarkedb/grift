@@ -14,13 +14,13 @@ require 'grift/version'
 # through this base module.
 #
 module Grift
-  @mock_store = Grift::MockStore.new
-
   class << self
     # @example
     #   Grift.mock_store
-    # @return [Grift::MockStore] the current store of mocked methods
-    attr_reader :mock_store
+    # @return [Grift::MockStore] the current store of mocked methods scoped to the thread
+    def mock_store
+      Thread.current[:grift_internal_mock_store] ||= Grift::MockStore.new
+    end
 
     ##
     # Mocks the given method to return the provided value.
@@ -79,7 +79,7 @@ module Grift
     #
     def mock_method?(klass, method)
       hash_key = Grift::MockMethod.hash_key(klass, method)
-      @mock_store.include?(hash_key)
+      mock_store.include?(hash_key)
     end
 
     ##
@@ -121,7 +121,7 @@ module Grift
     # @return [Array<Grift::MockMethod::MockExecutions>]
     #
     def clear_mocks(klass)
-      @mock_store.mocks(klass: klass).each(&:mock_clear)
+      mock_store.mocks(klass: klass).each(&:mock_clear)
     end
 
     ##
@@ -134,7 +134,7 @@ module Grift
     # @return [Array<Grift::MockMethod::MockExecutions>]
     #
     def clear_all_mocks
-      @mock_store.mocks.each(&:mock_clear)
+      mock_store.mocks.each(&:mock_clear)
     end
 
     ##
@@ -149,7 +149,7 @@ module Grift
     # @return [Array<Grift::MockMethod::MockExecutions>]
     #
     def reset_mocks(klass)
-      @mock_store.mocks(klass: klass).each(&:mock_reset)
+      mock_store.mocks(klass: klass).each(&:mock_reset)
     end
 
     ##
@@ -162,7 +162,7 @@ module Grift
     # @return [Array<Grift::MockMethod::MockExecutions>]
     #
     def reset_all_mocks
-      @mock_store.mocks.each(&:mock_reset)
+      mock_store.mocks.each(&:mock_reset)
     end
 
     ##
@@ -183,9 +183,9 @@ module Grift
     #
     def restore_mocks(klass, watch: false)
       if watch
-        @mock_store.mocks(klass: klass).each { |m| m.mock_restore(watch: true) }
+        mock_store.mocks(klass: klass).each { |m| m.mock_restore(watch: true) }
       else
-        @mock_store.remove(klass: klass)
+        mock_store.remove(klass: klass)
       end
     end
 
@@ -206,9 +206,9 @@ module Grift
     #
     def restore_all_mocks(watch: false)
       if watch
-        @mock_store.mocks.each { |m| m.mock_restore(watch: true) }
+        mock_store.mocks.each { |m| m.mock_restore(watch: true) }
       else
-        @mock_store.remove
+        mock_store.remove
       end
     end
   end
