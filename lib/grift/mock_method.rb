@@ -101,7 +101,7 @@ module Grift
 
     ##
     # Clears the mock execution and calls data for this mock, and
-    # mocks the method to return `nil`.
+    # mocks the method to return +nil+.
     #
     # @return [Grift::MockMethod::MockExecutions]
     #
@@ -457,7 +457,7 @@ module Grift
 
     ##
     # Returns an array of the args used in each call to the mocked method
-    # This is syntactical sugar equivalent to calling `mock` and then `calls`.
+    # This is syntactical sugar equivalent to calling +mock+ and then +calls+.
     #
     # @see Grift::MockMethod::MockExecutions#calls
     #
@@ -475,7 +475,7 @@ module Grift
 
     ##
     # Returns true if there have been no calls to the mock.
-    # This is syntactical sugar equivalent to calling `mock` and then `empty?`.
+    # This is syntactical sugar equivalent to calling +mock+ and then +empty?+.
     #
     # @see Grift::MockMethod::MockExecutions#empty?
     #
@@ -496,7 +496,7 @@ module Grift
 
     ##
     # Returns the count of mock executions.
-    # This is syntactical sugar equivalent to calling `mock` and then `count`.
+    # This is syntactical sugar equivalent to calling +mock+ and then +count+.
     #
     # @see Grift::MockMethod::MockExecutions#count
     #
@@ -517,7 +517,7 @@ module Grift
 
     ##
     # Returns an array of the results of each call to the mocked method
-    # This is syntactical sugar equivalent to calling `mock` and then `results`.
+    # This is syntactical sugar equivalent to calling +mock+ and then +results+.
     #
     # @see Grift::MockMethod::MockExecutions#results
     #
@@ -625,7 +625,7 @@ module Grift
     ##
     # Checks for the original access of the method (public, protected, private),
     # and if that definition is inherited from an ancestor (super) class.
-    # Returns `nil` if no definition for the method is found.
+    # Returns +nil+ if no definition for the method is found.
     #
     # @return [Symbol] the method access
     # @return [Boolean] true if the method is inherited

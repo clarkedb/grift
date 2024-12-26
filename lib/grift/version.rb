@@ -2,6 +2,6 @@
 
 module Grift
   # gem version
-  VERSION = '2.2.0'
+  VERSION = '3.0.0'
   public_constant :VERSION
 end
