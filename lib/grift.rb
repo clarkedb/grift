@@ -25,7 +25,7 @@ module Grift
     ##
     # Mocks the given method to return the provided value.
     # This is syntactical sugar equivalent to calling
-    # `spy_on` and then `mock_return_value`.
+    # +spy_on+ and then +mock_return_value+.
     #
     # @example
     #   my_mock = Grift.mock(MyClass, :some_method, true)

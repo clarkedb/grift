@@ -7,7 +7,7 @@ module Grift
   # needing to cleanup the mocks after each test.
   #
   # To setup the plugin for your tests, you should include the
-  # following code in your `test_helper`
+  # following code in your +test_helper+
   #
   #   class Minitest::Test
   #     include Grift::MinitestPlugin
