@@ -6,7 +6,7 @@
 <title>
   File: README
   
-    &mdash; Documentation by YARD 0.9.34
+    &mdash; Documentation by YARD 0.9.37
   
 </title>
 
@@ -148,28 +148,28 @@
 
 <h3 id="label-Results">Results</h3>
 
-<p>To get the results and details of the calls, call <code>mock</code> on your mock method object.</p>
+<p>To get the results and details of the calls, call <code>calls</code> or <code>results</code> on your mock method object.</p>
 
 <pre class="code ruby"><code class="ruby"><span class='comment'># get the number of times the mocked method has been called
-</span><span class='id identifier rubyid_my_mock'>my_mock</span><span class='period'>.</span><span class='id identifier rubyid_mock'>mock</span><span class='period'>.</span><span class='id identifier rubyid_count'>count</span>
+</span><span class='id identifier rubyid_my_mock'>my_mock</span><span class='period'>.</span><span class='id identifier rubyid_count'>count</span>
 <span class='comment'>#=&gt; 2
 </span>
 <span class='comment'># get args for each call to the method while mocked
-</span><span class='id identifier rubyid_my_mock'>my_mock</span><span class='period'>.</span><span class='id identifier rubyid_mock'>mock</span><span class='period'>.</span><span class='id identifier rubyid_calls'>calls</span><span class='lbracket'>[</span><span class='int'>0</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id identifier rubyid_args'>args</span>
+</span><span class='id identifier rubyid_my_mock'>my_mock</span><span class='period'>.</span><span class='id identifier rubyid_calls'>calls</span><span class='lbracket'>[</span><span class='int'>0</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id identifier rubyid_args'>args</span>
 <span class='comment'>#=&gt; [&#39;first_arg1&#39;, &#39;second_arg1&#39;]
 </span>
 <span class='comment'># get kwargs for each call to the method while mocked
-</span><span class='id identifier rubyid_my_mock'>my_mock</span><span class='period'>.</span><span class='id identifier rubyid_mock'>mock</span><span class='period'>.</span><span class='id identifier rubyid_calls'>calls</span><span class='lbracket'>[</span><span class='int'>0</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id identifier rubyid_kwargs'>kwargs</span>
+</span><span class='id identifier rubyid_my_mock'>my_mock</span><span class='period'>.</span><span class='id identifier rubyid_calls'>calls</span><span class='lbracket'>[</span><span class='int'>0</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id identifier rubyid_kwargs'>kwargs</span>
 <span class='comment'>#=&gt; { first_arg1: &#39;value&#39; }
 </span>
 <span class='comment'># get results (return value) for each call to the method while mocked
-</span><span class='id identifier rubyid_my_mock'>my_mock</span><span class='period'>.</span><span class='id identifier rubyid_mock'>mock</span><span class='period'>.</span><span class='id identifier rubyid_results'>results</span>
+</span><span class='id identifier rubyid_my_mock'>my_mock</span><span class='period'>.</span><span class='id identifier rubyid_results'>results</span>
 <span class='comment'>#=&gt; [&#39;result1&#39;, &#39;result2&#39;]
 </span></code></pre>
 
 <h2 id="label-Requirements">Requirements</h2>
 
-<p>Grift supports all Ruby versions &gt;= 2.7 (including 3.3).</p>
+<p>Grift supports all Ruby versions &gt;= 2.7 (including 3.4).</p>
 
 <h2 id="label-Development">Development</h2>
 
@@ -187,9 +187,9 @@
 </div></div>
 
       <div id="footer">
-  Generated on Fri Jan 12 22:56:58 2024 by
+  Generated on Thu Dec 26 10:01:24 2024 by
   <a href="https://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
-  0.9.34 (ruby-3.3.0).
+  0.9.37 (ruby-3.1.3).
 </div>
 
     </div>
