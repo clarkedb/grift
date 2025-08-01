@@ -17,7 +17,7 @@ end
 group :development, :lint do
   gem 'overcommit', '>= 0.64'
   gem 'rubocop', '~> 1.75.4'
-  gem 'rubocop-minitest', '~> 0.36.0'
+  gem 'rubocop-minitest', '~> 0.38.1'
   gem 'rubocop-packaging', '~> 0.5.2'
   gem 'rubocop-performance', '~> 1.23.0'
 end
