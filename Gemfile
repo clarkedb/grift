@@ -11,7 +11,7 @@ group :development, :test do
   gem 'minitest', '~> 5.25'
   gem 'minitest-reporters', '~> 1.7'
   gem 'simplecov', '~> 0.22'
-  gem 'simplecov-cobertura', '~> 2.1'
+  gem 'simplecov-cobertura', '~> 3.1'
 end
 
 group :development, :lint do
