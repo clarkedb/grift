@@ -19,5 +19,5 @@ group :development, :lint do
   gem 'rubocop', '~> 1.81.1'
   gem 'rubocop-minitest', '~> 0.36.0'
   gem 'rubocop-packaging', '~> 0.6.0'
-  gem 'rubocop-performance', '~> 1.23.0'
+  gem 'rubocop-performance', '~> 1.26.0'
 end
