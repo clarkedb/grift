@@ -618,7 +618,7 @@ module Grift
     # @return [Boolean]
     #
     def method_defined?
-      class_instance.instance_methods(false).include?(@method_name) ||
+      class_instance.method_defined?(@method_name, false) ||
         class_instance.private_instance_methods(false).include?(@method_name)
     end
 
