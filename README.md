@@ -122,7 +122,11 @@ my_mock.results
 
 ## Requirements
 
-Grift supports all Ruby versions >= 2.7 (including 3.4).
+Grift supports all Ruby versions >= 2.7 (including 4.x versions).
+
+### Support
+
+For now Grift is not guaranteed to be compatible with [`Ruby::Box`](https://docs.ruby-lang.org/en/master/Ruby/Box.html) introduced in Ruby 4.0.0. Support will be added/guaranteed if it is determined that `Ruby::Box` will move out of the experimental phase.
 
 ## Development
 

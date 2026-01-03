@@ -8,6 +8,17 @@ This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.htm
 
 None
 
+## [3.1.0](https://github.com/clarkedb/grift/releases/tag/v3.1.0) - 2026-01-03
+
+### Added
+
+- Official support for Ruby 4.0 ([#274](https://github.com/clarkedb/grift/pull/274))
+
+### Fixed
+
+- Migrate rubocop setup to use plugins ([#275](https://github.com/clarkedb/grift/pull/275))
+- Use preferred `method_defined?` for style ([#276](https://github.com/clarkedb/grift/pull/276))
+
 ## [3.0.0](https://github.com/clarkedb/grift/releases/tag/v3.0.0) - 2024-12-26
 
 ### Breaking
