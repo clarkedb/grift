@@ -619,7 +619,7 @@ module Grift
     #
     def method_defined?
       class_instance.method_defined?(@method_name, false) ||
-        class_instance.private_instance_methods(false).include?(@method_name)
+        class_instance.private_method_defined?(@method_name, false)
     end
 
     ##
