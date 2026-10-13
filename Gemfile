@@ -5,7 +5,9 @@ source 'https://rubygems.org'
 # Grift's gem dependencies are defined in grift.gemspec
 gemspec
 
-gem 'rake', '>= 12.0'
+group :development, :test, :release do
+  gem 'rake', '>= 12.0'
+end
 
 group :development, :test do
   gem 'minitest', '~> 5.25'

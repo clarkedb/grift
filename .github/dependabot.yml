@@ -11,3 +11,24 @@ updates:
       - dependencies
     assignees:
       - clarkedb
+    # runtime (gemspec) updates use `fix` so they trigger a release
+    commit-message:
+      prefix: fix
+      prefix-development: build
+      include: scope
+
+  - directory: /
+    open-pull-requests-limit: 10
+    package-ecosystem: github-actions
+    target-branch: main
+    schedule:
+      interval: monthly
+    labels:
+      - dependencies
+    assignees:
+      - clarkedb
+    commit-message:
+      prefix: ci
+      include: scope
+    cooldown:
+      default-days: 14
