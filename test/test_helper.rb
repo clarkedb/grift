@@ -31,8 +31,7 @@ Minitest::Reporters.use! [Minitest::Reporters::SpecReporter.new]
 require 'target'
 require 'mark'
 
-# rubocop:disable Style/ClassAndModuleChildren
+# rubocop:disable-next Style/ClassAndModuleChildren
 class Minitest::Test
   include Grift::MinitestPlugin
 end
-# rubocop:enable Style/ClassAndModuleChildren
