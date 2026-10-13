@@ -16,6 +16,11 @@ group :development, :test do
   gem 'simplecov-cobertura', '~> 3.1'
 end
 
+group :docs, optional: true do
+  gem 'rdoc', '>= 7.0' # left at >= 7.0 to support Ruby 2.7-3.1
+  gem 'yard', '~> 0.9.45'
+end
+
 group :development, :lint do
   gem 'overcommit', '>= 0.64'
   gem 'rubocop', '~> 1.91.0'

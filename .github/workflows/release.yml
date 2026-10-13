@@ -62,3 +62,13 @@ jobs:
       - uses: rubygems/release-gem@7f9650160c1a4e7989fdc9855807bdbd421d8b6b # v1.4.1
         with:
           await-release: false # avoids running the unpinned rubygems-await gem in this job
+
+  docs:
+    needs: [release-please, publish]
+    permissions:
+      contents: read
+      pages: write
+      id-token: write
+    uses: ./.github/workflows/docs.yml
+    with:
+      ref: ${{ needs.release-please.outputs.sha }}

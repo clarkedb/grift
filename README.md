@@ -138,15 +138,14 @@ When developing, to install Grift whith your changes onto your local machine, ru
 
 Releases are managed by [release-please](https://github.com/googleapis/release-please). When releasable commits (`feat`, `fix`, `perf`, or breaking changes; see [CONTRIBUTING](.github/CONTRIBUTING.md#pull-request-titles)) land on `main`, it opens (or updates) a release pull request that bumps `lib/grift/version.rb` and `CHANGELOG.md`. For those with write access:
 
-1. Right before merging the release pull request, check out its branch, merge `main` into it (release-please only updates the branch when the release notes change), regenerate the [docs](#docs), and push
 1. Merge the release pull request, which tags the version and creates the GitHub release
-1. Once CI passes on `main`, approve the `release` deployment in GitHub Actions, which pushes the `.gem` file to [rubygems.org](https://rubygems.org) via trusted publishing
+1. Once CI passes on `main`, approve the `release` deployment in GitHub Actions, which pushes the `.gem` file to [rubygems.org](https://rubygems.org) via trusted publishing and then deploys the [docs](#docs)
 
 If publishing fails, use "Re-run failed jobs" on the workflow run. "Re-run all jobs" re-runs release-please, which finds the release already exists and skips publishing.
 
 ### Docs
 
-The docs are generated using YARD. To build the docs, first `gem install yard` . Then run `yardoc` to build the new docs. This is always done before a release to update the docs that get published and made available with the gem.
+The docs are generated using YARD and deployed to [GitHub Pages](https://clarkedb.github.io/grift/) after each release. To redeploy them, run the Docs workflow manually with the latest release tag. To build them locally, run `BUNDLE_WITH=docs bundle install` and then `bundle exec yard` (output goes to the gitignored `docs/` folder).
 
 ## Contributing
 
