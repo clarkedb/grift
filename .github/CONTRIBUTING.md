@@ -8,6 +8,15 @@
 1. Title your pull request following [Conventional Commits](https://www.conventionalcommits.org/) styling
 1. Submit a pull request.
 
+## Pull request titles
+
+Pull requests are squash merged, and the title becomes the commit on `main` that drives releases:
+
+- `feat:` adds behavior (including support for new Ruby versions) and triggers a minor release
+- `fix:` and `perf:` trigger a patch release
+- Breaking changes add a `!` (e.g. `feat!:`) and trigger a major release, including dropping support for a Ruby version
+- Other types (`build:`, `chore:`, `ci:`, `docs:`, `refactor:`, `revert:`, `test:`) do not trigger a release
+
 ## Policy on inclusive language
 
 To make Grift a pleasant and effective experience for everyone, we use try to use inclusive language.

@@ -132,7 +132,17 @@ For now Grift is not guaranteed to be compatible with [`Ruby::Box`](https://docs
 
 After forking the repo, run `bin/setup` to install dependencies. Then, run `rake test` to run the tests. You can also run `bin/console` for an interactive prompt that will allow you to experiment.
 
-When developing, to install Grift whith your changes onto your local machine, run `bundle exec rake install` . For those with write access: to release a new version, update the version number in `version.rb` , and then run `bundle exec rake release` , which will create a git tag for the version, push git commits and tags, and push the `.gem` file to [rubygems.org](https://rubygems.org).
+When developing, to install Grift whith your changes onto your local machine, run `bundle exec rake install` .
+
+### Releasing
+
+Releases are managed by [release-please](https://github.com/googleapis/release-please). When releasable commits (`feat`, `fix`, `perf`, or breaking changes; see [CONTRIBUTING](.github/CONTRIBUTING.md#pull-request-titles)) land on `main`, it opens (or updates) a release pull request that bumps `lib/grift/version.rb` and `CHANGELOG.md`. For those with write access:
+
+1. Right before merging the release pull request, check out its branch, merge `main` into it (release-please only updates the branch when the release notes change), regenerate the [docs](#docs), and push
+1. Merge the release pull request, which tags the version and creates the GitHub release
+1. Once CI passes on `main`, approve the `release` deployment in GitHub Actions, which pushes the `.gem` file to [rubygems.org](https://rubygems.org) via trusted publishing
+
+If publishing fails, use "Re-run failed jobs" on the workflow run. "Re-run all jobs" re-runs release-please, which finds the release already exists and skips publishing.
 
 ### Docs
 
