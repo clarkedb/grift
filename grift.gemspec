@@ -23,10 +23,8 @@ Gem::Specification.new do |spec|
     'source_code_uri' => spec.homepage.to_s
   }
 
-  # Specify which files should be added to the gem when it is released.
-  # The `git ls-files -z` loads the files in the RubyGem that have been added into git.
   spec.files = Dir.chdir(File.expand_path(__dir__)) do
-    `git ls-files -z`.split("\x0").reject { |f| f.match(%r{^(test|docs|spec|features)/}) } # rubocop:disable Packaging/GemspecGit
+    Dir['lib/**/*', 'CHANGELOG.md', 'LICENSE', 'README.md'].reject { |f| File.directory?(f) }
   end
   spec.bindir        = 'exe'
   spec.executables   = spec.files.grep(%r{^exe/}) { |f| File.basename(f) }
