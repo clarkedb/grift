@@ -7,35 +7,48 @@ on:
 
 permissions: {}
 
+# runs one at a time per PR so the last status set reflects the latest reviews
+concurrency:
+  group: approvals-${{ github.event.pull_request.number }}
+
 jobs:
-  approval:
+  status:
     runs-on: ubuntu-latest
     permissions:
       pull-requests: read
+      statuses: write
 
     steps:
-      - name: Require an approval of the head commit from someone with write access
-        if: github.event.pull_request.user.type == 'Bot'
+      - name: Set the approval status on the head commit
         env:
+          REQUIRED: ${{ github.event.pull_request.user.type == 'Bot' }}
           GH_TOKEN: ${{ github.token }}
           REPO: ${{ github.repository }}
           PR: ${{ github.event.pull_request.number }}
           HEAD_SHA: ${{ github.event.pull_request.head.sha }}
+          RUN_URL: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
         run: |
-          gh api --paginate "repos/$REPO/pulls/$PR/reviews" \
-            --jq '.[] | select(.user.type == "User" and (.state | IN("APPROVED", "CHANGES_REQUESTED", "DISMISSED"))) | [.user.login, .state, .commit_id] | @tsv' |
-            awk -F '\t' '{ latest[$1] = $2 "\t" $3 } END { for (login in latest) print login "\t" latest[login] }' > reviews.tsv
+          state=success
+          description="Approval not required"
 
-          while IFS=$'\t' read -r login state commit; do
-            [ "$state" = APPROVED ] && [ "$commit" = "$HEAD_SHA" ] || continue
-            permission=$(gh api "repos/$REPO/collaborators/$login/permission" --jq .permission || echo none)
-            case "$permission" in
-              admin | write)
-                echo "Approved by $login"
-                exit 0
-                ;;
-            esac
-          done < reviews.tsv
+          if [ "$REQUIRED" = true ]; then
+            state=failure
+            description="Needs your approval of the current commit"
 
-          echo "::error::Pull requests opened by bots need an approval of $HEAD_SHA from someone with write access"
-          exit 1
+            review=$(gh api --paginate "repos/$REPO/pulls/$PR/reviews" \
+              --jq '.[] | select(.user.login == "clarkedb" and .state != "COMMENTED") | [.state, .commit_id] | @tsv' \
+              | tail -n 1)
+
+            if [ "$review" = "$(printf 'APPROVED\t%s' "$HEAD_SHA")" ]; then
+              state=success
+              description="Approved by clarkedb"
+            fi
+          fi
+
+          gh api "repos/$REPO/statuses/$HEAD_SHA" \
+            -f state="$state" \
+            -f context=approval \
+            -f description="$description" \
+            -f target_url="$RUN_URL" > /dev/null
+
+          echo "$state: $description"
