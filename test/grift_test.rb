@@ -13,6 +13,12 @@ class GriftTest < Minitest::Test
     assert_instance_of Grift::MockMethod, target_spy
   end
 
+  def test_spy_on_watches_the_instance_method_when_instance_is_true
+    Grift.spy_on(Target, :name, instance: true).mock_return_value('Mocked')
+    assert_equal 'Mocked', Target.new.name
+    assert_equal 'Target', Target.name
+  end
+
   def test_spy_on_mock_implementation_retuns_a_mock_method
     target_mock = Grift.spy_on(Target, :full_name).mock_implementation do
       'My full name'

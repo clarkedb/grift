@@ -479,6 +479,55 @@ class MockMethodTest < Minitest::Test
     end
   end
 
+  def test_raises_error_when_private_method_already_mocked
+    Grift::MockMethod.new(Target, :wipe_memory)
+    assert_raises Grift::Error do
+      Grift::MockMethod.new(Target, :wipe_memory)
+    end
+  end
+
+  def test_it_mocks_the_class_method_when_the_class_responds_to_the_method
+    Grift::MockMethod.new(Target, :name).mock_return_value('Mocked')
+    assert_equal 'Mocked', Target.name
+    assert_equal 'Tobias Funke', Target.new.name
+  end
+
+  def test_it_mocks_the_instance_method_when_instance_is_true
+    name_mock = Grift::MockMethod.new(Target, :name, instance: true).mock_return_value('Mocked')
+    assert_equal 'Mocked', Target.new.name
+    assert_equal 'Target', Target.name
+
+    name_mock.mock_restore
+    assert_equal 'Tobias Funke', Target.new.name
+  end
+
+  def test_raises_error_when_instance_is_true_and_only_the_class_method_exists
+    assert_raises Grift::Error do
+      Grift::MockMethod.new(Target, :mimic, instance: true)
+    end
+  end
+
+  def test_raises_error_when_instance_method_mocked_while_class_method_of_same_name_is_mocked
+    Grift::MockMethod.new(Target, :name)
+    assert_raises Grift::Error do
+      Grift::MockMethod.new(Target, :name, instance: true)
+    end
+  end
+
+  def test_raises_error_when_class_method_mocked_while_instance_method_of_same_name_is_mocked
+    Grift::MockMethod.new(Target, :name, instance: true)
+    assert_raises Grift::Error do
+      Grift::MockMethod.new(Target, :name)
+    end
+  end
+
+  def test_it_mocks_a_method_on_an_object
+    target = Target.new
+    Grift::MockMethod.new(target, :name).mock_return_value('Mocked')
+    assert_equal 'Mocked', target.name
+    assert_equal 'Tobias Funke', Target.new.name
+  end
+
   def test_it_mocks_a_constructor
     Grift::MockMethod.new(Target, :new).mock_return_value
     assert_nil Target.new(first_name: 'Jim')

@@ -25,7 +25,9 @@ module Grift
     ##
     # Mocks the given method to return the provided value.
     # This is syntactical sugar equivalent to calling
-    # +spy_on+ and then +mock_return_value+.
+    # +spy_on+ and then +mock_return_value+. To mock an instance method
+    # when the class responds to a method of the same name, use +spy_on+
+    # with +instance: true+.
     #
     # @example
     #   my_mock = Grift.mock(MyClass, :some_method, true)
@@ -46,18 +48,27 @@ module Grift
     # Creates a mock for the given method without mocking
     # the implementation or return values.
     #
+    # If the class responds to the method itself, the class method is
+    # watched. This includes methods every class has, like +name+,
+    # +to_s+, and +==+. Pass +instance: true+ to watch the instance
+    # method of the same name instead.
+    #
     # @example
     #   my_mock = Grift.spy_on(MyClass, :some_method)
     #
+    # @example
+    #   my_mock = Grift.spy_on(MyClass, :name, instance: true)
+    #
     # @param klass [Class] the class of the method to be watched
     # @param method [Symbol] the symbol representing the method to be watched
+    # @param instance [Boolean] if true, watch the instance method even if the class responds to the method itself
     #
     # @raise [Grift::Error] exception if method is already mocked or does not exist
     #
     # @return [Grift::MockMethod]
     #
-    def spy_on(klass, method)
-      MockMethod.new(klass, method)
+    def spy_on(klass, method, instance: false)
+      MockMethod.new(klass, method, instance: instance)
     end
 
     ##
