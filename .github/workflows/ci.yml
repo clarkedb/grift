@@ -26,6 +26,31 @@ jobs:
       - name: Rubocop
         run: bundle exec rubocop --format progress
 
+  package:
+    needs: [linting]
+    runs-on: ubuntu-latest
+    env:
+      # builds the gem the same way the publish job in release.yml does
+      BUNDLE_WITHOUT: development:test:lint
+
+    steps:
+      - uses: actions/checkout@v7
+
+      - name: Set up Ruby 4.0
+        uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: "4.0"
+          bundler-cache: true
+
+      - name: Build gem
+        run: bundle exec rake build
+
+      - name: Install gem
+        run: gem install --local pkg/grift-*.gem
+
+      - name: Use installed gem
+        run: ruby test/installed_gem_smoke.rb
+
   build:
     needs: [linting]
     runs-on: ubuntu-latest
