@@ -16,6 +16,11 @@ updates:
       prefix: fix
       prefix-development: build
       include: scope
+    groups:
+      rubocop:
+        patterns:
+          - rubocop
+          - rubocop-*
 
   - directory: /
     open-pull-requests-limit: 10
