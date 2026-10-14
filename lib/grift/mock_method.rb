@@ -157,7 +157,7 @@ module Grift
         return_value = yield(*args, **kwargs)
 
         # record the args passed in the call to the method and the result
-        mock_executions.store(args: args, result: return_value)
+        mock_executions.store(args: args, kwargs: kwargs, result: return_value)
         return_value
       end
       class_instance.send(@method_access, @method_name)
@@ -200,7 +200,7 @@ module Grift
         return_value = yield(*args, **kwargs)
 
         # record the args passed in the call to the method and the result
-        mock_executions.store(args: args, result: return_value)
+        mock_executions.store(args: args, kwargs: kwargs, result: return_value)
 
         clean_mock.call
 
@@ -263,7 +263,7 @@ module Grift
         return_value = yield(*args, **kwargs)
 
         # record the args passed in the call to the method and the result
-        mock_executions.store(args: args, result: return_value)
+        mock_executions.store(args: args, kwargs: kwargs, result: return_value)
 
         clean_mock.call if mock_executions.count == n
 
