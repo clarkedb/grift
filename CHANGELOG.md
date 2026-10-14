@@ -4,6 +4,19 @@ All notable changes to this project will be documented in this file.
 
 This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [3.2.0](https://github.com/clarkedb/grift/compare/v3.1.1...v3.2.0) (2026-10-14)
+
+
+### Added
+
+* add an instance option to Grift.spy_on ([#308](https://github.com/clarkedb/grift/issues/308)) ([ffaea83](https://github.com/clarkedb/grift/commit/ffaea8395879241906f7fe5b3533647eafd40ea9))
+* add Minitest assertions for mocks ([#312](https://github.com/clarkedb/grift/issues/312)) ([b4b6117](https://github.com/clarkedb/grift/commit/b4b61173489d6fa03e98892eab984d0d225068a0)), closes [#130](https://github.com/clarkedb/grift/issues/130)
+
+
+### Fixed
+
+* record keyword arguments for mocked implementations ([#311](https://github.com/clarkedb/grift/issues/311)) ([858873e](https://github.com/clarkedb/grift/commit/858873ed332834f0bfc31ed20fade25209e283e9)), closes [#310](https://github.com/clarkedb/grift/issues/310)
+
 ## [3.1.1](https://github.com/clarkedb/grift/compare/v3.1.0...v3.1.1) (2026-10-14)
 
 
