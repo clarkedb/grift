@@ -4,6 +4,13 @@ All notable changes to this project will be documented in this file.
 
 This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [3.1.1](https://github.com/clarkedb/grift/compare/v3.1.0...v3.1.1) (2026-10-14)
+
+
+### Fixed
+
+* package only runtime files in the gem ([#292](https://github.com/clarkedb/grift/issues/292)) ([0e6e3fd](https://github.com/clarkedb/grift/commit/0e6e3fdf2e99696468144ce490b015bdee3f13d4))
+
 ## [3.1.0](https://github.com/clarkedb/grift/releases/tag/v3.1.0) - 2026-01-03
 
 ### Added
