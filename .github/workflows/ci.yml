@@ -15,10 +15,10 @@ jobs:
       BUNDLE_WITHOUT: development:test
 
     steps:
-      - uses: actions/checkout@v7
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
 
       - name: Set up Ruby 3.3
-        uses: ruby/setup-ruby@v1
+        uses: ruby/setup-ruby@14594264cd68ce8a2345dd349bc3d138a4ef85c8 # v1.327.0
         with:
           ruby-version: 3.3
           bundler-cache: true
@@ -34,10 +34,10 @@ jobs:
       BUNDLE_WITHOUT: development:test:lint
 
     steps:
-      - uses: actions/checkout@v7
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
 
       - name: Set up Ruby 4.0
-        uses: ruby/setup-ruby@v1
+        uses: ruby/setup-ruby@14594264cd68ce8a2345dd349bc3d138a4ef85c8 # v1.327.0
         with:
           ruby-version: "4.0"
           bundler-cache: true
@@ -68,8 +68,8 @@ jobs:
           - "4.0"
 
     steps:
-      - uses: actions/checkout@v7
-      - uses: ruby/setup-ruby@v1
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      - uses: ruby/setup-ruby@14594264cd68ce8a2345dd349bc3d138a4ef85c8 # v1.327.0
         with:
           ruby-version: ${{ matrix.ruby }}
           bundler-cache: true
@@ -79,7 +79,7 @@ jobs:
 
       - name: Upload coverage to Codecov
         if: always()
-        uses: codecov/codecov-action@v7
+        uses: codecov/codecov-action@303a32d7a59b442fa8d48b6a1cc6825c09c847a5 # v7.1.1
         with:
           token: ${{ secrets.CODECOV_TOKEN }}
           files: ./coverage/.resultset.json
