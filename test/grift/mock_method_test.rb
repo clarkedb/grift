@@ -599,7 +599,7 @@ class MockMethodTest < Minitest::Test
     assert Target.protected_method_defined?(:gullible?)
 
     protected_mock = Grift::MockMethod.new(Target, :gullible?).mock_implementation do
-      return true
+      true
     end
     assert_equal :protected, protected_mock.method_access
     assert Target.protected_method_defined?(:gullible?), 'Expected method to be protected after mocking'
@@ -653,11 +653,31 @@ class MockMethodTest < Minitest::Test
   def test_it_mocks_a_method_implementation_with_keyword_arguments
     target = Target.new(first_name: 'Kelly', last_name: 'Kapoor')
     change_name_mock = Grift::MockMethod.new(Target, :change_name).mock_implementation do |*_args|
-      return target.full_name
+      target.full_name
     end
     refute_nil target.change_name(last_name: 'Howard')
     refute_equal 'Howard', target.last_name
     refute_empty change_name_mock.mock.calls
+    assert_equal({ last_name: 'Howard' }, change_name_mock.mock.calls.last.kwargs)
+  end
+
+  def test_it_mocks_a_method_implementation_once_with_keyword_arguments
+    target = Target.new(first_name: 'Kelly', last_name: 'Kapoor')
+    change_name_mock = Grift::MockMethod.new(Target, :change_name).mock_implementation_once do |*_args|
+      target.full_name
+    end
+    refute_nil target.change_name(last_name: 'Howard')
+    refute_equal 'Howard', target.last_name
+    assert_equal({ last_name: 'Howard' }, change_name_mock.mock.calls.last.kwargs)
+  end
+
+  def test_it_mocks_a_method_implementation_n_times_with_keyword_arguments
+    target = Target.new(first_name: 'Kelly', last_name: 'Kapoor')
+    change_name_mock = Grift::MockMethod.new(Target, :change_name).mock_implementation_n_times(2) do |*_args|
+      target.full_name
+    end
+    refute_nil target.change_name(last_name: 'Howard')
+    refute_equal 'Howard', target.last_name
     assert_equal({ last_name: 'Howard' }, change_name_mock.mock.calls.last.kwargs)
   end
 
@@ -682,9 +702,9 @@ class MockMethodTest < Minitest::Test
   def test_it_mocks_a_method_implementation_with_blended_argument_types
     target = Target.new(first_name: 'Erin', last_name: 'Hannon')
     mimic_mock = Grift::MockMethod.new(Target, :mimic).mock_implementation do |*_args|
-      return target.full_name
+      target.full_name
     end
-    assert_equal 'Hannon', Target.mimic(target, gullible: true)
+    assert_equal 'Erin Hannon', Target.mimic(target, gullible: true)
     refute_empty mimic_mock.mock.calls
     assert_equal target, mimic_mock.mock.calls.last.args.first
     assert_equal({ gullible: true }, mimic_mock.mock.calls.last.kwargs)
