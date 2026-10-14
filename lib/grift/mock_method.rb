@@ -56,9 +56,7 @@ module Grift
       @cache_method_name = :"#{CACHE_METHOD_PREFIX}_#{method_name}"
 
       # class methods are really instance methods of the singleton class
-      @class_method = !instance &&
-        (klass.singleton_class.method_defined?(method_name, true) ||
-          klass.singleton_class.private_method_defined?(method_name, true))
+      @class_method = !instance && defined_on?(klass.singleton_class, method_name)
 
       @method_access, @inherited = method_access_definition
       raise(Grift::Error, "Cannot mock unknown method #{method_name} for class #{klass}") unless @method_access
@@ -617,8 +615,7 @@ module Grift
     # @return [Boolean]
     #
     def method_defined?
-      class_instance.method_defined?(@method_name, false) ||
-        class_instance.private_method_defined?(@method_name, false)
+      defined_on?(class_instance, @method_name, inherit: false)
     end
 
     ##
@@ -632,9 +629,20 @@ module Grift
       # an object can be mocked directly, and it has no instance methods of its own
       owners << @klass if @klass.is_a?(Module)
 
-      owners.any? do |owner|
-        owner.method_defined?(@cache_method_name) || owner.private_method_defined?(@cache_method_name)
-      end
+      owners.any? { |owner| defined_on?(owner, @cache_method_name) }
+    end
+
+    ##
+    # Checks if the owner defines the method with any access (public, protected, private).
+    #
+    # @param owner [Module] the class or singleton class to check
+    # @param method_name [Symbol] the method to look for
+    # @param inherit [Boolean] whether to include methods defined by ancestors
+    #
+    # @return [Boolean]
+    #
+    def defined_on?(owner, method_name, inherit: true)
+      owner.method_defined?(method_name, inherit) || owner.private_method_defined?(method_name, inherit)
     end
 
     ##
