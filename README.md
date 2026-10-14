@@ -87,6 +87,14 @@ my_spy.mock_implementation do |arg1, arg2, **kwargs|
 end
 ```
 
+### Class and instance methods with the same name
+
+When a class responds to a method itself, Grift mocks the class method. That includes methods every class has, like `name`, `to_s`, and `==`. To mock the instance method instead, pass `instance: true` to `spy_on`:
+
+```ruby
+my_mock = Grift.spy_on(MyClass, :name, instance: true).mock_return_value('mocked')
+```
+
 ### Chaining
 
 You can chain `mock_return_value` and `mock_implementation` after initializing the mock.

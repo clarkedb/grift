@@ -22,6 +22,11 @@ class Target
     [@first_name, @last_name].compact.join(' ')
   end
 
+  # shares its name with Module#name, which Target itself responds to
+  def name
+    full_name
+  end
+
   def convince(fact)
     @knowledge.push(fact) if @gullible
   end

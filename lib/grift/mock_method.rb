@@ -40,10 +40,11 @@ module Grift
     # @param klass [Class] the class to be mocked
     # @param method_name [Symbol] the method to be mocked
     # @param watch [Boolean] whether to start watching the method
+    # @param instance [Boolean] whether to mock the instance method even if the class responds to the method itself
     #
     # @return [Grift::MockMethod]
     #
-    def initialize(klass, method_name, watch: true)
+    def initialize(klass, method_name, watch: true, instance: false)
       if Grift.restricted_method?(klass, method_name)
         raise(Grift::Error, "Cannot mock restricted method #{method_name} for class #{klass}")
       end
@@ -55,15 +56,13 @@ module Grift
       @cache_method_name = :"#{CACHE_METHOD_PREFIX}_#{method_name}"
 
       # class methods are really instance methods of the singleton class
-      @class_method = klass.singleton_class.method_defined?(method_name, true) ||
-        klass.singleton_class.private_method_defined?(method_name, true)
+      @class_method = !instance &&
+        (klass.singleton_class.method_defined?(method_name, true) ||
+          klass.singleton_class.private_method_defined?(method_name, true))
 
       @method_access, @inherited = method_access_definition
       raise(Grift::Error, "Cannot mock unknown method #{method_name} for class #{klass}") unless @method_access
-
-      if class_instance.method_defined?(@cache_method_name)
-        raise(Grift::Error, "Cannot mock already mocked method #{method_name} for class #{klass}")
-      end
+      raise(Grift::Error, "Cannot mock already mocked method #{method_name} for class #{klass}") if already_mocked?
 
       watch_method if watch
     end
@@ -620,6 +619,22 @@ module Grift
     def method_defined?
       class_instance.method_defined?(@method_name, false) ||
         class_instance.private_method_defined?(@method_name, false)
+    end
+
+    ##
+    # Checks if the method is already mocked. A class method and an instance method
+    # with the same name share a key in the mock store, so mocking either one counts.
+    #
+    # @return [Boolean]
+    #
+    def already_mocked?
+      owners = [@klass.singleton_class]
+      # an object can be mocked directly, and it has no instance methods of its own
+      owners << @klass if @klass.is_a?(Module)
+
+      owners.any? do |owner|
+        owner.method_defined?(@cache_method_name) || owner.private_method_defined?(@cache_method_name)
+      end
     end
 
     ##
