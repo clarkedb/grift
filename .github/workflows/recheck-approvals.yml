@@ -1,0 +1,34 @@
+name: Recheck approvals
+
+on:
+  pull_request_review:
+    types: [submitted, dismissed]
+
+permissions: {}
+
+jobs:
+  # re-runs the existing check, since a separate passing run doesn't clear an earlier failed one
+  recheck:
+    # fork PRs get a read-only token, which can't re-run workflows
+    if: github.event.pull_request.head.repo.full_name == github.repository
+    runs-on: ubuntu-latest
+    permissions:
+      actions: write
+
+    steps:
+      - name: Re-run the approval check on the head commit
+        env:
+          GH_TOKEN: ${{ github.token }}
+          GH_REPO: ${{ github.repository }}
+          HEAD_SHA: ${{ github.event.pull_request.head.sha }}
+        run: |
+          run_ids=$(gh run list --workflow approvals.yml --event pull_request --commit "$HEAD_SHA" --json databaseId --jq '.[].databaseId')
+          if [ -z "$run_ids" ]; then
+            echo "::warning::The approval check hasn't run on $HEAD_SHA"
+            exit 0
+          fi
+
+          for run_id in $run_ids; do
+            gh run watch "$run_id" > /dev/null
+            gh run rerun "$run_id"
+          done
