@@ -6,6 +6,8 @@
       "package-name": "grift",
       "version-file": "lib/grift/version.rb",
       "include-component-in-tag": false,
+      "pull-request-header": "Release grift with the version and changes below.",
+      "pull-request-footer": "See [Releasing](https://github.com/clarkedb/grift#releasing) for what happens after merging.",
       "changelog-sections": [
         { "type": "feat", "section": "Added" },
         { "type": "fix", "section": "Fixed" },
