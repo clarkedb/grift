@@ -28,7 +28,7 @@ gem install grift
 
 ### MiniTest Plugin
 
-We recommend using the plugin so that mocks are cleaned up after each test automatically. To enable the plugin, add the following lines of code to your `test_helper` file.
+We recommend using the plugin so that mocks are cleaned up after each test automatically. The plugin also adds [assertions](#assertions) for mocks. To enable the plugin, add the following lines of code to your `test_helper` file.
 
 ```ruby
 class Minitest::Test
@@ -127,6 +127,24 @@ my_mock.calls[0].kwargs
 my_mock.results
 #=> ['result1', 'result2']
 ```
+
+### Assertions
+
+With the [MiniTest Plugin](#minitest-plugin) included, you can assert on mocks directly in your tests.
+
+```ruby
+assert_mocked MyClass, :my_method
+refute_mocked MyClass, :other_method
+
+assert_mock_called my_mock
+refute_mock_called my_mock
+
+# passes if any call used exactly these arguments
+assert_mock_called_with my_mock, 'first_arg', key: 'value'
+refute_mock_called_with my_mock, 'other_arg'
+```
+
+When an assertion fails, the message lists the calls to the mocked method.
 
 ## Requirements
 
